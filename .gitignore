@@ -1,0 +1,8 @@
+build/
+dependencies/
+dist/
+libs/
+node_modules/
+package-lock.json
+roms/
+modloader64-config.json
