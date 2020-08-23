@@ -1,5 +1,5 @@
 declare namespace NodeJS {
-  export interface Global {
-    ModLoader: any
+    export interface Global {
+      ModLoader: any
+    }
   }
-}
