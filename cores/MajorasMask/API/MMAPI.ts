@@ -703,6 +703,10 @@ export function UpgradeCountLookup(item: InventoryItem, level: AmmoUpgrade): num
 export interface IOvlPayloadResult {
   file: string;
   slot: number;
+  addr: number;
+  params: number;
+  buf: Buffer;
+  relocate: number;
   
   spawn(obj: IOvlPayloadResult, callback?: (success: boolean, result: number)=>{}): void;
 }
