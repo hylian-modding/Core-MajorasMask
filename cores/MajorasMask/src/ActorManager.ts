@@ -11,6 +11,7 @@ export class ActorManager implements API.IActorManager {
     logger: ILogger;
     helper: API.IMMHelper;
     global: API.IGlobalContext;
+    private offsets = new API.MMOffsets;
     utils: IUtils;
     private readonly actor_array_addr: number = 0x001c30;
     private readonly ringbuffer_start_addr: number = 0x600000 + 0x1e0;
@@ -50,11 +51,11 @@ export class ActorManager implements API.IActorManager {
         if (!this.helper.isLinkEnteringLoadingZone()) {
             for (let i = 0; i < 12 * 8; i += 8) {
                 let count = this.emulator.rdramReadPtr32(
-                    global.ModLoader.global_context_pointer,
+                    this.offsets.global_context_pointer,
                     this.actor_array_addr + i
                 );
                 let ptr = this.emulator.dereferencePointer(
-                    global.ModLoader.global_context_pointer
+                    this.offsets.global_context_pointer
                 );
                 if (count > 0) {
                     let pointer = this.emulator.dereferencePointer(

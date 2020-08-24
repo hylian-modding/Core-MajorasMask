@@ -54,7 +54,7 @@ export class Position extends JSONTemplate implements API.IPosition {
 export class Rotation extends JSONTemplate implements API.IRotation {
     private readonly parent: IMemory;
     jsonFields: string[] = ['x', 'y', 'z'];
-
+    
     constructor(parent: IMemory) {
         super();
         this.parent = parent;
@@ -125,10 +125,11 @@ export function setActorBehavior(
     emulator: IMemory,
     actor: API.IActor,
     offset: number,
-    behavior: number
+    behavior: number,
+    offsets = new API.MMOffsets
 ) {
     let id: number = actor.actorID;
-    let overlay_table: number = global.ModLoader['overlay_table'];
+    let overlay_table: number = offsets.overlay_table;
     let overlay_entry = overlay_table + id * 32;
     let behavior_start = overlay_entry + 0x10;
     let pointer = emulator.dereferencePointer(behavior_start);
@@ -141,8 +142,9 @@ export function getActorBehavior(
     actor: API.IActor,
     offset: number
 ): number {
+    let offsets = new API.MMOffsets;
     let id: number = actor.actorID;
-    let overlay_table: number = global.ModLoader['overlay_table'];
+    let overlay_table: number = offsets.overlay_table;
     let overlay_entry = overlay_table + id * 32;
     let behavior_start = overlay_entry + 0x10;
     let pointer = emulator.dereferencePointer(behavior_start);

@@ -2,8 +2,8 @@ import IMemory from 'modloader64_api/IMemory';
 import * as API from '../API/Imports';
 
 export class KeyManager implements API.IKeyManager {
-  private readonly KEY_ARRAY_ADDR: number =
-    global.ModLoader['save_context'] + 0xbc;
+  private offsets = new API.MMOffsets;
+    private readonly KEY_ARRAY_ADDR: number = this.offsets.save_context + 0xbc;
   private readonly KEY_ARRAY_SIZE: number = 0x14;
   private readonly emulator: IMemory;
 

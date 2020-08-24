@@ -5,7 +5,8 @@ import { JSONTemplate } from 'modloader64_api/JSONTemplate';
 
 export class QuestStatus extends JSONTemplate implements API.IQuestStatus {
   private emulator: IMemory;
-  private instance: number = global.ModLoader.save_context;
+  private offsets = new API.MMOffsets;
+  private instance: number = this.offsets.save_context;
   private questFlags: FlagManager;
   private skulltulaAddr: number = this.instance + 0x00d0;
   private questFlagsAddr: number = this.instance + 0x00a4;

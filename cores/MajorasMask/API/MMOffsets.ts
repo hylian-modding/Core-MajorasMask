@@ -16,6 +16,11 @@ export class MMOffsets {
     shield_addr: number = 0x801EF6DD;
     
     current_room_addr: number = 0x803FF20C;
+
+    global_context_pointer: number = 0x801F9C60;
+
+    overlay_table: number = 0x801AEFD0;
+    gui_isShown: number = 0x803FD77B;
     //Save Context
 
     max_heart_flag: number = 0x801EF6A4; //0x2

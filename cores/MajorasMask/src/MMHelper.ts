@@ -39,12 +39,12 @@ export class MMHelper extends JSONTemplate implements API.IMMHelper {
     }
 
     isPaused(): boolean{
-        let offsets = (global.ModLoader.offsets.link as API.MMOffsets);
+        let offsets = new API.MMOffsets;
         return this.emu.rdramRead32(offsets.paused) !== 0x3;
     }
 
     isInterfaceShown(): boolean{
-        let offsets = (global.ModLoader.offsets.link as API.MMOffsets);
+        let offsets = new API.MMOffsets;
         return this.emu.rdramRead8(offsets.interface_shown) === 0xFF;
     }
 }

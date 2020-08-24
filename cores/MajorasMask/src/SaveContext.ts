@@ -238,56 +238,56 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
 
     get liveSceneData_chests(): Buffer {
         return this.emulator.rdramReadPtrBuffer(
-            global.ModLoader.global_context_pointer,
+            this.offsets.global_context_pointer,
             this.offsets.chest_flags_addr,
             0x4
         );
     }
     set liveSceneData_chests(buf: Buffer) {
         this.emulator.rdramWritePtrBuffer(
-            global.ModLoader.global_context_pointer,
+            this.offsets.global_context_pointer,
             this.offsets.chest_flags_addr,
             buf
         );
     }
     get liveSceneData_clear(): Buffer {
         return this.emulator.rdramReadPtrBuffer(
-            global.ModLoader.global_context_pointer,
+            this.offsets.global_context_pointer,
             this.offsets.room_clear_flags_addr,
             0x4
         );
     }
     set liveSceneData_clear(buf: Buffer) {
         this.emulator.rdramWritePtrBuffer(
-            global.ModLoader.global_context_pointer,
+            this.offsets.global_context_pointer,
             this.offsets.room_clear_flags_addr,
             buf
         );
     }
     get liveSceneData_switch(): Buffer {
         return this.emulator.rdramReadPtrBuffer(
-            global.ModLoader.global_context_pointer,
+            this.offsets.global_context_pointer,
             this.offsets.switch_flags_addr,
             0x4
         );
     }
     set liveSceneData_switch(buf: Buffer) {
         this.emulator.rdramWritePtrBuffer(
-            global.ModLoader.global_context_pointer,
+            this.offsets.global_context_pointer,
             this.offsets.switch_flags_addr,
             buf
         );
     }
     get liveSceneData_temp(): Buffer {
         return this.emulator.rdramReadPtrBuffer(
-            global.ModLoader.global_context_pointer,
+            this.offsets.global_context_pointer,
             this.offsets.temp_switch_flags_addr,
             0x4
         );
     }
     set liveSceneData_temp(buf: Buffer) {
         this.emulator.rdramWritePtrBuffer(
-            global.ModLoader.global_context_pointer,
+            this.offsets.global_context_pointer,
             this.offsets.temp_switch_flags_addr,
             buf
         );

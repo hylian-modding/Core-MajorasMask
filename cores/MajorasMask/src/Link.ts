@@ -2,12 +2,14 @@ import IMemory from 'modloader64_api/IMemory';
 import * as API from '../API/Imports'
 import { JSONTemplate } from 'modloader64_api/JSONTemplate';
 import { ActorCategory } from './ActorCategory';
-import { Position, Rotation } from './Actor';
-
+import { Position, Rotation, ActorBase } from './Actor';
+import { MMOffsets } from '../API/Imports';
+import { IModLoaderAPI } from 'modloader64_api/IModLoaderAPI';
 
 export class Link extends JSONTemplate implements API.ILink {
   private emulator: IMemory;
-  private instance = global.ModLoader["link_instance"];
+  private offsets = new API.MMOffsets;
+  private instance = this.offsets.link_instance;
   private state_addr: number = 0x8040081C;
   private state2_addr: number = 0x8040081C; //TODO: Find real State2_Addr
   private tunic_addr: number = this.instance + 0x013c;
@@ -16,13 +18,11 @@ export class Link extends JSONTemplate implements API.ILink {
   private mask_addr: number = this.instance + 0x014f;
   private pos_addr: number = this.instance + 0x24;
   private rot_addr: number = this.instance + 0xb4;
-  private sword_addr: number = global.ModLoader.save_context + 0x0070 + 0x1;
-  /*This is provided by MMCore's ASM.
-    Anim data is safely copied into this space at the end of each rendering cycle.
-    This helps prevent jittering.*/
+  private sword_addr: number = this.offsets.save_context + 0x0070 + 0x1;
+
   private sound_addr: number = 0x600000 + 0x88;
   private anim_data_addr = 0x600000;
-  private anim_raw_data_addr = this.instance + (global.ModLoader["offsets"]["link"] as API.MMOffsets).anim;
+  private anim_raw_data_addr = this.instance + this.offsets.anim;
 
   rotation: API.IRotation;
   position: API.IPosition;
@@ -46,6 +46,22 @@ export class Link extends JSONTemplate implements API.ILink {
       this.rotation = new Rotation(this);
       this.position = new Position(this);
   }
+
+      
+    get rawStateValue(): number {
+        let offsets = new MMOffsets;
+        return this.emulator.rdramRead32(offsets.link_instance + offsets.link_state);
+    }
+
+    get anim_data(): Buffer{
+        let offsets = new MMOffsets;
+        return this.emulator.rdramReadBuffer(offsets.anim, 0x86);
+    }
+
+    get rawPos(): Buffer{
+        let offsets = new MMOffsets;
+        return this.emulator.rdramReadBuffer(offsets.link_instance + 0x24, 0xC);
+    }
 
   get actorID(): number {
       return this.rdramRead16(0x0);
@@ -104,10 +120,6 @@ export class Link extends JSONTemplate implements API.ILink {
 
   get exists(): boolean {
       return this.emulator.rdramRead32(this.instance) === 0x2ff;
-  }
-
-  get rawStateValue(): number {
-      return this.emulator.rdramRead32(this.state_addr);
   }
 
   destroy(): void {}
@@ -212,9 +224,7 @@ export class Link extends JSONTemplate implements API.ILink {
   set rot(rot: Buffer) {
       this.emulator.rdramWriteBuffer(this.rot_addr, rot);
   }
-  get anim_data(): Buffer {
-      return this.emulator.rdramReadBuffer(this.anim_data_addr, 0x86);
-  }
+
   set anim_data(buf: Buffer){
       this.emulator.rdramWriteBuffer(this.anim_raw_data_addr, buf);
   }

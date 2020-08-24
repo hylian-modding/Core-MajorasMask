@@ -10,7 +10,8 @@ export const enum SwordBitMap {
 
 export class SwordsEquipment extends JSONTemplate implements API.ISwords {
   private emulator: IMemory;
-  private instance: number = global.ModLoader.save_context;
+  private offsets = new API.MMOffsets;
+  private instance: number = this.offsets.save_context;
   private equipment_addr: number = this.instance + 0x009c + 1;
   jsonFields: string[] = [
       'kokiriSword',

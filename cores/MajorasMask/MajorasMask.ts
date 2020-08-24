@@ -34,25 +34,13 @@ export class MajorasMask implements ICore, API.IMMCore {
     payloads: string[] = new Array<string>();
     inventory_cache: Buffer = Buffer.alloc(0x18, 0xff);
     doorcheck = false;
-    
+    offsets = new API.MMOffsets;
+
     constructor() {
     }
 
     @Preinit()
     preinit() {
-
-        global.ModLoader["offsets"] = {};
-        global.ModLoader["offsets"]["link"] = {} as API.MMOffsets;
-        let offsets: API.MMOffsets = global.ModLoader["offsets"]["link"];
-
-
-        global.ModLoader["offsets"] = {};
-        global.ModLoader["offsets"]["link"] = new API.MMOffsets();
-        global.ModLoader['save_context'] = 0x1EF670;
-        global.ModLoader['global_context_pointer'] = 0x1F9C60;
-        global.ModLoader['overlay_table'] = 0x1AEFD0;
-        global.ModLoader['link_instance'] = 0x3FFDB0;
-        global.ModLoader['gui_isShown'] = 0x3FD77B;
     }
 
     
@@ -125,7 +113,7 @@ export class MajorasMask implements ICore, API.IMMCore {
                 bus.emit(API.MMEvents.ON_SCENE_CHANGE, this.last_known_scene);
                 this.touching_loading_zone = false;
                 let inventory: Buffer = this.ModLoader.emulator.rdramReadBuffer(
-                    global.ModLoader.save_context + 0x0074,
+                    this.offsets.save_context + 0x0074,
                     0x24
                 );
                 for (let i = 0; i < inventory.byteLength; i++) {
@@ -135,7 +123,7 @@ export class MajorasMask implements ICore, API.IMMCore {
                 }
                 inventory.copy(this.inventory_cache);
                 this.ModLoader.emulator.rdramWriteBuffer(
-                    global.ModLoader.save_context + 0x0074,
+                    this.offsets.save_context + 0x0074,
                     inventory
                 );
             }
@@ -148,7 +136,7 @@ export class MajorasMask implements ICore, API.IMMCore {
                 this.doorcheck = false;
             }
             let doorState = this.ModLoader.emulator.rdramReadPtr8(
-                global.ModLoader.global_context_pointer,
+                this.offsets.global_context_pointer,
                 0x11ced
             );
             if (doorState === 1 && !this.doorcheck) {
@@ -208,6 +196,7 @@ export class OverlayPayload extends PayloadType {
     private start: number = 0x80601A00;
     private ovl_offset: number = 0;
     private core: API.IMMCore;
+    private offsets = new API.MMOffsets;
 
     constructor(ext: string, logger: ILogger, core: API.IMMCore) {
         super(ext);
@@ -217,7 +206,7 @@ export class OverlayPayload extends PayloadType {
 
     parse(file: string, buf: Buffer, dest: IMemory) {
         this.logger.debug('Trying to allocate actor...');
-        let overlay_start: number = global.ModLoader['overlay_table'];
+        let overlay_start: number = this.offsets.overlay_table;
         let size = 0x01d6;
         let empty_slots: number[] = new Array<number>();
         for (let i = 0; i < size; i++) {

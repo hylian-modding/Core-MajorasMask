@@ -7,7 +7,8 @@ import { NONAME } from 'dns';
 
 export class Inventory extends JSONTemplate implements API.IInventory {
   private emulator: IMemory;
-  private instance: number = global.ModLoader.save_context;
+  private offsets = new API.MMOffsets;
+  private instance: number = this.offsets.save_context;
   private inventory_addr: number = this.instance + 0x0074;
   private inventory_ammo_addr: number = this.instance + 0x008c;
   private inventory_upgrades_addr: number = this.instance + 0x00a0;
