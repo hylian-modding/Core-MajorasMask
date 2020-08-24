@@ -12,6 +12,7 @@ import * as API from './API/Imports';
 import * as CORE from './src/Imports';
 import { CommandBuffer } from "./src/CommandBuffer";
 import { ActorManager } from "./src/Imports";
+import { MMEvents } from "./API/Imports";
 
 
 export class MajorasMask implements ICore, API.IMMCore {
@@ -55,7 +56,71 @@ export class MajorasMask implements ICore, API.IMMCore {
     }
     
     @Init()
-    init() {}
+    init(): void {
+        this.eventTicks.set('waitingForAgeChange', () => {
+            if (this.save.form !== this.last_known_age) {
+                bus.emit(MMEvents.ON_AGE_CHANGE, this.save.form);
+                this.last_known_age = this.save.form;
+            }
+        });
+        this.eventTicks.set('waitingForSaveload', () => {
+            if (!this.isSaveLoaded && this.helper.isSceneNumberValid()) {
+                this.isSaveLoaded = true;
+                bus.emit(MMEvents.ON_SAVE_LOADED, {});
+            }
+        });
+        this.eventTicks.set('waitingForLoadingZoneTrigger', () => {
+            if (
+                this.helper.isLinkEnteringLoadingZone() &&
+                !this.touching_loading_zone
+            ) {
+                bus.emit(MMEvents.ON_LOADING_ZONE, {});
+                this.touching_loading_zone = true;
+            }
+        });
+        this.eventTicks.set('waitingForFrameCount', () => {
+            if (
+                this.global.scene_framecount === 1 &&
+                !this.helper.isTitleScreen() &&
+                this.helper.isSceneNumberValid()
+            ) {
+                let cur = this.global.current_scene;
+                this.last_known_scene = cur;
+                bus.emit(MMEvents.ON_SCENE_CHANGE, this.last_known_scene);
+                this.touching_loading_zone = false;
+                let inventory: Buffer = this.ModLoader.emulator.rdramReadBuffer(
+                    global.ModLoader.save_context + 0x0070,
+                    0x18
+                );
+                for (let i = 0; i < inventory.byteLength; i++) {
+                    if (inventory[i] === 0x004d) {
+                        inventory[i] = this.inventory_cache[i];
+                    }
+                }
+                inventory.copy(this.inventory_cache);
+                this.ModLoader.emulator.rdramWriteBuffer(
+                    global.ModLoader.save_context + 0x0070,
+                    inventory
+                );
+            }
+        });
+        /*this.eventTicks.set('waitingForRoomChange', () => {
+            let cur = this.global.room;
+            if (this.last_known_room !== cur) {
+                this.last_known_room = cur;
+                bus.emit(MMEvents.ON_ROOM_CHANGE, this.last_known_room);
+                this.doorcheck = false;
+            }
+            let doorState = this.ModLoader.emulator.rdramReadPtr8(
+                global.ModLoader.global_context_pointer,
+                0x11ced
+            );
+            if (doorState === 1 && !this.doorcheck) {
+                bus.emit(MMEvents.ON_ROOM_CHANGE_PRE, doorState);
+                this.doorcheck = true;
+            }
+        });*/
+    }
 
     @Postinit()
     postinit(): void {
