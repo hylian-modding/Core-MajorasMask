@@ -491,6 +491,7 @@ export interface ISaveContext {
   dungeonItemManager: IDungeonItemManager;
   heart_containers: number;
   magic: Magic;
+  magic_meter_size: number;
   magic_level: number;
   double_defense: number;
 }
