@@ -252,7 +252,14 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         this.emulator.rdramWriteBuffer(this.offsets.inventory, flag);
     }*/
 
+    get heart_containers(): number {
+        return this.emulator.rdramRead16(this.offsets.max_heart_flag);
+    }
 
+    set heart_containers(flag: number) {
+        this.emulator.rdramWrite16(this.offsets.max_heart_flag, flag);
+    }
+    
     get bank_rupees(): number {
         return this.emulator.rdramRead16(this.offsets.bank_rupees);
     }
