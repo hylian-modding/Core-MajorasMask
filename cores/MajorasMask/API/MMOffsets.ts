@@ -26,7 +26,9 @@ export class MMOffsets {
     max_heart_flag: number = 0x801EF6A4; //0x2
     hearts: number = 0x801EF6A6; //0x2
     magic: number = 0x801EF6A9; //0x1
-    magic_amt: number = 0x801EF6A8; //0x1
+    magic_level: number = 0x801EF6A8; //0x1
+    magic_meter_max_addr: number = 0x801F359E;
+    magic_current: number = 0x801F35A0;
     razor_hits: number = 0x801EF6AC; // 0x2
     magic_bool1: number = 0x801EF6B0;
     magic_bool2: number = 0x801EF6B1;
@@ -51,6 +53,7 @@ export class MMOffsets {
     bank_rupees = 0x801F054E; //0x2
 
     event_flg: number = 0x801F0568;
+    event_inf: number = 0x801F067C;
 
     switch_flags_addr = 0x803E8978;
     temp_switch_flags_addr = 0x803E8988;

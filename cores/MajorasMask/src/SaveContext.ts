@@ -31,27 +31,6 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
 
     swords: SwordsEquipment;
     shields: ShieldsEquipment;
-
-    entrance_index!: number;
-    cutscene_number!: number;
-    world_time!: number;
-    world_night_flag!: boolean;
-    zeldaz_string!: string;
-    death_counter!: number;
-    player_name!: string;
-    dd_flag!: boolean;
-    heart_containers!: number;
-    health!: number;
-    magic_meter_size!: API.Magic;
-    magic_current!: number;
-    rupee_count!: number;
-    navi_timer!: number;
-    magic_beans_purchased!: number;
-    permSceneData!: Buffer;
-    eventFlags!: Buffer;
-    itemFlags!: Buffer;
-    infTable!: Buffer;
-    skulltulaFlags!: Buffer;
     
     get checksum(): number {
         return this.emulator.rdramReadBuffer(this.offsets.checksum, 0x6).readUIntBE(0x0, 0x6);
@@ -77,20 +56,56 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         this.emulator.rdramWrite16(this.offsets.max_heart_flag, flag);
     }
 
-    get magic(): number {
-        return this.emulator.rdramRead8(this.offsets.magic);
+    get magic_meter_max_addr(): API.Magic {
+        return this.emulator.rdramRead8(this.offsets.magic_meter_max_addr);
     }
 
-    set magic(flag: number) {
-        this.emulator.rdramWrite8(this.offsets.magic_bool1, flag);
+    // Several things need to be set in order for magic to function properly.
+    set magic_meter_size(size: API.Magic) {
+        this.emulator.rdramWrite8(this.magic_meter_size, size);
+        switch (size) {
+        case API.Magic.NONE: {
+            this.emulator.rdramWrite8(this.magic_bool1, 0);
+            this.emulator.rdramWrite8(this.magic_bool2, 0);
+            this.emulator.rdramWrite16(this.magic_meter_max_addr, API.MagicQuantities.NONE);
+            this.magic_current = API.MagicQuantities.NONE;
+            break;
+        }
+        case API.Magic.NORMAL: {
+            this.emulator.rdramWrite8(this.magic_bool1, 1);
+            this.emulator.rdramWrite8(this.magic_bool2, 0);
+            this.emulator.rdramWrite16(
+                this.magic_meter_max_addr,
+                API.MagicQuantities.NORMAL
+            );
+            break;
+        }
+        case API.Magic.EXTENDED: {
+            this.emulator.rdramWrite8(this.magic_bool1, 1);
+            this.emulator.rdramWrite8(this.magic_bool2, 1);
+            this.emulator.rdramWrite16(
+                this.magic_meter_max_addr,
+                API.MagicQuantities.EXTENDED
+            );
+            break;
+        }
+        }
     }
 
-    get magic_amt(): number {
-        return this.emulator.rdramRead8(this.offsets.magic_amt);
+    get magic_current(): number {
+        return this.emulator.rdramRead8(this.offsets.magic_current);
     }
 
-    set magic_amt(flag: number) {
-        this.emulator.rdramWrite8(this.offsets.magic_amt, flag);
+    set magic_current(flag: number) {
+        this.emulator.rdramWrite8(this.offsets.magic_current, flag);
+    }
+
+    get magic_level(): number {
+        return this.emulator.rdramRead8(this.offsets.magic_level);
+    }
+
+    set magic_level(flag: number) {
+        this.emulator.rdramWrite8(this.offsets.magic_level, flag);
     }
 
     get magic_bool1(): number {
@@ -222,11 +237,21 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
     }
 
     get event_flags(): Buffer { 
-        return this.emulator.rdramReadBuffer(this.offsets.event_flg, 0x64);
+        return this.emulator.rdramReadBuffer(this.offsets.event_inf, 0x8);
     }
+
     set event_flags(flag: Buffer) {
-        this.emulator.rdramWriteBuffer(this.offsets.scene_flags, flag);
+        this.emulator.rdramWriteBuffer(this.offsets.event_inf, flag);
     }
+
+    /*get item_Flags(): Buffer {
+        return this.emulator.rdramReadBuffer(this.offsets.inventory, 0x18);
+    }
+
+    set item_Flags(flag: Buffer) {
+        this.emulator.rdramWriteBuffer(this.offsets.inventory, flag);
+    }*/
+
 
     get bank_rupees(): number {
         return this.emulator.rdramRead16(this.offsets.bank_rupees);

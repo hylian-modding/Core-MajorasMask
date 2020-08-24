@@ -12,7 +12,6 @@ import * as API from './API/Imports';
 import * as CORE from './src/Imports';
 import { CommandBuffer } from "./src/CommandBuffer";
 import { ActorManager } from "./src/Imports";
-import { MMEvents } from "./API/Imports";
 
 
 export class MajorasMask implements ICore, API.IMMCore {
@@ -59,14 +58,14 @@ export class MajorasMask implements ICore, API.IMMCore {
     init(): void {
         this.eventTicks.set('waitingForAgeChange', () => {
             if (this.save.form !== this.last_known_age) {
-                bus.emit(MMEvents.ON_AGE_CHANGE, this.save.form);
+                bus.emit(API.MMEvents.ON_AGE_CHANGE, this.save.form);
                 this.last_known_age = this.save.form;
             }
         });
         this.eventTicks.set('waitingForSaveload', () => {
             if (!this.isSaveLoaded && this.helper.isSceneNumberValid()) {
                 this.isSaveLoaded = true;
-                bus.emit(MMEvents.ON_SAVE_LOADED, {});
+                bus.emit(API.MMEvents.ON_SAVE_LOADED, {});
             }
         });
         this.eventTicks.set('waitingForLoadingZoneTrigger', () => {
@@ -74,7 +73,7 @@ export class MajorasMask implements ICore, API.IMMCore {
                 this.helper.isLinkEnteringLoadingZone() &&
                 !this.touching_loading_zone
             ) {
-                bus.emit(MMEvents.ON_LOADING_ZONE, {});
+                bus.emit(API.MMEvents.ON_LOADING_ZONE, {});
                 this.touching_loading_zone = true;
             }
         });
@@ -86,7 +85,7 @@ export class MajorasMask implements ICore, API.IMMCore {
             ) {
                 let cur = this.global.current_scene;
                 this.last_known_scene = cur;
-                bus.emit(MMEvents.ON_SCENE_CHANGE, this.last_known_scene);
+                bus.emit(API.MMEvents.ON_SCENE_CHANGE, this.last_known_scene);
                 this.touching_loading_zone = false;
                 let inventory: Buffer = this.ModLoader.emulator.rdramReadBuffer(
                     global.ModLoader.save_context + 0x0070,
@@ -108,7 +107,7 @@ export class MajorasMask implements ICore, API.IMMCore {
             let cur = this.global.room;
             if (this.last_known_room !== cur) {
                 this.last_known_room = cur;
-                bus.emit(MMEvents.ON_ROOM_CHANGE, this.last_known_room);
+                bus.emit(API.MMEvents.ON_ROOM_CHANGE, this.last_known_room);
                 this.doorcheck = false;
             }
             let doorState = this.ModLoader.emulator.rdramReadPtr8(
@@ -116,7 +115,7 @@ export class MajorasMask implements ICore, API.IMMCore {
                 0x11ced
             );
             if (doorState === 1 && !this.doorcheck) {
-                bus.emit(MMEvents.ON_ROOM_CHANGE_PRE, doorState);
+                bus.emit(API.MMEvents.ON_ROOM_CHANGE_PRE, doorState);
                 this.doorcheck = true;
             }
         });*/
@@ -214,27 +213,13 @@ export class MajorasMask implements ICore, API.IMMCore {
 
     @onTick()
     onTick() {
-        if (this.helper.isTitleScreen() || !this.helper.isSceneNumberValid()) return;
-        
-        // Loading zone check
-        if (this.helper.isLinkEnteringLoadingZone() && !this.touching_loading_zone ) {
-            bus.emit(API.MMEvents.ON_LOADING_ZONE, {});
-            this.touching_loading_zone  = true;
-        }
-        
-        // Scene change check
-        if (this.global.scene_framecount === 1) {
-            this.last_known_scene  = this.global.current_scene;
-            bus.emit(API.MMEvents.ON_SCENE_CHANGE, this.last_known_scene );
-            this.touching_loading_zone  = false;
-        }
-        
-        // Age check
-        if (this.save.form !== this.last_known_age) {
-            this.last_known_age = this.save.form;
-            bus.emit(API.MMEvents.ON_AGE_CHANGE, this.last_known_age);
-        }
         this.commandBuffer.onTick();
+
+        if (!this.helper.isTitleScreen()) {
+            this.eventTicks.forEach((value: Function, key: string) => {
+                value();
+            });
+        }
     }
 }
 
