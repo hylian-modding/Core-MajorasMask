@@ -56,7 +56,7 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         this.emulator.rdramWrite16(this.offsets.max_heart_flag, flag);
     }
 
-    get magic_meter_max_addr(): API.Magic {
+    get magic(): API.Magic {
         return this.emulator.rdramRead8(this.offsets.magic_meter_max_addr);
     }
 
@@ -67,7 +67,7 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         case API.Magic.NONE: {
             this.emulator.rdramWrite8(this.magic_bool1, 0);
             this.emulator.rdramWrite8(this.magic_bool2, 0);
-            this.emulator.rdramWrite16(this.magic_meter_max_addr, API.MagicQuantities.NONE);
+            this.emulator.rdramWrite16(this.magic, API.MagicQuantities.NONE);
             this.magic_current = API.MagicQuantities.NONE;
             break;
         }
@@ -75,7 +75,7 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
             this.emulator.rdramWrite8(this.magic_bool1, 1);
             this.emulator.rdramWrite8(this.magic_bool2, 0);
             this.emulator.rdramWrite16(
-                this.magic_meter_max_addr,
+                this.magic,
                 API.MagicQuantities.NORMAL
             );
             break;
@@ -84,7 +84,7 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
             this.emulator.rdramWrite8(this.magic_bool1, 1);
             this.emulator.rdramWrite8(this.magic_bool2, 1);
             this.emulator.rdramWrite16(
-                this.magic_meter_max_addr,
+                this.magic,
                 API.MagicQuantities.EXTENDED
             );
             break;

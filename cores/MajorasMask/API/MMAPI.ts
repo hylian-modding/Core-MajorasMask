@@ -480,6 +480,7 @@ export interface IQuestStatus {
 
 export interface ISaveContext {
   scene_flags: Buffer;
+  event_flags: Buffer;
   swords: ISwords;
   shields: IShields;
   inventory: IInventory;
@@ -488,6 +489,8 @@ export interface ISaveContext {
   form: MMForms;
   keyManager: IKeyManager;
   dungeonItemManager: IDungeonItemManager;
+  heart_containers: number;
+  magic_level: number;
   double_defense: number;
 }
 
