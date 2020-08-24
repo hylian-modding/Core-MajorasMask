@@ -224,7 +224,7 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         return this.emulator.rdramRead8(this.offsets.double_defense);
     }
 
-    set double_defense_flag(flag: number) {
+    set double_defense(flag: number) {
         this.emulator.rdramWrite8(this.offsets.double_defense, flag);
     }
 
