@@ -520,6 +520,7 @@ export interface ILink extends IActor {
   anim_data: Buffer;
   current_sound_id: number;
   sword: Sword;
+  rawPos: Buffer;
   get_anim_id(): number;
   get_anim_frame(): number;
 }
@@ -707,7 +708,7 @@ export interface IOvlPayloadResult {
   params: number;
   buf: Buffer;
   relocate: number;
-  
+
   spawn(obj: IOvlPayloadResult, callback?: (success: boolean, result: number)=>{}): void;
 }
 
