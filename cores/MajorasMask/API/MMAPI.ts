@@ -492,6 +492,7 @@ export interface ISaveContext {
   heart_containers: number;
   magic_meter_size: Magic;
   magic_level: number;
+  magic_current: number;
   double_defense: number;
 }
 
