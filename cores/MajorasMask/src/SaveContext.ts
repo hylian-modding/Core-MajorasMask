@@ -56,72 +56,64 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         this.emulator.rdramWrite16(this.offsets.max_heart_flag, flag);
     }
 
+    get deku_b_state(){
+        return this.emulator.rdramRead32(this.offsets.deku_b_addr);
+    }
+
+    set deku_b_state(flag: number) {
+        this.emulator.rdramWrite32(this.offsets.deku_b_addr, flag);
+    }
+
+    get magic(): number {
+        return this.emulator.rdramRead8(this.offsets.magic);
+    }
+
+    set magic(flag: number) {
+        this.emulator.rdramWrite16(this.offsets.magic, flag);
+    }
+
     get magic_meter_size(): API.Magic {
-        return this.emulator.rdramRead8(this.offsets.magic_meter_max_addr);
+        return this.emulator.rdramRead8(this.offsets.magic_meter_size_addr);
     }
 
     // Several things need to be set in order for magic to function properly.
     set magic_meter_size(size: API.Magic) {
-        this.emulator.rdramWrite8(this.magic_meter_size, size);
+        this.emulator.rdramWrite8(this.offsets.magic_meter_size_addr, size);
         switch (size) {
         case API.Magic.NONE: {
-            this.emulator.rdramWrite8(this.magic_bool1, 0);
-            this.emulator.rdramWrite8(this.magic_bool2, 0);
-            this.emulator.rdramWrite16(this.magic_level, API.MagicQuantities.NONE);
+            this.emulator.rdramWrite8(this.offsets.magic_flag_1_addr, 0);
+            this.emulator.rdramWrite8(this.offsets.magic_flag_2_addr, 0);
+            this.emulator.rdramWrite16(this.offsets.magic_limit_addr, API.MagicQuantities.NONE);
             this.magic_current = API.MagicQuantities.NONE;
             break;
         }
         case API.Magic.NORMAL: {
-            this.emulator.rdramWrite8(this.magic_bool1, 1);
-            this.emulator.rdramWrite8(this.magic_bool2, 0);
+            this.emulator.rdramWrite8(this.offsets.magic_flag_1_addr, 1);
+            this.emulator.rdramWrite8(this.offsets.magic_flag_2_addr, 0);
             this.emulator.rdramWrite16(
-                this.magic_level,
+                this.offsets.magic_limit_addr,
                 API.MagicQuantities.NORMAL
             );
             break;
         }
         case API.Magic.EXTENDED: {
-            this.emulator.rdramWrite8(this.magic_bool1, 1);
-            this.emulator.rdramWrite8(this.magic_bool2, 1);
+            this.emulator.rdramWrite8(this.offsets.magic_flag_1_addr, 1);
+            this.emulator.rdramWrite8(this.offsets.magic_flag_2_addr, 1);
             this.emulator.rdramWrite16(
-                this.magic_level,
+                this.offsets.magic_limit_addr,
                 API.MagicQuantities.EXTENDED
             );
             break;
         }
         }
     }
-
-    get magic_current(): number {
-        return this.emulator.rdramRead8(this.offsets.magic_current);
-    }
-
-    set magic_current(flag: number) {
-        this.emulator.rdramWrite8(this.offsets.magic_current, flag);
-    }
-
-    get magic_level(): number {
-        return this.emulator.rdramRead8(this.offsets.magic_level);
-    }
-
-    set magic_level(flag: number) {
-        this.emulator.rdramWrite8(this.offsets.magic_level, flag);
-    }
-
-    get magic_bool1(): number {
-        return this.emulator.rdramRead8(this.offsets.magic_bool1);
-    }
-
-    set magic_bool1(flag: number) {
-        this.emulator.rdramWrite8(this.offsets.magic_bool1, flag);
-    }
-
-    get magic_bool2(): number {
-        return this.emulator.rdramRead8(this.offsets.magic_bool2);
-    }
     
-    set magic_bool2(flag: number) {
-        this.emulator.rdramWrite8(this.offsets.magic_bool2, flag);
+    get magic_current(): number {
+        return this.emulator.rdramRead8(this.offsets.magic_current_addr);
+    }
+  
+    set magic_current(amount: number) {
+        this.emulator.rdramWrite8(this.offsets.magic_current_addr, amount);
     }
 
     get owl_statues(): number {

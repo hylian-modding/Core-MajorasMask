@@ -491,8 +491,9 @@ export interface ISaveContext {
   dungeonItemManager: IDungeonItemManager;
   heart_containers: number;
   magic_meter_size: Magic;
-  magic_level: number;
   magic_current: number;
+  magic: number;
+  deku_b_state: number;
   double_defense: number;
 }
 
@@ -513,7 +514,6 @@ export interface ILink extends IActor {
 export interface IGlobalContext {
   current_scene: number;
   room: number;
-  framecount: number;
   scene_framecount: number;
   continue_state: boolean;
   liveSceneData_chests: Buffer;
@@ -686,14 +686,14 @@ export function UpgradeCountLookup(item: InventoryItem, level: AmmoUpgrade): num
   return 0;
 }
 
-export interface IOvlPayloadResult {
+export interface IOvlPayloadResult{
   file: string;
   slot: number;
   addr: number;
   params: number;
   buf: Buffer;
   relocate: number;
-
+  
   spawn(obj: IOvlPayloadResult, callback?: (success: boolean, result: number)=>{}): void;
 }
 

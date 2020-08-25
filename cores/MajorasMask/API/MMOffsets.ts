@@ -1,8 +1,8 @@
 export class MMOffsets {
     link_instance: number = 0x803FFDB0;
-    link_state: number = 0x8040081C;
+    link_state: number = 0xA6C;
     current_scene: number = 0x803e6bc4;
-    scene_frame_count: number = 0x803FF360;
+    scene_framecount: number = 0x803FF360;
     checksum: number = 0x801EF694;
     paused: number = 0x801D1500;
     interface_shown: number = 0x803FD77B;
@@ -25,13 +25,19 @@ export class MMOffsets {
 
     max_heart_flag: number = 0x801EF6A4; //0x2
     hearts: number = 0x801EF6A6; //0x2
+
     magic: number = 0x801EF6A9; //0x1
-    magic_level: number = 0x801EF6A8; //0x1
-    magic_meter_max_addr: number = 0x801F359E;
-    magic_current: number = 0x801F35A0;
+
+    magic_meter_size_addr: number = 0x801EF6A8;
+    magic_current_addr: number = 0x801F35A0;
+    magic_limit_addr: number = 0x801F359E;
+    magic_flag_1_addr: number = 0x801EF6B0;
+    magic_flag_2_addr: number = 0x801EF6B1;
+
+    deku_b_addr: number = 0x801EF6C8;
+
     razor_hits: number = 0x801EF6AC; // 0x2
-    magic_bool1: number = 0x801EF6B0;
-    magic_bool2: number = 0x801EF6B1;
+
     owl_statues: number = 0x801EF6B6; //0x2
     sword_equip: number = 0x801EF6BC; // 0x1
     tunic_boots: number = 0x801EF6DC; //0x1

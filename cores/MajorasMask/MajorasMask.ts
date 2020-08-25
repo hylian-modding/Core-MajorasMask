@@ -11,8 +11,8 @@ import path from 'path';
 import * as API from './API/Imports';
 import * as CORE from './src/Imports';
 import { CommandBuffer } from "./src/CommandBuffer";
-import { ActorManager } from "./src/Imports";
-
+import { ActorManager, GlobalContext, Link, SaveContext, MMHelper } from "./src/Imports";
+import { MMEvents } from "./API/Imports";
 
 export class MajorasMask implements ICore, API.IMMCore {
     header = "NZS";
@@ -24,16 +24,18 @@ export class MajorasMask implements ICore, API.IMMCore {
     global!: API.IGlobalContext;
     helper!: API.IMMHelper;
     commandBuffer!: CommandBuffer;
+    // Client side variables
     isSaveLoaded = false;
-    touching_loading_zone : boolean = false;
-    last_known_scene : number = -1;
+    last_known_scene = -1;
     last_known_room = -1;
-    last_known_age: number = -1;
+    doorcheck = false;
+    touching_loading_zone = false;
+    frame_count_reset_scene = -1;
+    last_known_age!: number;
     log!: ILogger;
     actorManager!: API.IActorManager;
     payloads: string[] = new Array<string>();
     inventory_cache: Buffer = Buffer.alloc(0x18, 0xff);
-    doorcheck = false;
     offsets = new API.MMOffsets;
 
     constructor() {
@@ -41,6 +43,7 @@ export class MajorasMask implements ICore, API.IMMCore {
 
     @Preinit()
     preinit() {
+
     }
 
     
@@ -56,33 +59,33 @@ export class MajorasMask implements ICore, API.IMMCore {
     
     @Init()
     init(): void {
-        this.eventTicks.set('waitingForAgeChange', () => {
-            if (this.save.form !== this.last_known_age) {
-                bus.emit(API.MMEvents.ON_AGE_CHANGE, this.save.form);
-                this.last_known_age = this.save.form;
-            }
-        });
+
         this.eventTicks.set('waitingForSaveload', () => {
             if (!this.isSaveLoaded && this.helper.isSceneNumberValid()) {
                 this.isSaveLoaded = true;
                 bus.emit(API.MMEvents.ON_SAVE_LOADED, {});
             }
         });
+        
+        
         this.eventTicks.set('waitingForLoadingZoneTrigger', () => {
             if (
                 this.helper.isLinkEnteringLoadingZone() &&
                 !this.touching_loading_zone
             ) {
+                this.ModLoader.logger.debug("waitingForLoadingZoneTrigger Successful");
                 bus.emit(API.MMEvents.ON_LOADING_ZONE, {});
                 this.touching_loading_zone = true;
             }
         });
+
         this.eventTicks.set('waitingForFrameCount', () => {
             if (
                 this.global.scene_framecount === 1 &&
                 !this.helper.isTitleScreen() &&
                 this.helper.isSceneNumberValid()
             ) {
+                this.ModLoader.logger.debug("waitingForFrameCount Successful");
                 let cur = this.global.current_scene;
                 this.last_known_scene = cur;
                 bus.emit(API.MMEvents.ON_SCENE_CHANGE, this.last_known_scene);
@@ -103,30 +106,24 @@ export class MajorasMask implements ICore, API.IMMCore {
                 );
             }
         });
-        /*this.eventTicks.set('waitingForRoomChange', () => {
-            let cur = this.global.room;
-            if (this.last_known_room !== cur) {
-                this.last_known_room = cur;
-                bus.emit(API.MMEvents.ON_ROOM_CHANGE, this.last_known_room);
-                this.doorcheck = false;
+
+        this.eventTicks.set('waitingForAgeChange', () => {
+            if (this.save.form !== this.last_known_age){
+                this.ModLoader.logger.debug("Form Change Successful");
+                this.last_known_age = this.save.form;
+                bus.emit(API.MMEvents.ON_AGE_CHANGE, this.last_known_age);
             }
-            let doorState = this.ModLoader.emulator.rdramReadPtr8(
-                global.ModLoader.global_context_pointer,
-                0x11ced
-            );
-            if (doorState === 1 && !this.doorcheck) {
-                bus.emit(API.MMEvents.ON_ROOM_CHANGE_PRE, doorState);
-                this.doorcheck = true;
-            }
-        });*/
+        });
+        
     }
 
     @Postinit()
     postinit(): void {
-        this.global = new CORE.GlobalContext(this.ModLoader);
-        this.link = new CORE.Link(this.ModLoader.emulator);
-        this.save = new CORE.SaveContext(this.ModLoader.emulator, this.ModLoader.logger);
-        this.helper = new CORE.MMHelper(
+
+        this.global = new GlobalContext(this.ModLoader);
+        this.link = new Link(this.ModLoader.emulator);
+        this.save = new SaveContext(this.ModLoader.emulator, this.ModLoader.logger);
+        this.helper = new MMHelper(
             this.save,
             this.global,
             this.link,
@@ -144,82 +141,18 @@ export class MajorasMask implements ICore, API.IMMCore {
             new OverlayPayload('.ovl', this.ModLoader.logger.getLogger("OverlayPayload"), this)
         );
 
-        
-        this.eventTicks.set('waitingForAgeChange', () => {
-            if (this.save.form !== this.last_known_age) {
-                bus.emit(API.MMEvents.ON_AGE_CHANGE, this.save.form);
-                this.last_known_age = this.save.form;
-            }
-        });
-        this.eventTicks.set('waitingForSaveload', () => {
-            if (!this.isSaveLoaded && this.helper.isSceneNumberValid()) {
-                this.isSaveLoaded = true;
-                bus.emit(API.MMEvents.ON_SAVE_LOADED, {});
-            }
-        });
-        this.eventTicks.set('waitingForLoadingZoneTrigger', () => {
-            if (
-                this.helper.isLinkEnteringLoadingZone() &&
-                !this.touching_loading_zone
-            ) {
-                bus.emit(API.MMEvents.ON_LOADING_ZONE, {});
-                this.touching_loading_zone = true;
-            }
-        });
-        this.eventTicks.set('waitingForFrameCount', () => {
-            if (
-                this.global.scene_framecount === 1 &&
-                !this.helper.isTitleScreen() &&
-                this.helper.isSceneNumberValid()
-            ) {
-                let cur = this.global.current_scene;
-                this.last_known_scene = cur;
-                bus.emit(API.MMEvents.ON_SCENE_CHANGE, this.last_known_scene);
-                this.touching_loading_zone = false;
-                let inventory: Buffer = this.ModLoader.emulator.rdramReadBuffer(
-                    this.offsets.save_context + 0x0074,
-                    0x24
-                );
-                for (let i = 0; i < inventory.byteLength; i++) {
-                    if (inventory[i] === 0x004d) {
-                        inventory[i] = this.inventory_cache[i];
-                    }
-                }
-                inventory.copy(this.inventory_cache);
-                this.ModLoader.emulator.rdramWriteBuffer(
-                    this.offsets.save_context + 0x0074,
-                    inventory
-                );
-            }
-        });
-        this.eventTicks.set('waitingForRoomChange', () => {
-            let cur = this.global.room;
-            if (this.last_known_room !== cur) {
-                this.last_known_room = cur;
-                bus.emit(API.MMEvents.ON_ROOM_CHANGE, this.last_known_room);
-                this.doorcheck = false;
-            }
-            let doorState = this.ModLoader.emulator.rdramReadPtr8(
-                this.offsets.global_context_pointer,
-                0x11ced
-            );
-            if (doorState === 1 && !this.doorcheck) {
-                bus.emit(API.MMEvents.ON_ROOM_CHANGE_PRE, doorState);
-                this.doorcheck = true;
-            }
-        });
-
     }
 
     @onTick()
     onTick() {
-        this.commandBuffer.onTick();
 
         if (!this.helper.isTitleScreen()) {
             this.eventTicks.forEach((value: Function, key: string) => {
                 value();
             });
         }
+
+        this.commandBuffer.onTick();
     }
 }
 

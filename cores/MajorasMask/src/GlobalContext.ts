@@ -17,10 +17,11 @@ export class GlobalContext {
         return this.ModLoader.emulator.rdramRead16(offsets.current_scene);
     }
 
-    get scene_frame_count(): number {
+    get scene_framecount(): number {
         let offsets = new API.MMOffsets;
-        return this.ModLoader.emulator.rdramRead32(offsets.scene_frame_count);
+        return this.ModLoader.emulator.rdramRead32(offsets.scene_framecount);
     }
+
     get room(): number {
         let offsets = new API.MMOffsets;
         return this.ModLoader.emulator.rdramReadPtr8(
@@ -28,20 +29,7 @@ export class GlobalContext {
             offsets.current_room_addr
         );
     }
-    get framecount(): number {
-        let offsets = new API.MMOffsets;
-        return this.ModLoader.emulator.rdramReadPtr32(
-            offsets.global_context_pointer,
-            offsets.scene_frame_count
-        );
-    }
-    get scene_framecount(): number {
-        let offsets = new API.MMOffsets;
-        return this.ModLoader.emulator.rdramReadPtr32(
-            offsets.global_context_pointer,
-            offsets.scene_frame_count
-        );
-    }
+
     get liveSceneData_chests(): Buffer {
         let offsets = new API.MMOffsets;
         return this.ModLoader.emulator.rdramReadPtrBuffer(
