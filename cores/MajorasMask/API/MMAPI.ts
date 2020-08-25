@@ -490,8 +490,7 @@ export interface ISaveContext {
   keyManager: IKeyManager;
   dungeonItemManager: IDungeonItemManager;
   heart_containers: number;
-  magic: Magic;
-  magic_meter_size: number;
+  magic_meter_size: Magic;
   magic_level: number;
   double_defense: number;
 }
