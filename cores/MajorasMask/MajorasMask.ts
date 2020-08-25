@@ -12,6 +12,7 @@ import * as API from './API/Imports';
 import * as CORE from './src/Imports';
 import { CommandBuffer } from "./src/CommandBuffer";
 import { ActorManager, GlobalContext, Link, SaveContext, MMHelper } from "./src/Imports";
+import { OverlayPayload } from "./src/ovl/ovlinjector";
 import { MMEvents } from "./API/Imports";
 
 export class MajorasMask implements ICore, API.IMMCore {
@@ -67,54 +68,6 @@ export class MajorasMask implements ICore, API.IMMCore {
             }
         });
         
-        
-        this.eventTicks.set('waitingForLoadingZoneTrigger', () => {
-            if (
-                this.helper.isLinkEnteringLoadingZone() &&
-                !this.touching_loading_zone
-            ) {
-                this.ModLoader.logger.debug("waitingForLoadingZoneTrigger Successful");
-                bus.emit(API.MMEvents.ON_LOADING_ZONE, {});
-                this.touching_loading_zone = true;
-            }
-        });
-
-        this.eventTicks.set('waitingForFrameCount', () => {
-            if (
-                this.global.scene_framecount === 1 &&
-                !this.helper.isTitleScreen() &&
-                this.helper.isSceneNumberValid()
-            ) {
-                this.ModLoader.logger.debug("waitingForFrameCount Successful");
-                let cur = this.global.current_scene;
-                this.last_known_scene = cur;
-                bus.emit(API.MMEvents.ON_SCENE_CHANGE, this.last_known_scene);
-                this.touching_loading_zone = false;
-                let inventory: Buffer = this.ModLoader.emulator.rdramReadBuffer(
-                    global.ModLoader.save_context + 0x0070,
-                    0x18
-                );
-                for (let i = 0; i < inventory.byteLength; i++) {
-                    if (inventory[i] === 0x004d) {
-                        inventory[i] = this.inventory_cache[i];
-                    }
-                }
-                inventory.copy(this.inventory_cache);
-                this.ModLoader.emulator.rdramWriteBuffer(
-                    global.ModLoader.save_context + 0x0070,
-                    inventory
-                );
-            }
-        });
-
-        this.eventTicks.set('waitingForAgeChange', () => {
-            if (this.save.form !== this.last_known_age){
-                this.ModLoader.logger.debug("Form Change Successful");
-                this.last_known_age = this.save.form;
-                bus.emit(API.MMEvents.ON_AGE_CHANGE, this.last_known_age);
-            }
-        });
-        
     }
 
     @Postinit()
@@ -129,7 +82,6 @@ export class MajorasMask implements ICore, API.IMMCore {
             this.link,
             this.ModLoader.emulator
         );
-        this.commandBuffer = new CommandBuffer(this.ModLoader.emulator);
         this.actorManager = new ActorManager(
             this.ModLoader.emulator,
             this.ModLoader.logger,
@@ -137,129 +89,38 @@ export class MajorasMask implements ICore, API.IMMCore {
             this.global,
             this.ModLoader.utils
         );
-        this.ModLoader.payloadManager.registerPayloadType(
-            new OverlayPayload('.ovl', this.ModLoader.logger.getLogger("OverlayPayload"), this)
-        );
-
+        this.commandBuffer = new CommandBuffer(this.ModLoader.emulator);
+        this.ModLoader.payloadManager.registerPayloadType(new OverlayPayload(".ovl"));
     }
 
     @onTick()
     onTick() {
 
-        if (!this.helper.isTitleScreen()) {
-            this.eventTicks.forEach((value: Function, key: string) => {
-                value();
-            });
+        if (this.helper.isTitleScreen() || !this.helper.isSceneNumberValid()) return;
+        
+        // Loading zone check
+        if (this.helper.isLinkEnteringLoadingZone() && !this.touching_loading_zone) {
+            bus.emit(API.MMEvents.ON_LOADING_ZONE, {});
+            this.touching_loading_zone = true;
         }
+        // Scene change check
+        if (
+            this.global.scene_framecount === 1
+        ) {
+            this.last_known_scene = this.global.current_scene;
+            bus.emit(API.MMEvents.ON_SCENE_CHANGE, this.last_known_scene);
+            this.touching_loading_zone = false;
+        }
+        // Age check
+        if (this.save.form !== this.last_known_age){
+            this.last_known_age = this.save.form;
+            bus.emit(API.MMEvents.ON_AGE_CHANGE, this.last_known_age);
+        }
+
+        this.eventTicks.forEach((value: Function, key: string) => {
+            value();
+        });
 
         this.commandBuffer.onTick();
-    }
-}
-
-class find_init {
-    constructor() { }
-
-    find(buf: Buffer, locate: string): number {
-        let loc: Buffer = Buffer.from(locate, 'hex');
-        if (buf.indexOf(loc) > -1) {
-            return buf.indexOf(loc);
-        }
-        return -1;
-    }
-}
-
-interface ovl_meta {
-    init: string;
-    forceSlot: string;
-}
-
-export class OverlayPayload extends PayloadType {
-
-    private logger: ILogger;
-    private start: number = 0x80601A00;
-    private ovl_offset: number = 0;
-    private core: API.IMMCore;
-    private offsets = new API.MMOffsets;
-
-    constructor(ext: string, logger: ILogger, core: API.IMMCore) {
-        super(ext);
-        this.logger = logger;
-        this.core = core;
-    }
-
-    parse(file: string, buf: Buffer, dest: IMemory) {
-        this.logger.debug('Trying to allocate actor...');
-        let overlay_start: number = this.offsets.overlay_table;
-        let size = 0x01d6;
-        let empty_slots: number[] = new Array<number>();
-        for (let i = 0; i < size; i++) {
-            let entry_start: number = overlay_start + i * 0x20;
-            let _i: number = dest.rdramRead32(entry_start + 0x14);
-            let total = 0;
-            total += _i;
-            if (total === 0) {
-                empty_slots.push(i);
-            }
-        }
-        this.logger.debug(empty_slots.length + ' empty actor slots found.');
-        let finder: find_init = new find_init();
-        let meta: ovl_meta = JSON.parse(
-            fs
-                .readFileSync(
-                    path.join(path.parse(file).dir, path.parse(file).name + '.json')
-                )
-                .toString()
-        );
-        let offset: number = finder.find(buf, meta.init);
-        if (offset === -1) {
-            this.logger.debug(
-                'Failed to find spawn parameters for actor ' +
-                path.parse(file).base +
-                '.'
-            );
-            return -1;
-        }
-        let slot: number = empty_slots.shift() as number;
-        if (meta.forceSlot !== undefined){
-            slot = parseInt(meta.forceSlot);
-        }
-        this.logger.debug(
-            'Assigning ' + path.parse(file).base + ' to slot ' + slot + '.'
-        );
-        let final: number = this.start + this.ovl_offset;
-        dest.rdramWrite32(slot * 0x20 + overlay_start + 0x14, final + offset);
-        buf.writeUInt8(slot, offset + 0x1);
-        dest.rdramWriteBuffer(final, buf);
-        this.ovl_offset += buf.byteLength;
-        let relocate_final: number = this.start + this.ovl_offset;
-        dest.rdramWrite32(this.start + this.ovl_offset, final);
-        this.ovl_offset += 0x4;
-        dest.rdramWrite32(this.start + this.ovl_offset, final + (buf.byteLength - buf.readUInt32BE(buf.byteLength - 0x4)));
-        this.ovl_offset += 0x4;
-        dest.rdramWrite32(this.start + this.ovl_offset, 0x80800000);
-        this.ovl_offset += 0x4;
-        dest.rdramWrite32(this.start + this.ovl_offset, buf.byteLength);
-        this.ovl_offset += 0x4;
-        let params: Buffer = Buffer.from("00014600C50046000000000000000000", 'hex');
-        let params_addr: number = this.start + this.ovl_offset;
-        dest.rdramWriteBuffer(params_addr, params);
-        dest.rdramWrite16(params_addr, slot);
-        this.ovl_offset += params.byteLength;
-        let hash: string = this.core.ModLoader.utils.hashBuffer(buf);
-        this.core.commandBuffer.runCommand(API.Command.RELOCATE_OVL, relocate_final, () => {
-            let hash2: string = this.core.ModLoader.utils.hashBuffer(dest.rdramReadBuffer(final, buf.byteLength));
-            if (hash !== hash2) {
-                this.logger.debug("ovl " + path.parse(file).base + " relocated successfully!");
-            }
-        });
-        return {
-            file: file, slot: slot, addr: final, params: params_addr, buf: buf, relocate: relocate_final, spawn: (obj: any, cb?: Function) => {
-                if (cb !== undefined) {
-                    this.core.commandBuffer.runCommand(API.Command.SPAWN_ACTOR, obj["params"], cb);
-                } else {
-                    this.core.commandBuffer.runCommand(API.Command.SPAWN_ACTOR, obj["params"]);
-                }
-            }
-        } as API.IOvlPayloadResult;
     }
 }

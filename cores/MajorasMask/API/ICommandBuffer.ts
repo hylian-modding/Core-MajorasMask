@@ -8,7 +8,8 @@ export const enum Command {
   PLAY_MUSIC,
   RELOCATE_OVL
 }
-  
-  export interface ICommandBuffer {
-    runCommand(command: Command, param: number, callback?: Function): void;
-  }
+
+export interface ICommandBuffer {
+  runCommand(command: Command, param: number, callback?: Function): boolean;
+  runWarp(entrance: number, cutscene: number, callback?: Function): void;
+}

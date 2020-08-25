@@ -1,7 +1,7 @@
 import { IActor } from './IActor';
 import { IDungeonItemManager } from './IDungeonItemManager';
 import { ICore } from 'modloader64_api/IModLoaderAPI';
-import { ICommandBuffer } from './ICommandBuffer';
+import { Command, ICommandBuffer } from 'modloader64_api/OOT/ICommandBuffer';
 import Vector3 from 'modloader64_api/math/Vector3';
 import { IPacketHeader } from 'modloader64_api/NetworkHandler';
 

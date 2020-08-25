@@ -1,5 +1,5 @@
 import IMemory from 'modloader64_api/IMemory';
-import * as API from '../API/Imports';
+import { Command, ICommandBuffer } from 'modloader64_api/OOT/ICommandBuffer';
 
 const instance: number = 0x00800000 + 0x100;
 const slotSize = 0x8;
@@ -17,11 +17,11 @@ export class CommandBufferSlot {
         this.emulator = emulator;
     }
 
-    get cmd(): API.Command {
+    get cmd(): Command {
         return this.emulator.rdramRead32(this.addr_cmd);
     }
 
-    set cmd(command: API.Command) {
+    set cmd(command: Command) {
         this.emulator.rdramWrite32(this.addr_cmd, command);
     }
 
@@ -38,7 +38,7 @@ export class CommandBufferSlot {
     }
 }
 
-export class CommandBuffer implements API.ICommandBuffer {
+export class CommandBuffer implements ICommandBuffer {
     private readonly slots: CommandBufferSlot[] = new Array<CommandBufferSlot>(
         slotCount
     );
@@ -50,7 +50,7 @@ export class CommandBuffer implements API.ICommandBuffer {
         }
     }
 
-    /*runWarp(entrance: number, cutscene: number, callback: Function | undefined = () => { }): void {
+    runWarp(entrance: number, cutscene: number, callback: Function | undefined = () => { }): void {
         for (let i = 0; i < slotCount; i++) {
             if (this.slots[i].cmd === 0) {
                 // Free slot.
@@ -62,10 +62,10 @@ export class CommandBuffer implements API.ICommandBuffer {
                 break;
             }
         }
-    }*/
+    }
 
     runCommand(
-        command: API.Command,
+        command: Command,
         param: number,
         callback: Function = () => { }
     ): boolean {
