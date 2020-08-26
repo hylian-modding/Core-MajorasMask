@@ -64,6 +64,7 @@ export class Inventory extends JSONTemplate implements API.IInventory {
       'FIELD_MASK_GIBDO',
       'FIELD_MASK_GARO',
       'FIELD_MASK_CAPTAIN',
+      'FIELD_MASK_GIANT',
       'FIELD_MASK_FIERCE_DEITY',
   ];
 
