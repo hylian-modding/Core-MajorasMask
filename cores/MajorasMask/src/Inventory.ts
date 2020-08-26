@@ -74,7 +74,7 @@ export class Inventory extends JSONTemplate implements API.IInventory {
   }
 
     get FIELD_OCARINA(): API.Ocarina {
-        let val = this.getItemInSlot(API.InventoryItem.OCARINA_OF_TIME)
+        let val = this.getItemInSlot(API.InventorySlots.OCARINA_OF_TIME)
         if(val) return API.Ocarina.OCARINA_OF_TIME;
         return API.Ocarina.NONE;
     }
@@ -84,7 +84,7 @@ export class Inventory extends JSONTemplate implements API.IInventory {
     }
 
     get FIELD_HEROES_BOW(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.HEROES_BOW)
+        let val = this.getItemInSlot(API.InventorySlots.HEROES_BOW)
         return !(val === API.InventoryItem.NONE);
     }
     set FIELD_HEROES_BOW(bow: boolean) {
@@ -93,336 +93,339 @@ export class Inventory extends JSONTemplate implements API.IInventory {
     }
 
     get FIELD_FIRE_ARROW(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.FIRE_ARROW)
+        let val = this.getItemInSlot(API.InventorySlots.FIRE_ARROWS)
         return !(val === API.InventoryItem.NONE);
     }
     set FIELD_FIRE_ARROW(bool: boolean) {
         let value = bool ? API.InventoryItem.FIRE_ARROW : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.FIRE_ARROW)
+        this.setItemInSlot(value, API.InventorySlots.FIRE_ARROWS)
     }
 
     get FIELD_ICE_ARROW(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.FIRE_ARROW)
+        let val = this.getItemInSlot(API.InventorySlots.FIRE_ARROWS)
         return !(val === API.InventoryItem.NONE);
     }
     set FIELD_ICE_ARROW(bool: boolean) {
         let value = bool ? API.InventoryItem.ICE_ARROW : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.ICE_ARROW)
+        this.setItemInSlot(value, API.InventorySlots.ICE_ARROWS)
     }
 
     get FIELD_LIGHT_ARROW(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.FIRE_ARROW)
+        let val = this.getItemInSlot(API.InventorySlots.FIRE_ARROWS)
         return !(val === API.InventoryItem.NONE);
     }
     set FIELD_LIGHT_ARROW(lightA: boolean) {
         let value = lightA ? API.InventoryItem.LIGHT_ARROW : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.LIGHT_ARROW)
+        this.setItemInSlot(value, API.InventorySlots.LIGHT_ARROWS)
     }
 
     get FIELD_BOMB(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.BOMB)
+        let val = this.getItemInSlot(API.InventorySlots.BOMBS)
         return !(val === API.InventoryItem.NONE);
     }
     set FIELD_BOMB(bool: boolean) {
         let value = bool ? API.InventoryItem.BOMB : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.BOMB)
+        this.setItemInSlot(value, API.InventorySlots.BOMBS)
     }
 
     get FIELD_BOMBCHU(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.BOMBCHU)
+        let val = this.getItemInSlot(API.InventorySlots.BOMBCHUS)
         return !(val === API.InventoryItem.NONE);
     }
     set FIELD_BOMBCHU(bool: boolean) {
         let value = bool ? API.InventoryItem.BOMBCHU : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.BOMBCHU)
+        this.setItemInSlot(value, API.InventorySlots.BOMBCHUS)
     }
 
     get FIELD_DEKU_STICKS(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.DEKU_STICK)
+        let val = this.getItemInSlot(API.InventorySlots.DEKU_STICKS)
         return !(val === API.InventoryItem.NONE);
     }
     set FIELD_DEKU_STICKS(bool: boolean) {
         let value = bool ? API.InventoryItem.DEKU_STICK : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.DEKU_STICK)
+        this.setItemInSlot(value, API.InventorySlots.DEKU_STICKS)
     }
 
     get FIELD_DEKU_NUT(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.DEKU_NUT)
+        let val = this.getItemInSlot(API.InventorySlots.DEKU_NUTS)
         return !(val === API.InventoryItem.NONE);
     }
     set FIELD_DEKU_NUT(bool: boolean) {
         let value = bool ? API.InventoryItem.DEKU_NUT : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.DEKU_NUT)
+        this.setItemInSlot(value, API.InventorySlots.DEKU_NUTS)
     }
 
     get FIELD_MAGIC_BEAN(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.MAGIC_BEANS)
+        let val = this.getItemInSlot(API.InventorySlots.MAGIC_BEANS)
         return !(val === API.InventoryItem.NONE);
     }
     set FIELD_MAGIC_BEAN(bool: boolean) {
         let value = bool ? API.InventoryItem.MAGIC_BEANS : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.MAGIC_BEANS)
+        this.setItemInSlot(value, API.InventorySlots.MAGIC_BEANS)
     }
 
     get FIELD_POWDER_KEG(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.POWDER_KEG)
+        let val = this.getItemInSlot(API.InventorySlots.POWDER_KEG)
         return !(val === API.InventoryItem.NONE);
     }
     set FIELD_POWDER_KEG(bool: boolean) {
         let value = bool ? API.InventoryItem.POWDER_KEG : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.POWDER_KEG)
+        this.setItemInSlot(value, API.InventorySlots.POWDER_KEG)
     }
 
     get FIELD_PICTOGRAPH_BOX(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.PICTOGRAPH_BOX)
+        let val = this.getItemInSlot(API.InventorySlots.PICTOGRAPH_BOX)
         return !(val === API.InventoryItem.NONE);
     }
     set FIELD_PICTOGRAPH_BOX(bool: boolean) {
         let value = bool ? API.InventoryItem.PICTOGRAPH_BOX : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.PICTOGRAPH_BOX)
+        this.setItemInSlot(value, API.InventorySlots.PICTOGRAPH_BOX)
     }
 
     get FIELD_LENS_OF_TRUTH(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.LENS_OF_TRUTH)
+        let val = this.getItemInSlot(API.InventorySlots.LENS_OF_TRUTH)
         return !(val === API.InventoryItem.NONE);
     }
     set FIELD_LENS_OF_TRUTH(bool: boolean) {
         let value = bool ? API.InventoryItem.LENS_OF_TRUTH : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.LENS_OF_TRUTH)
+        this.setItemInSlot(value, API.InventorySlots.LENS_OF_TRUTH)
     }
 
     get FIELD_HOOKSHOT(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.HOOKSHOT)
+        let val = this.getItemInSlot(API.InventorySlots.HOOKSHOT)
         return !(val === API.InventoryItem.NONE);
     }
     set FIELD_HOOKSHOT(bool: boolean) {
         let value = bool ? API.InventoryItem.HOOKSHOT : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.HOOKSHOT)
+        this.setItemInSlot(value, API.InventorySlots.HOOKSHOT)
     }
 
     get FIELD_GREAT_FAIRYS_SWORD(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.GREAT_FAIRYS_SWORD)
+        let val = this.getItemInSlot(API.InventorySlots.GREAT_FAIRYS_SWORD)
         return !(val === API.InventoryItem.NONE);
     }
     set FIELD_GREAT_FAIRYS_SWORD(bool: boolean) {
         let value = bool ? API.InventoryItem.GREAT_FAIRYS_SWORD : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.GREAT_FAIRYS_SWORD)
-    }
-
-    get FIELD_MASK_DEKU(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.MASK_DEKU)
-        return !(val === API.InventoryItem.NONE);
-    }
-    set FIELD_MASK_DEKU(bool: boolean) {
-        let value = bool ? API.InventoryItem.MASK_DEKU : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.SLOT_MASK_DEKU)
-    }
-
-    get FIELD_MASK_GORON(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.MASK_GORON)
-        return !(val === API.InventoryItem.NONE);
-    }
-    set FIELD_MASK_GORON(bool: boolean) {
-        let value = bool ? API.InventoryItem.MASK_GORON : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.SLOT_MASK_GORON)
-    }
-
-    get FIELD_MASK_ZORA(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.MASK_ZORA)
-        return !(val === API.InventoryItem.NONE);
-    }
-    set FIELD_MASK_ZORA(bool: boolean) {
-        let value = bool ? API.InventoryItem.MASK_ZORA : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.SLOT_MASK_ZORA)
-    }
-
-    get FIELD_MASK_GIANT(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.MASK_FIERCE_DEITY)
-        return !(val === API.InventoryItem.NONE);
-    }
-    set FIELD_MASK_GIANT(bool: boolean) {
-        let value = bool ? API.InventoryItem.MASK_FIERCE_DEITY : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.SLOT_MASK_FIERCE_DEITY)
-    }
-
-    get FIELD_MASK_OF_TRUTH(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.MASK_OF_TRUTH)
-        return !(val === API.InventoryItem.NONE);
-    }
-    set FIELD_MASK_OF_TRUTH(bool: boolean) {
-        let value = bool ? API.InventoryItem.MASK_OF_TRUTH : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.SLOT_MASK_OF_TRUTH)
-    }
-
-    get FIELD_MASK_KAFEI(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.MASK_KAFEI)
-        return !(val === API.InventoryItem.NONE);
-    }
-    set FIELD_MASK_KAFEI(bool: boolean) {
-        let value = bool ? API.InventoryItem.MASK_KAFEI : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.SLOT_MASK_KAFEI)
-    }
-
-    get FIELD_MASK_ALL_NIGHT(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.MASK_ALL_NIGHT)
-        return !(val === API.InventoryItem.NONE);
-    }
-    set FIELD_MASK_ALL_NIGHT(bool: boolean) {
-        let value = bool ? API.InventoryItem.MASK_ALL_NIGHT : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.SLOT_MASK_ALL_NIGHT)
-    }
-
-    get FIELD_MASK_BUNNY_HOOD(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.MASK_BUNNY_HOOD)
-        return !(val === API.InventoryItem.NONE);
-    }
-    set FIELD_MASK_BUNNY_HOOD(bool: boolean) {
-        let value = bool ? API.InventoryItem.MASK_BUNNY_HOOD : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.SLOT_MASK_BUNNY_HOOD)
-    }
-
-    get FIELD_MASK_KEATON(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.MASK_KEATON)
-        return !(val === API.InventoryItem.NONE);
-    }
-    set FIELD_MASK_KEATON(bool: boolean) {
-        let value = bool ? API.InventoryItem.MASK_KEATON : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.SLOT_MASK_KEATON)
-    }
-
-    get FIELD_MASK_GARO(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.MASK_GARO)
-        return !(val === API.InventoryItem.NONE);
-    }
-    set FIELD_MASK_GARO(bool: boolean) {
-        let value = bool ? API.InventoryItem.MASK_GARO : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.SLOT_MASK_GARO)
-    }
-
-    get FIELD_MASK_ROMANI(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.MASK_ROMANI)
-        return !(val === API.InventoryItem.NONE);
-    }
-    set FIELD_MASK_ROMANI(bool: boolean) {
-        let value = bool ? API.InventoryItem.MASK_ROMANI : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.SLOT_MASK_ROMANI)
-    }
-
-    get FIELD_MASK_CIRCUS_LEADER(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.MASK_CIRCUS_LEADER)
-        return !(val === API.InventoryItem.NONE);
-    }
-    set FIELD_MASK_CIRCUS_LEADER(bool: boolean) {
-        let value = bool ? API.InventoryItem.MASK_CIRCUS_LEADER : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.SLOT_MASK_CIRCUS_LEADER)
+        this.setItemInSlot(value, API.InventorySlots.GREAT_FAIRYS_SWORD)
     }
 
     get FIELD_MASK_POSTMAN(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.MASK_POSTMAN)
+        let val = this.getItemInSlot(API.InventorySlots.MASK_POSTMAN)
         return !(val === API.InventoryItem.NONE);
     }
     set FIELD_MASK_POSTMAN(bool: boolean) {
         let value = bool ? API.InventoryItem.MASK_POSTMAN : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.SLOT_MASK_POSTMAN)
+        this.setItemInSlot(value, API.InventorySlots.MASK_POSTMAN)
     }
 
-    get FIELD_MASK_COUPLES(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.MASK_COUPLES)
+    get FIELD_MASK_ALL_NIGHT(): boolean {
+        let val = this.getItemInSlot(API.InventorySlots.MASK_POSTMAN)
         return !(val === API.InventoryItem.NONE);
     }
-    set FIELD_MASK_COUPLES(bool: boolean) {
-        let value = bool ? API.InventoryItem.MASK_COUPLES : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.SLOT_MASK_COUPLES)
-    }
-
-    get FIELD_MASK_GREAT_FAIRY(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.MASK_GREAT_FAIRY)
-        return !(val === API.InventoryItem.NONE);
-    }
-    set FIELD_MASK_GREAT_FAIRY(bool: boolean) {
-        let value = bool ? API.InventoryItem.MASK_GREAT_FAIRY : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.SLOT_MASK_GREAT_FAIRY)
-    }
-
-    get FIELD_MASK_GIBDO(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.MASK_GIBDO)
-        return !(val === API.InventoryItem.NONE);
-    }
-    set FIELD_MASK_GIBDO(bool: boolean) {
-        let value = bool ? API.InventoryItem.MASK_GIBDO : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.SLOT_MASK_GIBDO)
-    }
-
-    get FIELD_MASK_DON_GERO(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.MASK_DON_GERO)
-        return !(val === API.InventoryItem.NONE);
-    }
-    set FIELD_MASK_DON_GERO(bool: boolean) {
-        let value = bool ? API.InventoryItem.MASK_DON_GERO : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.SLOT_MASK_DON_GERO)
-    }
-
-    get FIELD_MASK_KAMERO(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.MASK_KAMERO)
-        return !(val === API.InventoryItem.NONE);
-    }
-    set FIELD_MASK_KAMERO(bool: boolean) {
-        let value = bool ? API.InventoryItem.MASK_KAMERO : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.SLOT_MASK_KAMERO)
-    }
-
-    get FIELD_MASK_CAPTAIN(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.MASK_CAPTAIN)
-        return !(val === API.InventoryItem.NONE);
-    }
-    set FIELD_MASK_CAPTAIN(bool: boolean) {
-        let value = bool ? API.InventoryItem.MASK_CAPTAIN : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.SLOT_MASK_CAPTAIN)
-    }
-
-    get FIELD_MASK_STONE(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.MASK_STONE)
-        return !(val === API.InventoryItem.NONE);
-    }
-    set FIELD_MASK_STONE(bool: boolean) {
-        let value = bool ? API.InventoryItem.MASK_STONE : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.SLOT_MASK_STONE)
-    }
-
-    get FIELD_MASK_BREMEN(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.MASK_BREMEN)
-        return !(val === API.InventoryItem.NONE);
-    }
-    set FIELD_MASK_BREMEN(bool: boolean) {
-        let value = bool ? API.InventoryItem.MASK_BREMEN : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.SLOT_MASK_BREMEN)
+    set FIELD_MASK_ALL_NIGHT(bool: boolean) {
+        let value = bool ? API.InventoryItem.MASK_ALL_NIGHT : API.InventoryItem.NONE;
+        this.setItemInSlot(value, API.InventorySlots.MASK_ALL_NIGHT)
     }
 
     get FIELD_MASK_BLAST(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.MASK_BLAST)
+        let val = this.getItemInSlot(API.InventorySlots.MASK_BLAST)
         return !(val === API.InventoryItem.NONE);
     }
     set FIELD_MASK_BLAST(bool: boolean) {
         let value = bool ? API.InventoryItem.MASK_BLAST : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.SLOT_MASK_BLAST)
+        this.setItemInSlot(value, API.InventorySlots.MASK_BLAST)
+    }
+
+    get FIELD_MASK_STONE(): boolean {
+        let val = this.getItemInSlot(API.InventorySlots.MASK_STONE)
+        return !(val === API.InventoryItem.NONE);
+    }
+    set FIELD_MASK_STONE(bool: boolean) {
+        let value = bool ? API.InventoryItem.MASK_STONE : API.InventoryItem.NONE;
+        this.setItemInSlot(value, API.InventorySlots.MASK_STONE)
+    }
+
+    get FIELD_MASK_GREAT_FAIRY(): boolean {
+        let val = this.getItemInSlot(API.InventorySlots.MASK_GREAT_FAIRY)
+        return !(val === API.InventoryItem.NONE);
+    }
+    set FIELD_MASK_GREAT_FAIRY(bool: boolean) {
+        let value = bool ? API.InventoryItem.MASK_GREAT_FAIRY : API.InventoryItem.NONE;
+        this.setItemInSlot(value, API.InventorySlots.MASK_GREAT_FAIRY)
+    }
+
+    get FIELD_MASK_DEKU(): boolean {
+        let val = this.getItemInSlot(API.InventorySlots.MASK_DEKU)
+        return !(val === API.InventoryItem.NONE);
+    }
+    set FIELD_MASK_DEKU(bool: boolean) {
+        let value = bool ? API.InventoryItem.MASK_DEKU : API.InventoryItem.NONE;
+        this.setItemInSlot(value, API.InventorySlots.MASK_DEKU)
+    }
+
+    get FIELD_MASK_KEATON(): boolean {
+        let val = this.getItemInSlot(API.InventorySlots.MASK_KEATON)
+        return !(val === API.InventoryItem.NONE);
+    }
+    set FIELD_MASK_KEATON(bool: boolean) {
+        let value = bool ? API.InventoryItem.MASK_KEATON : API.InventoryItem.NONE;
+        this.setItemInSlot(value, API.InventorySlots.MASK_KEATON)
+    }
+
+    get FIELD_MASK_BREMEN(): boolean {
+        let val = this.getItemInSlot(API.InventorySlots.MASK_BREMEN)
+        return !(val === API.InventoryItem.NONE);
+    }
+    set FIELD_MASK_BREMEN(bool: boolean) {
+        let value = bool ? API.InventoryItem.MASK_BREMEN : API.InventoryItem.NONE;
+        this.setItemInSlot(value, API.InventorySlots.MASK_BREMEN)
+    }
+
+    get FIELD_MASK_BUNNY_HOOD(): boolean {
+        let val = this.getItemInSlot(API.InventorySlots.MASK_BUNNY_HOOD)
+        return !(val === API.InventoryItem.NONE);
+    }
+    set FIELD_MASK_BUNNY_HOOD(bool: boolean) {
+        let value = bool ? API.InventoryItem.MASK_BUNNY_HOOD : API.InventoryItem.NONE;
+        this.setItemInSlot(value, API.InventorySlots.MASK_BUNNY_HOOD)
+    }
+
+    get FIELD_MASK_DON_GERO(): boolean {
+        let val = this.getItemInSlot(API.InventorySlots.MASK_DON_GERO)
+        return !(val === API.InventoryItem.NONE);
+    }
+    set FIELD_MASK_DON_GERO(bool: boolean) {
+        let value = bool ? API.InventoryItem.MASK_DON_GERO : API.InventoryItem.NONE;
+        this.setItemInSlot(value, API.InventorySlots.MASK_DON_GERO)
     }
 
     get FIELD_MASK_OF_SCENTS(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.MASK_OF_SCENTS)
+        let val = this.getItemInSlot(API.InventorySlots.MASK_OF_SCENTS)
         return !(val === API.InventoryItem.NONE);
     }
     set FIELD_MASK_OF_SCENTS(bool: boolean) {
         let value = bool ? API.InventoryItem.MASK_OF_SCENTS : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.SLOT_MASK_OF_SCENTS)
+        this.setItemInSlot(value, API.InventorySlots.MASK_OF_SCENTS)
+    }
+
+    get FIELD_MASK_GORON(): boolean {
+        let val = this.getItemInSlot(API.InventorySlots.MASK_GORON)
+        return !(val === API.InventoryItem.NONE);
+    }
+    set FIELD_MASK_GORON(bool: boolean) {
+        let value = bool ? API.InventoryItem.MASK_GORON : API.InventoryItem.NONE;
+        this.setItemInSlot(value, API.InventorySlots.MASK_GORON)
+    }
+
+    get FIELD_MASK_ROMANI(): boolean {
+        let val = this.getItemInSlot(API.InventorySlots.MASK_ROMANI)
+        return !(val === API.InventoryItem.NONE);
+    }
+    set FIELD_MASK_ROMANI(bool: boolean) {
+        let value = bool ? API.InventoryItem.MASK_ROMANI : API.InventoryItem.NONE;
+        this.setItemInSlot(value, API.InventorySlots.MASK_ROMANI)
+    }
+
+    get FIELD_MASK_CIRCUS_LEADER(): boolean {
+        let val = this.getItemInSlot(API.InventorySlots.MASK_CIRCUS_LEADER)
+        return !(val === API.InventoryItem.NONE);
+    }
+    set FIELD_MASK_CIRCUS_LEADER(bool: boolean) {
+        let value = bool ? API.InventoryItem.MASK_CIRCUS_LEADER : API.InventoryItem.NONE;
+        this.setItemInSlot(value, API.InventorySlots.MASK_CIRCUS_LEADER)
+    }
+
+    get FIELD_MASK_KAFEI(): boolean {
+        let val = this.getItemInSlot(API.InventorySlots.MASK_KAFEI)
+        return !(val === API.InventoryItem.NONE);
+    }
+    set FIELD_MASK_KAFEI(bool: boolean) {
+        let value = bool ? API.InventoryItem.MASK_KAFEI : API.InventoryItem.NONE;
+        this.setItemInSlot(value, API.InventorySlots.MASK_KAFEI)
+    }
+
+    get FIELD_MASK_COUPLES(): boolean {
+        let val = this.getItemInSlot(API.InventorySlots.MASK_COUPLES)
+        return !(val === API.InventoryItem.NONE);
+    }
+    set FIELD_MASK_COUPLES(bool: boolean) {
+        let value = bool ? API.InventoryItem.MASK_COUPLES : API.InventoryItem.NONE;
+        this.setItemInSlot(value, API.InventorySlots.MASK_COUPLES)
+    }
+
+    get FIELD_MASK_OF_TRUTH(): boolean {
+        let val = this.getItemInSlot(API.InventorySlots.MASK_OF_TRUTH)
+        return !(val === API.InventoryItem.NONE);
+    }
+    set FIELD_MASK_OF_TRUTH(bool: boolean) {
+        let value = bool ? API.InventoryItem.MASK_OF_TRUTH : API.InventoryItem.NONE;
+        this.setItemInSlot(value, API.InventorySlots.MASK_OF_TRUTH)
+    }
+
+    get FIELD_MASK_ZORA(): boolean {
+        let val = this.getItemInSlot(API.InventorySlots.MASK_ZORA)
+        return !(val === API.InventoryItem.NONE);
+    }
+    set FIELD_MASK_ZORA(bool: boolean) {
+        let value = bool ? API.InventoryItem.MASK_ZORA : API.InventoryItem.NONE;
+        this.setItemInSlot(value, API.InventorySlots.MASK_ZORA)
+    }
+
+    get FIELD_MASK_KAMERO(): boolean {
+        let val = this.getItemInSlot(API.InventorySlots.MASK_KAMERO)
+        return !(val === API.InventoryItem.NONE);
+    }
+    set FIELD_MASK_KAMERO(bool: boolean) {
+        let value = bool ? API.InventoryItem.MASK_KAMERO : API.InventoryItem.NONE;
+        this.setItemInSlot(value, API.InventorySlots.MASK_KAMERO)
+    }
+
+
+    get FIELD_MASK_GIBDO(): boolean {
+        let val = this.getItemInSlot(API.InventorySlots.MASK_GIBDO)
+        return !(val === API.InventoryItem.NONE);
+    }
+    set FIELD_MASK_GIBDO(bool: boolean) {
+        let value = bool ? API.InventoryItem.MASK_GIBDO : API.InventoryItem.NONE;
+        this.setItemInSlot(value, API.InventorySlots.MASK_GIBDO)
+    }
+
+
+    get FIELD_MASK_GARO(): boolean {
+        let val = this.getItemInSlot(API.InventorySlots.MASK_GARO)
+        return !(val === API.InventoryItem.NONE);
+    }
+    set FIELD_MASK_GARO(bool: boolean) {
+        let value = bool ? API.InventoryItem.MASK_GARO : API.InventoryItem.NONE;
+        this.setItemInSlot(value, API.InventorySlots.MASK_GARO)
+    }
+
+
+    get FIELD_MASK_CAPTAIN(): boolean {
+        let val = this.getItemInSlot(API.InventorySlots.MASK_CAPTAIN)
+        return !(val === API.InventoryItem.NONE);
+    }
+    set FIELD_MASK_CAPTAIN(bool: boolean) {
+        let value = bool ? API.InventoryItem.MASK_CAPTAIN : API.InventoryItem.NONE;
+        this.setItemInSlot(value, API.InventorySlots.MASK_CAPTAIN)
+    }
+
+    get FIELD_MASK_GIANT(): boolean {
+        let val = this.getItemInSlot(API.InventorySlots.MASK_GIANT)
+        return !(val === API.InventoryItem.NONE);
+    }
+    set FIELD_MASK_GIANT(bool: boolean) {
+        let value = bool ? API.InventoryItem.MASK_GIANT : API.InventoryItem.NONE;
+        this.setItemInSlot(value, API.InventorySlots.MASK_GIANT)
     }
 
     get FIELD_MASK_FIERCE_DEITY(): boolean {
-        let val = this.getItemInSlot(API.InventoryItem.MASK_FIERCE_DEITY)
+        let val = this.getItemInSlot(API.InventorySlots.MASK_FIERCE_DEITY)
         return !(val === API.InventoryItem.NONE);
     }
     set FIELD_MASK_FIERCE_DEITY(bool: boolean) {
         let value = bool ? API.InventoryItem.MASK_FIERCE_DEITY : API.InventoryItem.NONE;
-        this.setItemInSlot(value, API.InventoryItem.SLOT_MASK_FIERCE_DEITY)
+        this.setItemInSlot(value, API.InventorySlots.MASK_FIERCE_DEITY)
     }
 
 
@@ -901,7 +904,7 @@ set FIELD_BOTTLE5(content: API.InventoryItem) {
   }
 
   getSlotForItem(item: API.InventoryItem): number {
-      for (let i = 0; i <=  API.InventoryItem.SLOT_MASK_FIERCE_DEITY; i++) {
+      for (let i = 0; i <=  API.InventoryItem.MASK_FIERCE_DEITY; i++) {
           if (this.getItemInSlot(i) == item) {
               return i;
           }
@@ -910,7 +913,7 @@ set FIELD_BOTTLE5(content: API.InventoryItem) {
   }
   getSlotsForItem(item: API.InventoryItem): number[] {
       let slots: number[] = new Array();
-      for (let i = 0; i <=  API.InventoryItem.SLOT_MASK_FIERCE_DEITY; i++) {
+      for (let i = 0; i <=  API.InventoryItem.MASK_FIERCE_DEITY; i++) {
           if (this.getItemInSlot(i) == item) {
               slots.push(i);
           }
