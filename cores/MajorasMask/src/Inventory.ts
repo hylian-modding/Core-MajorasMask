@@ -65,7 +65,6 @@ export class Inventory extends JSONTemplate implements API.IInventory {
       'FIELD_MASK_GARO',
       'FIELD_MASK_CAPTAIN',
       'FIELD_MASK_FIERCE_DEITY',
-      'FIELD_MASK_FIERCE_DEITY',
   ];
 
   constructor(emu: IMemory, log: ILogger) {
@@ -902,7 +901,7 @@ set FIELD_BOTTLE5(content: API.InventoryItem) {
   }
 
   getSlotForItem(item: API.InventoryItem): number {
-      for (let i = 0; i <=  API.InventoryItem.MASK_FIERCE_DEITY; i++) {
+      for (let i = 0; i <=  API.InventoryItem.SLOT_MASK_FIERCE_DEITY; i++) {
           if (this.getItemInSlot(i) == item) {
               return i;
           }
@@ -911,7 +910,7 @@ set FIELD_BOTTLE5(content: API.InventoryItem) {
   }
   getSlotsForItem(item: API.InventoryItem): number[] {
       let slots: number[] = new Array();
-      for (let i = 0; i <=  API.InventoryItem.MASK_FIERCE_DEITY; i++) {
+      for (let i = 0; i <=  API.InventoryItem.SLOT_MASK_FIERCE_DEITY; i++) {
           if (this.getItemInSlot(i) == item) {
               slots.push(i);
           }
