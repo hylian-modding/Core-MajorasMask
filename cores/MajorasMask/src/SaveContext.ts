@@ -141,7 +141,7 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
     }
 
     get item_inventory(): Buffer {
-        return this.emulator.rdramReadBuffer(this.offsets.inventory, 0x18);
+        return this.emulator.rdramReadBuffer(this.offsets.inventory, 0x30);
     }
 
     set item_inventory(flag: Buffer) {
