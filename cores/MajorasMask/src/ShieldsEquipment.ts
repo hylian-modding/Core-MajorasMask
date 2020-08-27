@@ -3,15 +3,15 @@ import * as API from '../API/Imports';
 import { JSONTemplate } from 'modloader64_api/JSONTemplate';
 
 export const enum ShieldBitMap {
-  HEROES = 4,
-  MIRROR = 5,
+  HEROES = 0x3,
+  MIRROR = 0x2,
 }
 
 export class ShieldsEquipment extends JSONTemplate implements API.IShields {
   private emulator: IMemory;
   private offsets = new API.MMOffsets;
   private instance: number = this.offsets.save_context;
-  private equipment_addr: number = this.instance + 0x009c + 1;
+  private equipment_addr: number = this.instance + 0x009c;
   jsonFields: string[] = ['heroesShield', 'mirrorShield'];
   constructor(emulator: IMemory) {
       super();

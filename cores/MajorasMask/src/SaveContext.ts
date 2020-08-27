@@ -124,6 +124,23 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         this.emulator.rdramWrite16(this.offsets.owl_statues, flag);
     }
 
+    get map_visible(): number {
+        return this.emulator.rdramRead32(this.offsets.map_visible);
+    }
+
+    set map_visible(flag: number) {
+        this.emulator.rdramWrite32(this.offsets.map_visible, flag);
+    }
+
+    get map_visited(): number {
+        return this.emulator.rdramRead32(this.offsets.map_visited);
+    }
+
+    set map_visited(flag: number) {
+        this.emulator.rdramWrite32(this.offsets.map_visited, flag);
+    }
+
+
     get tunic_boots(): number {
         return this.emulator.rdramRead8(this.offsets.tunic_boots);
     }
@@ -252,11 +269,11 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         this.emulator.rdramWrite16(this.offsets.max_heart_flag, flag);
     }
     
-    get bank_rupees(): number {
+    get bank(): number {
         return this.emulator.rdramRead16(this.offsets.bank_rupees);
     }
 
-    set bank_rupees(flag: number) {
+    set bank(flag: number) {
         this.emulator.rdramWrite16(this.offsets.bank_rupees, flag);
     }
 

@@ -23,6 +23,9 @@ export class MMOffsets {
     gui_isShown: number = 0x803FD77B;
     //Save Context
 
+    map_visited: number = 0x801F05CC; //0x4
+    map_visible: number = 0x801F05D0; //0x4
+
     max_heart_flag: number = 0x801EF6A4; //0x2
     hearts: number = 0x801EF6A6; //0x2
 

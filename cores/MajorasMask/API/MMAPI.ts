@@ -472,6 +472,10 @@ export interface ISaveContext {
   magic: number;
   deku_b_state: number;
   double_defense: number;
+  owl_statues: number;
+  map_visited: number;
+  map_visible: number;
+  bank: number;
 }
 
 export interface ILink extends IActor {
