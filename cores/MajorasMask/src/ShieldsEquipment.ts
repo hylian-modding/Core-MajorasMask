@@ -3,8 +3,8 @@ import * as API from '../API/Imports';
 import { JSONTemplate } from 'modloader64_api/JSONTemplate';
 
 export const enum ShieldBitMap {
-  HEROES = 2,
-  MIRROR = 1,
+  HEROES = 4,
+  MIRROR = 5,
 }
 
 export class ShieldsEquipment extends JSONTemplate implements API.IShields {

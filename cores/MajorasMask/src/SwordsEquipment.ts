@@ -3,9 +3,9 @@ import * as API from '../API/Imports';
 import { JSONTemplate } from 'modloader64_api/JSONTemplate';
 
 export const enum SwordBitMap {
-  KOKIRI = 7,
-  RAZOR = 6,
-  GILDED = 5
+  KOKIRI = 1,
+  RAZOR = 3,
+  GILDED = 2
 }
 
 export class SwordsEquipment extends JSONTemplate implements API.ISwords {

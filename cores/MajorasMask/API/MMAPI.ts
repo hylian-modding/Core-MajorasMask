@@ -323,6 +323,7 @@ export interface ISwords {
   kokiriSword: boolean;
   razorSword: boolean;
   gilded: boolean;
+
 }
 
 export interface IShields {
@@ -437,17 +438,29 @@ export interface IQuestStatus {
   elegyOfEmptiness: boolean;
   oathToOrder: boolean;
 
+  preludeIcon: boolean;
+  unknown1: boolean;
+  unknown2: boolean;
+  unknown3: boolean;
+  unknown4: boolean;
+  unknown5: boolean;
+
+  lullabyIntro: boolean;
+
   bombersNotebook: boolean;
 
-  heartPieces: number;
+  heartPieces1: boolean;
+  heartPieces2: boolean;
+  heartPieces3: boolean;
+  heartPieces4: boolean;
 }
 
 export interface ISaveContext {
   scene_flags: Buffer;
   event_flags: Buffer;
+  inventory: IInventory;
   swords: ISwords;
   shields: IShields;
-  inventory: IInventory;
   questStatus: IQuestStatus;
   checksum: number;
   form: MMForms;
