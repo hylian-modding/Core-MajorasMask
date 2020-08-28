@@ -103,7 +103,7 @@ export class Inventory extends JSONTemplate implements API.IInventory {
     }
 
     get FIELD_ICE_ARROW(): boolean {
-        let val = this.getItemInSlot(API.InventorySlots.FIRE_ARROWS)
+        let val = this.getItemInSlot(API.InventorySlots.ICE_ARROWS)
         return !(val === API.InventoryItem.NONE);
     }
     set FIELD_ICE_ARROW(bool: boolean) {
@@ -112,7 +112,7 @@ export class Inventory extends JSONTemplate implements API.IInventory {
     }
 
     get FIELD_LIGHT_ARROW(): boolean {
-        let val = this.getItemInSlot(API.InventorySlots.FIRE_ARROWS)
+        let val = this.getItemInSlot(API.InventorySlots.LIGHT_ARROWS)
         return !(val === API.InventoryItem.NONE);
     }
     set FIELD_LIGHT_ARROW(lightA: boolean) {
@@ -879,7 +879,7 @@ set FIELD_BOTTLE5(content: API.InventoryItem) {
         if (item < API.InventoryItem.QSLOT3_LETTER_TO_KAFEI || item > API.InventoryItem.QSLOT3_PENDANT_OF_MEMORIES) {
             return;
         }
-        this.setItemInSlot(item,  API.InventorySlots.QUEST_ITEM_1);
+        this.setItemInSlot(item,  API.InventorySlots.QUEST_ITEM_3);
     }
 
     isEvt1TradeFinished(): boolean {
