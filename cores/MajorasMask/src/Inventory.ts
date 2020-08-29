@@ -391,7 +391,6 @@ export class Inventory extends JSONTemplate implements API.IInventory {
         this.setItemInSlot(value, API.InventorySlots.MASK_GIBDO)
     }
 
-
     get FIELD_MASK_GARO(): boolean {
         let val = this.getItemInSlot(API.InventorySlots.MASK_GARO)
         return !(val === API.InventoryItem.NONE);
@@ -400,7 +399,6 @@ export class Inventory extends JSONTemplate implements API.IInventory {
         let value = bool ? API.InventoryItem.MASK_GARO : API.InventoryItem.NONE;
         this.setItemInSlot(value, API.InventorySlots.MASK_GARO)
     }
-
 
     get FIELD_MASK_CAPTAIN(): boolean {
         let val = this.getItemInSlot(API.InventorySlots.MASK_CAPTAIN)
@@ -740,6 +738,13 @@ set arrows(count: number) {
       this.setAmmoInSlot( API.InventorySlots.DEKU_NUTS, count);
   }
   
+  get photoCount(): number {
+      return this.getAmmoForSlot(API.InventorySlots.PICTOGRAPH_BOX);
+  }
+  set photoCount(count: number) {
+    this.setAmmoInSlot( API.InventorySlots.PICTOGRAPH_BOX, count);
+  }
+
   get FIELD_BOTTLE1(): API.InventoryItem {
     return this.getItemInSlot( API.InventorySlots.BOTTLE1);
 }
@@ -750,7 +755,7 @@ set FIELD_BOTTLE1(content: API.InventoryItem) {
     ) {
         return;
     }
-    this.setItemInSlotBottle(content, API.InventorySlots.BOTTLE1);
+    this.setItemInSlot(content, API.InventorySlots.BOTTLE1);
 }
   get FIELD_BOTTLE2(): API.InventoryItem {
     return this.getItemInSlot( API.InventorySlots.BOTTLE2);
@@ -762,7 +767,7 @@ set FIELD_BOTTLE2(content: API.InventoryItem) {
     ) {
         return;
     }
-    this.setItemInSlotBottle(content, API.InventorySlots.BOTTLE2);
+    this.setItemInSlot(content, API.InventorySlots.BOTTLE2);
 }
   get FIELD_BOTTLE3(): API.InventoryItem {
     return this.getItemInSlot( API.InventorySlots.BOTTLE3);
@@ -774,7 +779,7 @@ set FIELD_BOTTLE3(content: API.InventoryItem) {
     ) {
         return;
     }
-    this.setItemInSlotBottle(content, API.InventorySlots.BOTTLE3);
+    this.setItemInSlot(content, API.InventorySlots.BOTTLE3);
 }
   get FIELD_BOTTLE4(): API.InventoryItem {
     return this.getItemInSlot( API.InventorySlots.BOTTLE4);
@@ -786,7 +791,7 @@ set FIELD_BOTTLE4(content: API.InventoryItem) {
     ) {
         return;
     }
-    this.setItemInSlotBottle(content, API.InventorySlots.BOTTLE4);
+    this.setItemInSlot(content, API.InventorySlots.BOTTLE4);
 }
   
   get FIELD_BOTTLE5(): API.InventoryItem {
@@ -799,7 +804,7 @@ set FIELD_BOTTLE5(content: API.InventoryItem) {
     ) {
         return;
     }
-    this.setItemInSlotBottle(content, API.InventorySlots.BOTTLE5);
+    this.setItemInSlot(content, API.InventorySlots.BOTTLE5);
 }
 
   get FIELD_BOTTLE6(): API.InventoryItem {
@@ -812,7 +817,7 @@ set FIELD_BOTTLE5(content: API.InventoryItem) {
       ) {
           return;
       }
-      this.setItemInSlotBottle(content, API.InventorySlots.BOTTLE6);
+      this.setItemInSlot(content, API.InventorySlots.BOTTLE6);
   }
 
   hasBottle(): boolean {
@@ -963,13 +968,6 @@ set FIELD_BOTTLE5(content: API.InventoryItem) {
       }
       this.emulator.rdramWrite8(this.inventory_addr + slot, item.valueOf());
   }
-  
-  setItemInSlotBottle(item: API.InventoryItem, slot: number): void {
-    if (slot < 0 || slot >  API.InventoryItem.MASK_FIERCE_DEITY) {
-        return;
-    }
-    this.emulator.rdramWrite8(this.inventory_addr + slot, item.valueOf());
-}
 
   giveItem(item: API.InventoryItem, desiredSlot:  API.InventorySlots) {
       if (

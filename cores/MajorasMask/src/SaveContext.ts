@@ -8,6 +8,7 @@ import { DungeonItemManager } from "./DungeonItemManager";
 import { QuestStatus } from "./QuestStatus";
 import { KeyManager } from "./KeyManager";
 import { IModLoaderAPI, ILogger } from "modloader64_api/IModLoaderAPI";
+import { Photo } from "./Photo";
 
 export class SaveContext extends JSONTemplate implements API.ISaveContext {
     
@@ -17,7 +18,7 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
     questStatus: API.IQuestStatus;
     keyManager: API.IKeyManager;
     dungeonItemManager: API.IDungeonItemManager;
-    
+
     constructor(emu: IMemory, log: ILogger) {
         super();
         this.emulator = emu;
@@ -27,7 +28,10 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         this.questStatus = new QuestStatus(emu);
         this.keyManager = new KeyManager(emu);
         this.dungeonItemManager = new DungeonItemManager(emu);
+        this.photo = new Photo(emu);
     }
+
+    photo: API.IPhoto;
 
     swords: SwordsEquipment;
     shields: ShieldsEquipment;
@@ -277,60 +281,50 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         this.emulator.rdramWrite16(this.offsets.bank_rupees, flag);
     }
 
-    get liveSceneData_chests(): Buffer {
-        return this.emulator.rdramReadPtrBuffer(
-            this.offsets.global_context_pointer,
+    get liveSceneData_chests(): number {
+        return this.emulator.rdramRead32(this.offsets.chest_flags_addr);
+    }
+    set liveSceneData_chests(flag: number) {
+        this.emulator.rdramWrite32(
             this.offsets.chest_flags_addr,
-            0x4
+            flag
         );
     }
-    set liveSceneData_chests(buf: Buffer) {
-        this.emulator.rdramWritePtrBuffer(
-            this.offsets.global_context_pointer,
+    get liveSceneData_clear(): number {
+        return this.emulator.rdramRead32(this.offsets.room_clear_flags_addr);
+    }
+    set liveSceneData_clear(flag: number) {
+        this.emulator.rdramWrite32(
+            this.offsets.room_clear_flags_addr,
+            flag
+        );
+    }
+    get liveSceneData_switch(): number {
+        return this.emulator.rdramRead32(this.offsets.switch_flags_addr);
+    }
+    set liveSceneData_switch(flag: number) {
+        this.emulator.rdramWrite32(
+            this.offsets.switch_flags_addr,
+            flag
+        );
+    }
+    get liveSceneData_collect(): number {
+        return this.emulator.rdramRead32(this.offsets.collectable_flag_addr);
+    }
+    set liveSceneData_collect(flag: number) {
+        this.emulator.rdramWrite32(
+            this.offsets.collectable_flag_addr,
+            flag
+        );
+    }
+
+    get liveSceneData_temp(): number {
+        return this.emulator.rdramRead32(this.offsets.temp_switch_flags_addr);
+    }
+    set liveSceneData_temp(flag: number) {
+        this.emulator.rdramWrite32(
             this.offsets.chest_flags_addr,
-            buf
-        );
-    }
-    get liveSceneData_clear(): Buffer {
-        return this.emulator.rdramReadPtrBuffer(
-            this.offsets.global_context_pointer,
-            this.offsets.room_clear_flags_addr,
-            0x4
-        );
-    }
-    set liveSceneData_clear(buf: Buffer) {
-        this.emulator.rdramWritePtrBuffer(
-            this.offsets.global_context_pointer,
-            this.offsets.room_clear_flags_addr,
-            buf
-        );
-    }
-    get liveSceneData_switch(): Buffer {
-        return this.emulator.rdramReadPtrBuffer(
-            this.offsets.global_context_pointer,
-            this.offsets.switch_flags_addr,
-            0x4
-        );
-    }
-    set liveSceneData_switch(buf: Buffer) {
-        this.emulator.rdramWritePtrBuffer(
-            this.offsets.global_context_pointer,
-            this.offsets.switch_flags_addr,
-            buf
-        );
-    }
-    get liveSceneData_temp(): Buffer {
-        return this.emulator.rdramReadPtrBuffer(
-            this.offsets.global_context_pointer,
-            this.offsets.temp_switch_flags_addr,
-            0x4
-        );
-    }
-    set liveSceneData_temp(buf: Buffer) {
-        this.emulator.rdramWritePtrBuffer(
-            this.offsets.global_context_pointer,
-            this.offsets.temp_switch_flags_addr,
-            buf
+            flag
         );
     }
 }

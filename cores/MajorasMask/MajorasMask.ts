@@ -13,7 +13,8 @@ import * as CORE from './src/Imports';
 import { CommandBuffer } from "./src/CommandBuffer";
 import { ActorManager, GlobalContext, Link, SaveContext, MMHelper } from "./src/Imports";
 import { OverlayPayload } from "./src/ovl/ovlinjector";
-import { MMEvents } from "./API/Imports";
+import { MMEvents, IPhoto } from "./API/Imports";
+import { Photo } from "./src/Photo";
 
 export class MajorasMask implements ICore, API.IMMCore {
     header = "NZS";
@@ -25,6 +26,7 @@ export class MajorasMask implements ICore, API.IMMCore {
     global!: API.IGlobalContext;
     helper!: API.IMMHelper;
     commandBuffer!: CommandBuffer;
+    photo!: IPhoto;
     // Client side variables
     isSaveLoaded = false;
     last_known_scene = -1;
@@ -82,6 +84,7 @@ export class MajorasMask implements ICore, API.IMMCore {
             this.link,
             this.ModLoader.emulator
         );
+        this.photo = new Photo(this.ModLoader.emulator);
         this.actorManager = new ActorManager(
             this.ModLoader.emulator,
             this.ModLoader.logger,

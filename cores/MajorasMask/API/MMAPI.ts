@@ -4,6 +4,7 @@ import { ICore } from 'modloader64_api/IModLoaderAPI';
 import { Command, ICommandBuffer } from 'modloader64_api/OOT/ICommandBuffer';
 import Vector3 from 'modloader64_api/math/Vector3';
 import { IPacketHeader } from 'modloader64_api/NetworkHandler';
+import { IPosition } from './IPosition';
 
 export const enum LinkState {
   UNKNOWN,
@@ -28,7 +29,8 @@ export const enum LinkState {
   VOIDING_OUT,
   TALKING,
   HOVERING,
-  Z_TARGETING
+  Z_TARGETING,
+  CAMERA
 }
 
 export const enum LinkState2 {
@@ -214,6 +216,7 @@ export interface IInventoryCounts {
   bombchuCount: number;
   magicBeansCount: number;
   arrows: number;
+  photoCount: number;
 }
 
 export enum InventoryItem {
@@ -326,6 +329,14 @@ export interface ISwords {
 
 }
 
+export interface IPhoto {
+  pictograph_photoChunk1: Buffer;
+  pictograph_photoChunk2: Buffer;
+  pictograph_spec: number;
+  pictograph_quality: number;
+  pictograph_unk: number;
+}
+
 export interface IShields {
   heroesShield: boolean;
   mirrorShield: boolean;
@@ -337,6 +348,7 @@ export interface IInventoryCounts {
   bombsCount: number;
   bombchuCount: number;
   magicBeansCount: number;
+  photoCount: number;
   arrows: number;
 }
 
@@ -345,7 +357,7 @@ export interface IInventoryFields {
   dekuNutsCapacity: AmmoUpgrade;
   bombBag: AmmoUpgrade;
   quiver: AmmoUpgrade;
-
+  photoCount: number;
   FIELD_OCARINA: Ocarina;
   FIELD_HEROES_BOW: boolean;
   FIELD_FIRE_ARROW: boolean;
@@ -476,6 +488,7 @@ export interface ISaveContext {
   map_visited: number;
   map_visible: number;
   bank: number;
+  photo: IPhoto;
 }
 
 export interface ILink extends IActor {
@@ -531,6 +544,7 @@ export interface IMMCore extends ICore {
   save: ISaveContext;
   helper: IMMHelper;
   global: IGlobalContext;
+  photo: IPhoto;
   commandBuffer: ICommandBuffer;
   actorManager: IActorManager;
 }

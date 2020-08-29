@@ -23,6 +23,11 @@ export class MMOffsets {
     gui_isShown: number = 0x803FD77B;
     //Save Context
 
+    pictograph_photo_addr: number = 0x801F0750; //0x2BC0
+    pictograph_spec: number = 0x801F04EA; //0x1
+    pictograph_quality: number = 0x801F04EB; //0x1
+    pictograph_unk: number = 0x801F04EC; //0x1
+
     map_visited: number = 0x801F05CC; //0x4
     map_visible: number = 0x801F05D0; //0x4
 
@@ -64,11 +69,11 @@ export class MMOffsets {
     event_flg: number = 0x801F0568;
     event_inf: number = 0x801F067C;
 
-    switch_flags_addr = 0x803E8978;
-    temp_switch_flags_addr = 0x803E8988;
-    chest_flags_addr = 0x803E898C;
-    room_clear_flags_addr = 0x803E8994;
-    collectable_flag_addr = 0x803E8998;
+    switch_flags_addr = 0x803E8978; //Might be wrong
+    temp_switch_flags_addr = 0x803E8988; //Wrong
+    chest_flags_addr = 0x803E8988;
+    room_clear_flags_addr = 0x803E8994; //Wrong
+    collectable_flag_addr = 0x803E8994;
 
     //misc
     mask_object_vram = 0x80402B50;

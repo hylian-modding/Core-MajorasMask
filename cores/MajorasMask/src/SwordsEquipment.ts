@@ -29,15 +29,14 @@ export class SwordsEquipment extends JSONTemplate implements API.ISwords {
       this.emulator.rdramWriteBit8(this.equipment_addr, SwordBitMap.KOKIRI, bool);
   }
   get razorSword() {
-    return (this.emulator.rdramReadBit8(this.equipment_addr, SwordBitMap.RAZOR) && this.emulator.rdramReadBit8(this.equipment_addr, SwordBitMap.GILDED) ) ? true : false
-      
+    return this.emulator.rdramReadBit8(this.equipment_addr, SwordBitMap.RAZOR);
   }
   set razorSword(bool: boolean) {
       this.emulator.rdramWriteBit8(this.equipment_addr, SwordBitMap.RAZOR, bool);
       this.emulator.rdramWriteBit8(this.equipment_addr, SwordBitMap.GILDED, bool);
   }
   get gilded() {
-    return (!this.emulator.rdramReadBit8(this.equipment_addr, SwordBitMap.RAZOR) && this.emulator.rdramReadBit8(this.equipment_addr, SwordBitMap.GILDED) ) ? true : false
+    return this.emulator.rdramReadBit8(this.equipment_addr, SwordBitMap.GILDED);
   }
 
   set gilded(bool: boolean) {
