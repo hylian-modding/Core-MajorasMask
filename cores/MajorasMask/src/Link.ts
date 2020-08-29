@@ -174,8 +174,10 @@ export class Link extends JSONTemplate implements API.ILink {
           return API.LinkState.HOLDING_ACTOR;
       case 0x00100200:
           return API.LinkState.CAMERA;
+      case 0x00100208:
+          return API.LinkState.CAMERA;
       }
-      
+
       return API.LinkState.UNKNOWN;
   }
 
