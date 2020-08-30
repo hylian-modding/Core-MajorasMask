@@ -400,6 +400,7 @@ export class Inventory extends JSONTemplate implements API.IInventory {
         this.setItemInSlot(value, API.InventorySlots.MASK_GARO)
     }
 
+
     get FIELD_MASK_CAPTAIN(): boolean {
         let val = this.getItemInSlot(API.InventorySlots.MASK_CAPTAIN)
         return !(val === API.InventoryItem.NONE);
@@ -900,32 +901,31 @@ set FIELD_BOTTLE5(content: API.InventoryItem) {
         return true;
     }
     
-  getItemInSlot(slotId: number): API.InventoryItem {
-      if (slotId < 0 || slotId >  API.InventoryItem.MASK_FIERCE_DEITY) {
-          return API.InventoryItem.NONE;
-      }
-
-      let itemId: number = this.emulator.rdramRead8(this.inventory_addr + slotId);
-      return itemId as API.InventoryItem;
-  }
-
-  getSlotForItem(item: API.InventoryItem): number {
-      for (let i = 0; i <=  API.InventoryItem.MASK_FIERCE_DEITY; i++) {
-          if (this.getItemInSlot(i) == item) {
-              return i;
-          }
-      }
-      return -1;
-  }
-  getSlotsForItem(item: API.InventoryItem): number[] {
-      let slots: number[] = new Array();
-      for (let i = 0; i <=  API.InventoryItem.MASK_FIERCE_DEITY; i++) {
-          if (this.getItemInSlot(i) == item) {
-              slots.push(i);
-          }
-      }
-      return slots;
-  }
+    getItemInSlot(slotId: number): API.InventoryItem {
+        if (slotId < 0 || slotId > API.InventorySlots.MASK_FIERCE_DEITY) {
+            return API.InventoryItem.NONE;
+        }
+  
+        let itemId: number = this.emulator.rdramRead8(this.inventory_addr + slotId);
+        return itemId as API.InventoryItem;
+    }
+    getSlotForItem(item: API.InventoryItem): number {
+        for (let i = 0; i <= API.InventorySlots.MASK_FIERCE_DEITY; i++) {
+            if (this.getItemInSlot(i) == item) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    getSlotsForItem(item: API.InventoryItem): number[] {
+        let slots: number[] = new Array();
+        for (let i = 0; i <= API.InventorySlots.MASK_FIERCE_DEITY; i++) {
+            if (this.getItemInSlot(i) == item) {
+                slots.push(i);
+            }
+        }
+        return slots;
+    }
 
   hasItem(item: API.InventoryItem): boolean {
       return this.getSlotForItem(item) != -1;
@@ -963,11 +963,11 @@ set FIELD_BOTTLE5(content: API.InventoryItem) {
   }
 
   setItemInSlot(item: API.InventoryItem, slot: number): void {
-      if (slot < 0 || slot >  API.InventoryItem.MASK_FIERCE_DEITY) {
-          return;
-      }
-      this.emulator.rdramWrite8(this.inventory_addr + slot, item.valueOf());
-  }
+    if (slot < 0 || slot > API.InventorySlots.MASK_FIERCE_DEITY) {
+        return;
+    }
+    this.emulator.rdramWrite8(this.inventory_addr + slot, item.valueOf());
+}   
 
   giveItem(item: API.InventoryItem, desiredSlot:  API.InventorySlots) {
       if (
@@ -985,7 +985,7 @@ set FIELD_BOTTLE5(content: API.InventoryItem) {
   }
   getEmptySlots(): number[] {
       let slots: number[] = new Array();
-      for (let i = 0; i <=  API.InventoryItem.MASK_FIERCE_DEITY; i++) {
+      for (let i = 0; i <=  API.InventorySlots.MASK_FIERCE_DEITY; i++) {
           if (this.getItemInSlot(i) == API.InventoryItem.NONE) {
               slots.push(i);
           }
