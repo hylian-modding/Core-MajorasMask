@@ -752,7 +752,7 @@ set arrows(count: number) {
 set FIELD_BOTTLE1(content: API.InventoryItem) {
     if (
         content < API.InventoryItem.BOTTLE_EMPTY ||
-    content > API.InventoryItem.BOTTLE_EMPTY
+    content > API.InventoryItem.BOTTLE_CHATEAU_ROMANI
     ) {
         return;
     }
@@ -764,7 +764,7 @@ set FIELD_BOTTLE1(content: API.InventoryItem) {
 set FIELD_BOTTLE2(content: API.InventoryItem) {
     if (
         content < API.InventoryItem.BOTTLE_EMPTY ||
-    content > API.InventoryItem.BOTTLE_EMPTY
+    content > API.InventoryItem.BOTTLE_CHATEAU_ROMANI
     ) {
         return;
     }
@@ -776,7 +776,7 @@ set FIELD_BOTTLE2(content: API.InventoryItem) {
 set FIELD_BOTTLE3(content: API.InventoryItem) {
     if (
         content < API.InventoryItem.BOTTLE_EMPTY ||
-    content > API.InventoryItem.BOTTLE_EMPTY
+    content > API.InventoryItem.BOTTLE_CHATEAU_ROMANI
     ) {
         return;
     }
@@ -788,7 +788,7 @@ set FIELD_BOTTLE3(content: API.InventoryItem) {
 set FIELD_BOTTLE4(content: API.InventoryItem) {
     if (
         content < API.InventoryItem.BOTTLE_EMPTY ||
-    content > API.InventoryItem.BOTTLE_EMPTY
+    content > API.InventoryItem.BOTTLE_CHATEAU_ROMANI
     ) {
         return;
     }
@@ -801,7 +801,7 @@ set FIELD_BOTTLE4(content: API.InventoryItem) {
 set FIELD_BOTTLE5(content: API.InventoryItem) {
     if (
         content < API.InventoryItem.BOTTLE_EMPTY ||
-    content > API.InventoryItem.BOTTLE_EMPTY
+    content > API.InventoryItem.BOTTLE_CHATEAU_ROMANI
     ) {
         return;
     }
@@ -814,7 +814,7 @@ set FIELD_BOTTLE5(content: API.InventoryItem) {
   set FIELD_BOTTLE6(content: API.InventoryItem) {
       if (
           content < API.InventoryItem.BOTTLE_EMPTY ||
-      content > API.InventoryItem.BOTTLE_EMPTY
+      content > API.InventoryItem.BOTTLE_CHATEAU_ROMANI
       ) {
           return;
       }
