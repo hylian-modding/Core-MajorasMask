@@ -220,7 +220,7 @@ export class Inventory extends JSONTemplate implements API.IInventory {
     }
 
     get FIELD_MASK_ALL_NIGHT(): boolean {
-        let val = this.getItemInSlot(API.InventorySlots.MASK_POSTMAN)
+        let val = this.getItemInSlot(API.InventorySlots.MASK_ALL_NIGHT)
         return !(val === API.InventoryItem.NONE);
     }
     set FIELD_MASK_ALL_NIGHT(bool: boolean) {
