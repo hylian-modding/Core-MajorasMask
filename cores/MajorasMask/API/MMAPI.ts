@@ -662,6 +662,13 @@ export const enum InventorySlots {
   NONE = 0xFF,
 }
 
+export enum Spider_House_Masks {
+  RED,
+  BLUE,
+  YELLOW,
+  GREEN,
+}
+
 class UpgradeCount {
   item: InventoryItem;
   level: AmmoUpgrade;
