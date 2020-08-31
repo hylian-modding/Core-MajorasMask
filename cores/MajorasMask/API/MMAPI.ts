@@ -509,6 +509,7 @@ export interface ILink extends IActor {
   current_sound_id: number;
   sword: Sword;
   rawPos: Buffer;
+  rot: Buffer;
   get_anim_id(): number;
   get_anim_frame(): number;
 }
