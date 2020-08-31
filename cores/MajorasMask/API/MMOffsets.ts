@@ -109,4 +109,10 @@ export class MMOffsets {
     //misc
     mask_object_vram = 0x80402B50;
     mask_props = 0x801F58B0;
+
+    lottery_numbers_day1 = 0x801F065C; //0x3
+    lottery_numbers_day2 = 0x801F065F; //0x3
+    lottery_numbers_day3 = 0x801F0662; //0x3
+    spider_house_mask_order = 0x801F0665; //0x6
+    bomber_code = 0x801F066B; //0x5
 }
