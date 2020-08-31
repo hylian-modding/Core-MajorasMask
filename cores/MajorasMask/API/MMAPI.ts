@@ -497,6 +497,12 @@ export interface ISaveContext {
 
   intro_flag: number;
   have_tatl: number;
+
+  lottery_numbers_day1: Buffer;
+  lottery_numbers_day2: Buffer;
+  lottery_numbers_day3: Buffer;
+  spider_house_mask_order: Buffer;
+  bomber_code: Buffer;
 }
 
 export interface ILink extends IActor {
