@@ -25,7 +25,10 @@ export class QuestStatus extends JSONTemplate implements API.IQuestStatus {
         'elegyOfEmptiness',
         'oathToOrder',
         'bombersNotebook',
-        'heartPieces'
+        'heartPieces1',
+        'heartPieces2',
+        'heartPieces3',
+        'heartPieces4'
     ];
     constructor(emu: IMemory) {
         super();

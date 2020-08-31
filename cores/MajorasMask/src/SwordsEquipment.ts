@@ -12,7 +12,7 @@ export class SwordsEquipment extends JSONTemplate implements API.ISwords {
   private emulator: IMemory;
   private offsets = new API.MMOffsets;
   private instance: number = this.offsets.save_context;
-  private equipment_addr: number = this.instance + 0x009c;
+  private equipment_addr: number = this.instance + 0x6D;
   jsonFields: string[] = [
       'kokiriSword',
       'razorSword',

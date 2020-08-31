@@ -489,6 +489,14 @@ export interface ISaveContext {
   map_visible: number;
   bank: number;
   photo: IPhoto;
+
+  day_time: number;
+  day_night: number;
+  time_speed: number;
+  current_day: number;
+
+  intro_flag: number;
+  have_tatl: number;
 }
 
 export interface ILink extends IActor {

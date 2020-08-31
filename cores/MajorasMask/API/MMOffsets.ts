@@ -23,6 +23,33 @@ export class MMOffsets {
     gui_isShown: number = 0x803FD77B;
     //Save Context
 
+    intro_flag: number = 0x801EF675; //0x1
+    have_tatl: number = 0x801EF692; //0x1
+    /*
+    0x0000 = 12:00 AM
+    0x1000 = 01:30 AM
+    0x2000 = 03:00 AM
+    0x3000 = 04:30 AM
+    0x4000 = 06:00 AM
+    0x402D = Dawn of Day
+    0x5000 = 07:30 AM
+    0x6000 = 09:00 AM
+    0x7000 = 10:30 AM
+    0x8000 = 12:00 PM
+    0x9000 = 01:30 PM
+    0xA000 = 03:00 PM
+    0xB000 = 04:30 PM
+    0xC000 = 06:00 PM
+    0xD000 = 07:30 PM
+    0xE000 = 09:00 PM
+    0xF000 = 10:30 PM
+    0xFFFF = 11:59 PM
+    */
+    day_time: number = 0x801EF67C; //0x2 
+    day_night: number = 0x801EF680; //0x4 // set to 0 during day, 1 at night
+    time_speed: number = 0x801EF684; //0x4 // normally 1 when inverted song of time and 3 at normal speed; rando can change this
+    current_day: number = 0x801EF688; //0x4 //0 to 4. modulo 5?
+
     pictograph_photo_addr: number = 0x801F0750; //0x2BC0
     pictograph_spec: number = 0x801F04EA; //0x1
     pictograph_quality: number = 0x801F04EB; //0x1
@@ -75,6 +102,10 @@ export class MMOffsets {
     room_clear_flags_addr = 0x803E8994; //Wrong
     collectable_flag_addr = 0x803E8994;
 
+    woodfall_fairies = 0x801EF744; //0x1
+    snowhead_fairies = 0x801EF745; //0x1
+    bay_fairies = 0x801EF746; //0x1
+    stone_fairies = 0x801EF747; //0x1
     //misc
     mask_object_vram = 0x80402B50;
     mask_props = 0x801F58B0;

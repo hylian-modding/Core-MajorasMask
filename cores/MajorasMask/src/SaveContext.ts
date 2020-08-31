@@ -144,7 +144,6 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         this.emulator.rdramWrite32(this.offsets.map_visited, flag);
     }
 
-
     get tunic_boots(): number {
         return this.emulator.rdramRead8(this.offsets.tunic_boots);
     }
@@ -265,6 +264,54 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         this.emulator.rdramWriteBuffer(this.offsets.inventory, flag);
     }*/
 
+    get day_time(): number {
+        return this.emulator.rdramRead16(this.offsets.day_time);
+    }
+
+    set day_time(flag: number) {
+        this.emulator.rdramWrite16(this.offsets.day_time, flag);
+    }
+
+    get day_night(): number {
+        return this.emulator.rdramRead16(this.offsets.day_night);
+    }
+
+    set day_night(flag: number) {
+        this.emulator.rdramWrite16(this.offsets.day_night, flag);
+    }
+
+    get time_speed(): number {
+        return this.emulator.rdramRead16(this.offsets.day_night);
+    }
+
+    set time_speed(flag: number) {
+        this.emulator.rdramWrite16(this.offsets.time_speed, flag);
+    }
+
+    get current_day(): number {
+        return this.emulator.rdramRead16(this.offsets.current_day);
+    }
+
+    set current_day(flag: number) {
+        this.emulator.rdramWrite16(this.offsets.current_day, flag);
+    }   
+
+    get intro_flag(): number {
+        return this.emulator.rdramRead8(this.offsets.intro_flag);
+    }
+
+    set intro_flag(flag: number) {
+        this.emulator.rdramWrite8(this.offsets.intro_flag, flag);
+    }
+
+    get have_tatl(): number {
+        return this.emulator.rdramRead8(this.offsets.have_tatl);
+    }
+
+    set have_tatl(flag: number) {
+        this.emulator.rdramWrite8(this.offsets.have_tatl, flag);
+    }
+
     get heart_containers(): number {
         return this.emulator.rdramRead16(this.offsets.max_heart_flag);
     }
@@ -284,33 +331,40 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
     get liveSceneData_chests(): number {
         return this.emulator.rdramRead32(this.offsets.chest_flags_addr);
     }
+
     set liveSceneData_chests(flag: number) {
         this.emulator.rdramWrite32(
             this.offsets.chest_flags_addr,
             flag
         );
     }
+
     get liveSceneData_clear(): number {
         return this.emulator.rdramRead32(this.offsets.room_clear_flags_addr);
     }
+
     set liveSceneData_clear(flag: number) {
         this.emulator.rdramWrite32(
             this.offsets.room_clear_flags_addr,
             flag
         );
     }
+
     get liveSceneData_switch(): number {
         return this.emulator.rdramRead32(this.offsets.switch_flags_addr);
     }
+
     set liveSceneData_switch(flag: number) {
         this.emulator.rdramWrite32(
             this.offsets.switch_flags_addr,
             flag
         );
     }
+
     get liveSceneData_collect(): number {
         return this.emulator.rdramRead32(this.offsets.collectable_flag_addr);
     }
+
     set liveSceneData_collect(flag: number) {
         this.emulator.rdramWrite32(
             this.offsets.collectable_flag_addr,
@@ -321,6 +375,7 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
     get liveSceneData_temp(): number {
         return this.emulator.rdramRead32(this.offsets.temp_switch_flags_addr);
     }
+
     set liveSceneData_temp(flag: number) {
         this.emulator.rdramWrite32(
             this.offsets.chest_flags_addr,
