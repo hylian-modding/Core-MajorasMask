@@ -19,6 +19,11 @@ export class ShieldsEquipment extends JSONTemplate implements API.IShields {
   }
   set heroesShield(bool: boolean) {
       this.emulator.rdramWriteBit8(this.equipment_addr, ShieldBitMap.HEROES, bool);
+      this.emulator.rdramWriteBit8(
+        this.equipment_addr,
+        ShieldBitMap.MIRROR,
+        !bool
+    );
   }
   get heroesShield(): boolean {
       return this.emulator.rdramReadBit8(this.equipment_addr, ShieldBitMap.HEROES);
@@ -32,7 +37,7 @@ export class ShieldsEquipment extends JSONTemplate implements API.IShields {
       this.emulator.rdramWriteBit8(
         this.equipment_addr,
         ShieldBitMap.HEROES,
-        false
+        !bool
     );
   }
   get mirrorShield(): boolean {

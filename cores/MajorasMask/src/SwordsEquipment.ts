@@ -3,9 +3,9 @@ import * as API from '../API/Imports';
 import { JSONTemplate } from 'modloader64_api/JSONTemplate';
 
 export const enum SwordBitMap {
-  KOKIRI = 7,
-  RAZOR = 7,
-  GILDED = 6
+  KOKIRI = 0x7,
+  RAZOR = 0x7,
+  GILDED = 0x6
 }
 
 export class SwordsEquipment extends JSONTemplate implements API.ISwords {
@@ -29,10 +29,10 @@ export class SwordsEquipment extends JSONTemplate implements API.ISwords {
       this.emulator.rdramWriteBit8(this.equipment_addr, SwordBitMap.KOKIRI, bool);
   }
   get razorSword() {
-    return this.emulator.rdramReadBit8(this.equipment_addr, SwordBitMap.RAZOR);
+    return this.emulator.rdramReadBit8(this.equipment_addr, SwordBitMap.KOKIRI);
   }
   set razorSword(bool: boolean) {
-      this.emulator.rdramWriteBit8(this.equipment_addr, SwordBitMap.RAZOR, bool);
+      this.emulator.rdramWriteBit8(this.equipment_addr, SwordBitMap.KOKIRI, false);
       this.emulator.rdramWriteBit8(this.equipment_addr, SwordBitMap.GILDED, bool);
   }
   get gilded() {
@@ -45,10 +45,10 @@ export class SwordsEquipment extends JSONTemplate implements API.ISwords {
           SwordBitMap.GILDED,
           bool
       );
-      this.emulator.rdramWriteBit8(
-        this.equipment_addr,
-        SwordBitMap.RAZOR,
-        false
-    );
+    this.emulator.rdramWriteBit8(
+      this.equipment_addr,
+      SwordBitMap.KOKIRI,
+      true
+  );
   }
 }

@@ -9,23 +9,26 @@ import { QuestStatus } from "./QuestStatus";
 import { KeyManager } from "./KeyManager";
 import { IModLoaderAPI, ILogger } from "modloader64_api/IModLoaderAPI";
 import { Photo } from "./Photo";
+import IUtils from "modloader64_api/IUtils";
 
 export class SaveContext extends JSONTemplate implements API.ISaveContext {
     
     private emulator: IMemory;
+    private utils: IUtils;
     offsets: API.MMOffsets = new API.MMOffsets();
     inventory: Inventory;
     questStatus: API.IQuestStatus;
     keyManager: API.IKeyManager;
     dungeonItemManager: API.IDungeonItemManager;
 
-    constructor(emu: IMemory, log: ILogger) {
+    constructor(emu: IMemory, log: ILogger, utils: IUtils) {
         super();
         this.emulator = emu;
+        this.utils = utils;
         this.swords = new SwordsEquipment(emu);
         this.shields = new ShieldsEquipment(emu);
         this.inventory = new Inventory(emu, log);
-        this.questStatus = new QuestStatus(emu);
+        this.questStatus = new QuestStatus(emu, utils);
         this.keyManager = new KeyManager(emu);
         this.dungeonItemManager = new DungeonItemManager(emu);
         this.photo = new Photo(emu);
