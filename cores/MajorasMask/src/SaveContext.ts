@@ -385,4 +385,40 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
             flag
         );
     }
+
+    get lottery_numbers_day1(): Buffer {
+        return this.emulator.rdramReadBuffer(this.offsets.lottery_numbers_day1, 0x3);
+    }
+
+    set lottery_numbers_day1(flag: Buffer) {
+        this.emulator.rdramWriteBuffer(this.offsets.lottery_numbers_day1, flag);
+    }
+
+    get lottery_numbers_day2(): Buffer {
+        return this.emulator.rdramReadBuffer(this.offsets.lottery_numbers_day2, 0x3);
+    }
+
+    set lottery_numbers_day2(flag: Buffer) {
+        this.emulator.rdramWriteBuffer(this.offsets.lottery_numbers_day2, flag);
+    }
+
+    get lottery_numbers_day3(): Buffer {
+        return this.emulator.rdramReadBuffer(this.offsets.lottery_numbers_day3, 0x3);
+    }
+
+    set lottery_numbers_day3(flag: Buffer) {
+        this.emulator.rdramWriteBuffer(this.offsets.lottery_numbers_day3, flag);
+    }
+
+    get spider_house_mask_order(): Buffer {
+        return this.emulator.rdramReadBuffer(this.offsets.spider_house_mask_order, 0x6);
+    }
+
+    set spider_house_mask_order(flag: Buffer) {
+        this.emulator.rdramWriteBuffer(this.offsets.spider_house_mask_order, flag);
+    }
+
+    get bomber_code(): Buffer {
+        return this.emulator.rdramReadBuffer(this.offsets.bomber_code, 0x5);
+    }
 }
