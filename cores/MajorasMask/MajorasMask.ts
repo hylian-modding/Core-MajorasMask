@@ -62,7 +62,12 @@ export class MajorasMask implements ICore, API.IMMCore {
     
     @Init()
     init(): void {
-
+        this.eventTicks.set('waitingForSaveload', () => {
+            if (!this.isSaveLoaded && this.helper.isSceneNumberValid() && !this.helper.isTitleScreen()) {
+                this.isSaveLoaded = true;
+                bus.emit(API.MMEvents.ON_SAVE_LOADED, {});
+            }
+        });
     }
 
     @Postinit()
@@ -70,7 +75,7 @@ export class MajorasMask implements ICore, API.IMMCore {
 
         this.global = new GlobalContext(this.ModLoader);
         this.link = new Link(this.ModLoader.emulator);
-        this.save = new SaveContext(this.ModLoader.emulator, this.ModLoader.logger, this.ModLoader.utils);
+        this.save = new SaveContext(this.ModLoader.emulator, this.ModLoader.logger);
         this.helper = new MMHelper(
             this.save,
             this.global,
@@ -86,14 +91,6 @@ export class MajorasMask implements ICore, API.IMMCore {
             this.ModLoader.utils
         );
         this.commandBuffer = new CommandBuffer(this.ModLoader.emulator);
-
-
-        this.eventTicks.set('waitingForSaveload', () => {
-            if (!this.isSaveLoaded && this.helper.isSceneNumberValid() && !this.helper.isTitleScreen()) {
-                this.isSaveLoaded = true;
-                bus.emit(API.MMEvents.ON_SAVE_LOADED, {});
-            }
-        });
 
         this.ModLoader.payloadManager.registerPayloadType(new OverlayPayload(".ovl"));
 

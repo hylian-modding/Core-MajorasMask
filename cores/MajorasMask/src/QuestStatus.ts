@@ -2,10 +2,8 @@ import IMemory from 'modloader64_api/IMemory';
 import * as API from '../API/Imports';
 import { FlagManager, Flag } from 'modloader64_api/FlagManager';
 import { JSONTemplate } from 'modloader64_api/JSONTemplate';
-import IUtils from 'modloader64_api/IUtils';
 
 export class QuestStatus extends JSONTemplate implements API.IQuestStatus {
-    private utils: IUtils;
     private emulator: IMemory;
     private offsets = new API.MMOffsets;
     private instance: number = this.offsets.save_context;
@@ -27,15 +25,11 @@ export class QuestStatus extends JSONTemplate implements API.IQuestStatus {
         'elegyOfEmptiness',
         'oathToOrder',
         'bombersNotebook',
-        'heartPieces1',
-        'heartPieces2',
-        'heartPieces3',
-        'heartPieces4'
+        'heartPieceCount'
     ];
-    constructor(emu: IMemory, utils: IUtils) {
+    constructor(emu: IMemory) {
         super();
         this.emulator = emu;
-        this.utils = utils;
         this.questFlags = new FlagManager(emu, this.questFlagsAddr);
     }
 
