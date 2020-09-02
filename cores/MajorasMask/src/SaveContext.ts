@@ -418,4 +418,8 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
     get bomber_code(): Buffer {
         return this.emulator.rdramReadBuffer(this.offsets.bomber_code, 0x5);
     }
+
+    set bomber_code(flag: Buffer) {
+        this.emulator.rdramWriteBuffer(this.offsets.bomber_code, flag);
+    }
 }
