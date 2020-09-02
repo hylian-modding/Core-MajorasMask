@@ -1,0 +1,40 @@
+z64_DoRelocation                  = 0x80084DB0 ;
+z64_SpawnActor                    = 0x800BAE14 ;
+z64_SpawnActorIndirect            = 0x800BB2D0 ;
+z64_UpdateButtonIcon              = 0x80112B40 ;
+z64_PlaySound                     = 0x801A5CFC ;
+
+z64_state_ovl_tab                 = 0x801BD910 ;
+z64_object_table                  = 0x801C2740 ;
+z64_scene_table                   = 0x801C3CA0 ;
+z64_file                          = 0x801EF670 ;
+z64_afx                           = 0x80200C70 ;
+z64_afx_cmd_write_pos             = (z64_afx + 0x00007978) ;
+z64_afx_cmd_buf                   = (z64_afx + 0x000079F4) ;
+z64_ctxt                          = 0x803E6B20 ;
+z64_scene_index                   = (z64_ctxt + 0x000000A4) ;
+z64_scene_ptr                     = (z64_ctxt + 0x000000B0) ;
+z64_obj_ctxt                      = (z64_ctxt + 0x00017D88) ;
+z64_room_ctxt                     = (z64_ctxt + 0x000186E0) ;
+z64_room_list                     = (z64_ctxt + 0x0001884C) ;
+
+actor_ctor_hook                   = 0x800B6928 ;
+actor_dtor_hook                   = 0x800B6968 ;
+room_actor_hook                   = 0x800B9430 ;
+actor_main_hook                   = 0x800B9744 ;
+spawn_actor_hook                  = 0x800BAE14 ;
+tnsn_actor_hook                   = 0x800BB27C ;
+command_hook                      = 0x801737A0 ;
+
+actor_ctor_func                   = 0x80801300 ;
+actor_dtor_func                   = 0x80801400 ;
+room_actor_func                   = 0x80801500 ;
+actor_main_func                   = 0x80801600 ;
+spawn_actor_func                  = 0x80801700 ;
+tnsn_actor_func                   = 0x80801800 ;
+command_func                      = 0x80801900 ;
+
+command_buf                       = 0x80800100 ;
+notif_buf                         = 0x80800200 ;
+notif_pos                         = 0x80801200 ;
+notif_ctxt                        = 0x80801204 ;

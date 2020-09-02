@@ -461,6 +461,7 @@ export interface IQuestStatus {
 
   bombersNotebook: boolean;
 
+  heartPieceCount: number;
   heartPieces1: boolean;
   heartPieces2: boolean;
   heartPieces3: boolean;

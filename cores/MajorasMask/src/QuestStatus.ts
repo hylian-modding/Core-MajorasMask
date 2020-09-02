@@ -25,18 +25,13 @@ export class QuestStatus extends JSONTemplate implements API.IQuestStatus {
         'elegyOfEmptiness',
         'oathToOrder',
         'bombersNotebook',
-        'heartPieces1',
-        'heartPieces2',
-        'heartPieces3',
-        'heartPieces4'
+        'heartPieceCount'
     ];
     constructor(emu: IMemory) {
         super();
         this.emulator = emu;
         this.questFlags = new FlagManager(emu, this.questFlagsAddr);
     }
-
-    //TODO: ADJUST FOR MM FLAGS
 
     /*
       Quest Items (bitfield)	BC	1  bit 0: Lullaby Intro; bits 4-7: heart pieces
@@ -100,6 +95,20 @@ export class QuestStatus extends JSONTemplate implements API.IQuestStatus {
     }
     set unknown3(bool: boolean) {
         this.questFlags.setFlag(this.unknown3Flag, bool);
+    }
+
+    get heartPieceCount(): number {
+        let bits: Buffer = this.emulator.rdramReadBits8(0x801EF72C); // your addr here
+        let hp: Buffer = bits.slice(0, 5);
+        let count: number = (() => { let t = 0; if (hp[3] > 0 && hp[2] < 1) { t++; } if (hp[2] > 0 && hp[3] < 1) { t += 2; } if (hp[2] > 0 && hp[3] > 0) { t += 3; } return t; })();
+        return count;
+    }
+
+    set heartPieceCount(count: number)  {
+        let bits: Buffer = this.emulator.rdramReadBits8(0x801EF72C); // your addr here
+        let hp: Buffer = bits.slice(0, 5);
+        (()=>{if (count === 3){hp[2] = 1; hp[3] = 1;}else if (count === 2){hp[2] = 1; hp[3] = 0}else if (count === 1){hp[3] = 1; hp[2] = 0}else if (count <= 0){hp[3] = 0; hp[2] = 0}})();
+        this.emulator.rdramWriteBits8(0x801EF72C, bits);
     }
 
     private heartPiecesFlag1 = new Flag(0x0, 0x3);

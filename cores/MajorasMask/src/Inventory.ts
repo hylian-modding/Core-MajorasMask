@@ -6,82 +6,97 @@ import { ILogger } from 'modloader64_api/IModLoaderAPI';
 import { NONAME } from 'dns';
 
 export class Inventory extends JSONTemplate implements API.IInventory {
-  private emulator: IMemory;
-  private offsets = new API.MMOffsets;
-  private instance: number = this.offsets.save_context;
-  private inventory_addr: number = this.instance + 0x0070;
-  private inventory_ammo_addr: number = this.instance + 0x00A0;
-  private inventory_upgrades_addr: number = this.instance + 0x00B8;
-  private log: ILogger;
-  jsonFields: string[] = [
-      'dekuSticksCapacity',
-      'dekuNutsCapacity',
-      'bombBag',
-      'quiver',
-      'FIELD_OCARINA',
-      'FIELD_HEROES_BOW',
-      'FIELD_FIRE_ARROW',
-      'FIELD_ICE_ARROW',
-      'FIELD_LIGHT_ARROW',
-      'FIELD_QUEST_ITEM_1',
-      'FIELD_BOMB',
-      'FIELD_BOMBCHU',
-      'FIELD_DEKU_STICKS',
-      'FIELD_DEKU_NUT',
-      'FIELD_MAGIC_BEAN',
-      'FIELD_QUEST_ITEM_2',
-      'FIELD_POWDER_KEG',
-      'FIELD_PICTOGRAPH_BOX',
-      'FIELD_LENS_OF_TRUTH',
-      'FIELD_HOOKSHOT',
-      'FIELD_GREAT_FAIRYS_SWORD',
-      'FIELD_QUEST_ITEM_3',
-      'FIELD_BOTTLE1',
-      'FIELD_BOTTLE2',
-      'FIELD_BOTTLE3',
-      'FIELD_BOTTLE4',
-      'FIELD_BOTTLE5',
-      'FIELD_BOTTLE6',
-      'FIELD_MASK_POSTMAN',
-      'FIELD_MASK_ALL_NIGHT',
-      'FIELD_MASK_BLAST',
-      'FIELD_MASK_STONE',
-      'FIELD_MASK_GREAT_FAIRY',
-      'FIELD_MASK_DEKU',
-      'FIELD_MASK_KEATON',
-      'FIELD_MASK_BREMEN',
-      'FIELD_MASK_BUNNY_HOOD',
-      'FIELD_MASK_DON_GERO',
-      'FIELD_MASK_OF_SCENTS',
-      'FIELD_MASK_GORON',
-      'FIELD_MASK_ROMANI',
-      'FIELD_MASK_CIRCUS_LEADER',
-      'FIELD_MASK_KAFEI',
-      'FIELD_MASK_COUPLES',
-      'FIELD_MASK_OF_TRUTH',
-      'FIELD_MASK_ZORA',
-      'FIELD_MASK_KAMERO',
-      'FIELD_MASK_GIBDO',
-      'FIELD_MASK_GARO',
-      'FIELD_MASK_CAPTAIN',
-      'FIELD_MASK_GIANT',
-      'FIELD_MASK_FIERCE_DEITY',
-  ];
+    private emulator: IMemory;
+    private offsets = new API.MMOffsets;
+    private instance: number = this.offsets.save_context;
+    private inventory_addr: number = this.instance + 0x0070;
+    private inventory_ammo_addr: number = this.instance + 0x00A0;
+    private inventory_upgrades_addr: number = this.instance + 0x00B8;
+    private log: ILogger;
+    jsonFields: string[] = [
+        'dekuSticksCapacity',
+        'dekuNutsCapacity',
+        'bombBag',
+        'quiver',
+        'FIELD_OCARINA',
+        'FIELD_HEROES_BOW',
+        'FIELD_FIRE_ARROW',
+        'FIELD_ICE_ARROW',
+        'FIELD_LIGHT_ARROW',
+        'FIELD_QUEST_ITEM_1',
+        'FIELD_BOMB',
+        'FIELD_BOMBCHU',
+        'FIELD_DEKU_STICKS',
+        'FIELD_DEKU_NUT',
+        'FIELD_MAGIC_BEAN',
+        'FIELD_QUEST_ITEM_2',
+        'FIELD_POWDER_KEG',
+        'FIELD_PICTOGRAPH_BOX',
+        'FIELD_LENS_OF_TRUTH',
+        'FIELD_HOOKSHOT',
+        'FIELD_GREAT_FAIRYS_SWORD',
+        'FIELD_QUEST_ITEM_3',
+        'FIELD_BOTTLE1',
+        'FIELD_BOTTLE2',
+        'FIELD_BOTTLE3',
+        'FIELD_BOTTLE4',
+        'FIELD_BOTTLE5',
+        'FIELD_BOTTLE6',
+        'FIELD_MASK_POSTMAN',
+        'FIELD_MASK_ALL_NIGHT',
+        'FIELD_MASK_BLAST',
+        'FIELD_MASK_STONE',
+        'FIELD_MASK_GREAT_FAIRY',
+        'FIELD_MASK_DEKU',
+        'FIELD_MASK_KEATON',
+        'FIELD_MASK_BREMEN',
+        'FIELD_MASK_BUNNY_HOOD',
+        'FIELD_MASK_DON_GERO',
+        'FIELD_MASK_OF_SCENTS',
+        'FIELD_MASK_GORON',
+        'FIELD_MASK_ROMANI',
+        'FIELD_MASK_CIRCUS_LEADER',
+        'FIELD_MASK_KAFEI',
+        'FIELD_MASK_COUPLES',
+        'FIELD_MASK_OF_TRUTH',
+        'FIELD_MASK_ZORA',
+        'FIELD_MASK_KAMERO',
+        'FIELD_MASK_GIBDO',
+        'FIELD_MASK_GARO',
+        'FIELD_MASK_CAPTAIN',
+        'FIELD_MASK_GIANT',
+        'FIELD_MASK_FIERCE_DEITY',
+    ];
 
-  constructor(emu: IMemory, log: ILogger) {
-      super();
-      this.emulator = emu;
-      this.log = log;
-  }
+    constructor(emu: IMemory, log: ILogger) {
+        super();
+        this.emulator = emu;
+        this.log = log;
+    }
 
     get FIELD_OCARINA(): API.Ocarina {
-        let val = this.getItemInSlot(API.InventorySlots.OCARINA_OF_TIME)
-        if(val) return API.Ocarina.OCARINA_OF_TIME;
-        return API.Ocarina.NONE;
+        let val = this.getItemInSlot(API.InventorySlots.OCARINA_OF_TIME);
+        switch (val) {
+            case API.InventoryItem.OCARINA_OF_TIME:
+                return API.Ocarina.OCARINA_OF_TIME;
+            default:
+                return API.Ocarina.NONE;
+        }
     }
-    set FIELD_OCARINA(ocarina: API.Ocarina) {
-        let value = ocarina ? API.InventoryItem.OCARINA_OF_TIME : API.InventoryItem.NONE;
-        this.setItemInSlot(value,  API.InventorySlots.OCARINA_OF_TIME);
+    set FIELD_OCARINA(item: API.Ocarina) {
+        if (item === this.FIELD_OCARINA) return;
+
+        switch (item) {
+            case API.Ocarina.NONE:
+                this.setItemInSlot(API.InventoryItem.NONE, API.InventorySlots.OCARINA_OF_TIME);
+                break;
+            case API.Ocarina.OCARINA_OF_TIME:
+                this.setItemInSlot(
+                    API.InventoryItem.OCARINA_OF_TIME,
+                    API.InventorySlots.OCARINA_OF_TIME
+                );
+                break;
+        }
     }
 
     get FIELD_HEROES_BOW(): boolean {
@@ -90,7 +105,7 @@ export class Inventory extends JSONTemplate implements API.IInventory {
     }
     set FIELD_HEROES_BOW(bow: boolean) {
         let value = bow ? API.InventoryItem.HEROES_BOW : API.InventoryItem.NONE;
-        this.setItemInSlot(value,  API.InventorySlots.HEROES_BOW)
+        this.setItemInSlot(value, API.InventorySlots.HEROES_BOW)
     }
 
     get FIELD_FIRE_ARROW(): boolean {
@@ -436,456 +451,456 @@ export class Inventory extends JSONTemplate implements API.IInventory {
         throw new Error("Method not implemented.");
     }
 
-    set bombBag(bb:  API.AmmoUpgrade) {
+    set bombBag(bb: API.AmmoUpgrade) {
         let buf: Buffer = this.emulator.rdramReadBits8(
             this.inventory_upgrades_addr + 0x3
         );
         switch (bb) {
-        case  API.AmmoUpgrade.NONE:
-            buf[0x3] = 0x00;
-            buf[0x4] = 0x00;
-            break;
-        case  API.AmmoUpgrade.BASE:
-            buf[0x3] = 0x00;
-            buf[0x4] = 0x01;
-            break;
-        case  API.AmmoUpgrade.UPGRADED:
-            buf[0x3] = 0x01;
-            buf[0x4] = 0x00;
-            break;
-        case  API.AmmoUpgrade.MAX:
-            buf[0x3] = 0x01;
-            buf[0x4] = 0x01;
-            break;
+            case API.AmmoUpgrade.NONE:
+                buf[0x3] = 0x00;
+                buf[0x4] = 0x00;
+                break;
+            case API.AmmoUpgrade.BASE:
+                buf[0x3] = 0x00;
+                buf[0x4] = 0x01;
+                break;
+            case API.AmmoUpgrade.UPGRADED:
+                buf[0x3] = 0x01;
+                buf[0x4] = 0x00;
+                break;
+            case API.AmmoUpgrade.MAX:
+                buf[0x3] = 0x01;
+                buf[0x4] = 0x01;
+                break;
         }
         this.emulator.rdramWriteBits8(this.inventory_upgrades_addr + 0x3, buf);
     }
-    
-    get bombBag():  API.AmmoUpgrade {
+
+    get bombBag(): API.AmmoUpgrade {
         let buf: Buffer = this.emulator.rdramReadBits8(
             this.inventory_upgrades_addr + 0x3
         );
         let str = buf.slice(3, 5).toString('hex');
         switch (str) {
-        case '0000':
-            return  API.AmmoUpgrade.NONE;
-        case '0001':
-            return  API.AmmoUpgrade.BASE;
-        case '0100':
-            return  API.AmmoUpgrade.UPGRADED;
-        case '0101':
-            return  API.AmmoUpgrade.MAX;
+            case '0000':
+                return API.AmmoUpgrade.NONE;
+            case '0001':
+                return API.AmmoUpgrade.BASE;
+            case '0100':
+                return API.AmmoUpgrade.UPGRADED;
+            case '0101':
+                return API.AmmoUpgrade.MAX;
         }
-        return  API.AmmoUpgrade.NONE;
+        return API.AmmoUpgrade.NONE;
     }
 
-  set dekuSticksCapacity(bb:  API.AmmoUpgrade) {
-      let buf: Buffer = this.emulator.rdramReadBits8(
-          this.inventory_upgrades_addr + 0x1
-      );
-      switch (bb) {
-      case  API.AmmoUpgrade.NONE:
-          buf[0x5] = 0x00;
-          buf[0x6] = 0x00;
-          break;
-      case  API.AmmoUpgrade.BASE:
-          buf[0x5] = 0x00;
-          buf[0x6] = 0x01;
-          break;
-      case  API.AmmoUpgrade.UPGRADED:
-          buf[0x5] = 0x01;
-          buf[0x6] = 0x00;
-          break;
-      case  API.AmmoUpgrade.MAX:
-          buf[0x5] = 0x01;
-          buf[0x6] = 0x01;
-          break;
-      }
-      this.emulator.rdramWriteBits8(this.inventory_upgrades_addr + 0x1, buf);
-  }
-
-  get dekuSticksCapacity():  API.AmmoUpgrade {
-      let buf: Buffer = this.emulator.rdramReadBits8(
-          this.inventory_upgrades_addr + 0x1
-      );
-      let str = buf.slice(5, 7).toString('hex');
-      switch (str) {
-      case '0000':
-          return  API.AmmoUpgrade.NONE;
-      case '0001':
-          return  API.AmmoUpgrade.BASE;
-      case '0100':
-          return  API.AmmoUpgrade.UPGRADED;
-      case '0101':
-          return  API.AmmoUpgrade.MAX;
-      }
-      return  API.AmmoUpgrade.NONE;
-  }
-
-  set dekuNutsCapacity(bb:  API.AmmoUpgrade) {
-      let buf: Buffer = this.emulator.rdramReadBits8(
-          this.inventory_upgrades_addr + 0x1
-      );
-      switch (bb) {
-      case  API.AmmoUpgrade.NONE:
-          buf[0x2] = 0x00;
-          buf[0x3] = 0x00;
-          break;
-      case  API.AmmoUpgrade.BASE:
-          buf[0x2] = 0x00;
-          buf[0x3] = 0x01;
-          break;
-      case  API.AmmoUpgrade.UPGRADED:
-          buf[0x2] = 0x01;
-          buf[0x3] = 0x00;
-          break;
-      case  API.AmmoUpgrade.MAX:
-          buf[0x2] = 0x01;
-          buf[0x3] = 0x01;
-          break;
-      }
-      this.emulator.rdramWriteBits8(this.inventory_upgrades_addr + 0x1, buf);
-  }
-
-  get dekuNutsCapacity():  API.AmmoUpgrade {
-      let buf: Buffer = this.emulator.rdramReadBits8(
-          this.inventory_upgrades_addr + 0x1
-      );
-      let str = buf.slice(2, 4).toString('hex');
-      switch (str) {
-      case '0000':
-          return  API.AmmoUpgrade.NONE;
-      case '0001':
-          return  API.AmmoUpgrade.BASE;
-      case '0100':
-          return  API.AmmoUpgrade.UPGRADED;
-      case '0101':
-          return  API.AmmoUpgrade.MAX;
-      }
-      return  API.AmmoUpgrade.NONE;
-  }
-
-  get bulletBag():  API.AmmoUpgrade {
-      let buf: Buffer = this.emulator.rdramReadBits8(
-          this.inventory_upgrades_addr + 0x2
-      );
-      let str = buf.slice(0, 2).toString('hex');
-      switch (str) {
-      case '0000':
-          return  API.AmmoUpgrade.NONE;
-      case '0001':
-          return  API.AmmoUpgrade.BASE;
-      case '0100':
-          return  API.AmmoUpgrade.UPGRADED;
-      case '0101':
-          return  API.AmmoUpgrade.MAX;
-      }
-      return  API.AmmoUpgrade.NONE;
-  }
-
-  set bulletBag(bb:  API.AmmoUpgrade) {
-      let buf: Buffer = this.emulator.rdramReadBits8(
-          this.inventory_upgrades_addr + 0x2
-      );
-      switch (bb) {
-      case  API.AmmoUpgrade.NONE:
-          buf[0x0] = 0x00;
-          buf[0x1] = 0x00;
-          break;
-      case  API.AmmoUpgrade.BASE:
-          buf[0x0] = 0x00;
-          buf[0x1] = 0x01;
-          break;
-      case  API.AmmoUpgrade.UPGRADED:
-          buf[0x0] = 0x01;
-          buf[0x1] = 0x00;
-          break;
-      case  API.AmmoUpgrade.MAX:
-          buf[0x0] = 0x01;
-          buf[0x1] = 0x01;
-          break;
-      }
-      this.emulator.rdramWriteBits8(this.inventory_upgrades_addr + 0x2, buf);
-  }
-
-  get quiver():  API.AmmoUpgrade {
-      let buf: Buffer = this.emulator.rdramReadBits8(
-          this.inventory_upgrades_addr + 0x3
-      );
-      let str = buf.slice(6, 8).toString('hex');
-      switch (str) {
-      case '0000':
-          return  API.AmmoUpgrade.NONE;
-      case '0001':
-          return  API.AmmoUpgrade.BASE;
-      case '0100':
-          return  API.AmmoUpgrade.UPGRADED;
-      case '0101':
-          return  API.AmmoUpgrade.MAX;
-      }
-      return  API.AmmoUpgrade.NONE;
-  }
-
-  set quiver(q:  API.AmmoUpgrade) {
-      let buf: Buffer = this.emulator.rdramReadBits8(
-          this.inventory_upgrades_addr + 0x3
-      );
-      switch (q) {
-      case  API.AmmoUpgrade.NONE:
-          buf[0x6] = 0x00;
-          buf[0x7] = 0x00;
-          break;
-      case  API.AmmoUpgrade.BASE:
-          buf[0x6] = 0x00;
-          buf[0x7] = 0x01;
-          break;
-      case  API.AmmoUpgrade.UPGRADED:
-          buf[0x6] = 0x01;
-          buf[0x7] = 0x00;
-          break;
-      case  API.AmmoUpgrade.MAX:
-          buf[0x6] = 0x01;
-          buf[0x7] = 0x01;
-          break;
-      }
-      this.emulator.rdramWriteBits8(this.inventory_upgrades_addr + 0x3, buf);
-  }
-
-  get  wallet():  API.Wallet {
-      let buf: Buffer = this.emulator.rdramReadBits8(
-          this.inventory_upgrades_addr + 0x2
-      );
-      let str = buf.slice(2, 4).toString('hex');
-      switch (str) {
-      case '0000':
-          return  API.Wallet.CHILD;
-      case '0001':
-          return  API.Wallet.ADULT;
-      case '0100':
-          return  API.Wallet.GIANT;
-      }
-      return  API.Wallet.CHILD;
-  }
-
-  set  wallet(w:  API.Wallet) {
-      let buf: Buffer = this.emulator.rdramReadBits8(
-          this.inventory_upgrades_addr + 0x2
-      );
-      switch (w) {
-      case  API.Wallet.CHILD:
-          buf[0x2] = 0x00;
-          buf[0x3] = 0x00;
-          break;
-      case  API.Wallet.ADULT:
-          buf[0x2] = 0x00;
-          buf[0x3] = 0x01;
-          break;
-      case  API.Wallet.GIANT:
-          buf[0x2] = 0x10;
-          buf[0x3] = 0x00;
-          break;
-      }
-      this.emulator.rdramWriteBits8(this.inventory_upgrades_addr + 0x2, buf);
-  }
-
-  getMaxRupeeCount(): number{
-      let addr: number = 0x800F8CEC;
-      let capacities: Array<number> = [];
-      for (let i = 0; i < 8; i+=2){
-          capacities.push(this.emulator.rdramRead16(addr + i));
-      }
-      return capacities[this.wallet];
-  }
-
-get dekuSticksCount(): number {
-    return this.getAmmoForSlot( API.InventorySlots.DEKU_STICKS);
-}
-set dekuSticksCount(count: number) {
-    this.setAmmoInSlot( API.InventorySlots.DEKU_STICKS, count);
-}
-
-get bombsCount(): number {
-    return this.getAmmoForSlot( API.InventorySlots.BOMBS);
-}
-set bombsCount(count: number) {
-    this.setAmmoInSlot( API.InventorySlots.BOMBS, count);
-}
-
-get bombchuCount(): number {
-    return this.getAmmoForSlot( API.InventorySlots.BOMBCHUS);
-}
-set bombchuCount(count: number) {
-    this.setAmmoInSlot( API.InventorySlots.BOMBCHUS, count);
-}
-
-get magicBeansCount(): number {
-    return this.getAmmoForSlot( API.InventorySlots.MAGIC_BEANS);
-}
-set magicBeansCount(count: number) {
-    this.setAmmoInSlot( API.InventorySlots.MAGIC_BEANS, count);
-}
-
-get arrows(): number {
-    return this.getAmmoForSlot( API.InventorySlots.HEROES_BOW);
-}
-set arrows(count: number) {
-    this.setAmmoInSlot( API.InventorySlots.HEROES_BOW, count);
-}
-
-  get dekuNutsCount(): number {
-      return this.getAmmoForSlot( API.InventorySlots.DEKU_NUTS);
-  }
-  set dekuNutsCount(count: number) {
-      this.setAmmoInSlot( API.InventorySlots.DEKU_NUTS, count);
-  }
-  
-  get photoCount(): number {
-      return this.getAmmoForSlot(API.InventorySlots.PICTOGRAPH_BOX);
-  }
-  set photoCount(count: number) {
-    this.setAmmoInSlot( API.InventorySlots.PICTOGRAPH_BOX, count);
-  }
-
-  get FIELD_BOTTLE1(): API.InventoryItem {
-    return this.getItemInSlot( API.InventorySlots.BOTTLE1);
-}
-set FIELD_BOTTLE1(content: API.InventoryItem) {
-    if (
-        content < API.InventoryItem.BOTTLE_EMPTY ||
-    content > API.InventoryItem.BOTTLE_CHATEAU_ROMANI
-    ) {
-        return;
+    set dekuSticksCapacity(bb: API.AmmoUpgrade) {
+        let buf: Buffer = this.emulator.rdramReadBits8(
+            this.inventory_upgrades_addr + 0x1
+        );
+        switch (bb) {
+            case API.AmmoUpgrade.NONE:
+                buf[0x5] = 0x00;
+                buf[0x6] = 0x00;
+                break;
+            case API.AmmoUpgrade.BASE:
+                buf[0x5] = 0x00;
+                buf[0x6] = 0x01;
+                break;
+            case API.AmmoUpgrade.UPGRADED:
+                buf[0x5] = 0x01;
+                buf[0x6] = 0x00;
+                break;
+            case API.AmmoUpgrade.MAX:
+                buf[0x5] = 0x01;
+                buf[0x6] = 0x01;
+                break;
+        }
+        this.emulator.rdramWriteBits8(this.inventory_upgrades_addr + 0x1, buf);
     }
-    this.setItemInSlot(content, API.InventorySlots.BOTTLE1);
-}
-  get FIELD_BOTTLE2(): API.InventoryItem {
-    return this.getItemInSlot( API.InventorySlots.BOTTLE2);
-}
-set FIELD_BOTTLE2(content: API.InventoryItem) {
-    if (
-        content < API.InventoryItem.BOTTLE_EMPTY ||
-    content > API.InventoryItem.BOTTLE_CHATEAU_ROMANI
-    ) {
-        return;
-    }
-    this.setItemInSlot(content, API.InventorySlots.BOTTLE2);
-}
-  get FIELD_BOTTLE3(): API.InventoryItem {
-    return this.getItemInSlot( API.InventorySlots.BOTTLE3);
-}
-set FIELD_BOTTLE3(content: API.InventoryItem) {
-    if (
-        content < API.InventoryItem.BOTTLE_EMPTY ||
-    content > API.InventoryItem.BOTTLE_CHATEAU_ROMANI
-    ) {
-        return;
-    }
-    this.setItemInSlot(content, API.InventorySlots.BOTTLE3);
-}
-  get FIELD_BOTTLE4(): API.InventoryItem {
-    return this.getItemInSlot( API.InventorySlots.BOTTLE4);
-}
-set FIELD_BOTTLE4(content: API.InventoryItem) {
-    if (
-        content < API.InventoryItem.BOTTLE_EMPTY ||
-    content > API.InventoryItem.BOTTLE_CHATEAU_ROMANI
-    ) {
-        return;
-    }
-    this.setItemInSlot(content, API.InventorySlots.BOTTLE4);
-}
-  
-  get FIELD_BOTTLE5(): API.InventoryItem {
-    return this.getItemInSlot( API.InventorySlots.BOTTLE5);
-}
-set FIELD_BOTTLE5(content: API.InventoryItem) {
-    if (
-        content < API.InventoryItem.BOTTLE_EMPTY ||
-    content > API.InventoryItem.BOTTLE_CHATEAU_ROMANI
-    ) {
-        return;
-    }
-    this.setItemInSlot(content, API.InventorySlots.BOTTLE5);
-}
 
-  get FIELD_BOTTLE6(): API.InventoryItem {
-      return this.getItemInSlot( API.InventorySlots.BOTTLE6);
-  }
-  set FIELD_BOTTLE6(content: API.InventoryItem) {
-      if (
-          content < API.InventoryItem.BOTTLE_EMPTY ||
-      content > API.InventoryItem.BOTTLE_CHATEAU_ROMANI
-      ) {
-          return;
-      }
-      this.setItemInSlot(content, API.InventorySlots.BOTTLE6);
-  }
+    get dekuSticksCapacity(): API.AmmoUpgrade {
+        let buf: Buffer = this.emulator.rdramReadBits8(
+            this.inventory_upgrades_addr + 0x1
+        );
+        let str = buf.slice(5, 7).toString('hex');
+        switch (str) {
+            case '0000':
+                return API.AmmoUpgrade.NONE;
+            case '0001':
+                return API.AmmoUpgrade.BASE;
+            case '0100':
+                return API.AmmoUpgrade.UPGRADED;
+            case '0101':
+                return API.AmmoUpgrade.MAX;
+        }
+        return API.AmmoUpgrade.NONE;
+    }
 
-  hasBottle(): boolean {
-      for (let i =  API.InventorySlots.BOTTLE1; i <=  API.InventorySlots.BOTTLE6; i++) {
-          let item: API.InventoryItem = this.getItemInSlot(i);
-          if (
-              item >= API.InventoryItem.BOTTLE_EMPTY &&
-        item <= API.InventoryItem.BOTTLE_CHATEAU_ROMANI //TODO: Check if Big or Small Poe in-game
-          ) {
-              return true;
-          }
-      }
-      return false;
-  }
-  getBottleCount(): number {
-      let bottles = 0;
-      for (let i =  API.InventorySlots.BOTTLE1; i <=  API.InventorySlots.BOTTLE6; i++) {
-          let item: API.InventoryItem = this.getItemInSlot(i);
-          if (
-              item >= API.InventoryItem.BOTTLE_EMPTY &&
-        item <= API.InventoryItem.BOTTLE_CHATEAU_ROMANI
-          ) {
-              bottles++;
-          }
-      }
-      return bottles;
-  }
-  getBottledItems(): API.InventoryItem[] {
-      let bottles: API.InventoryItem[] = new Array();
-      for (let i =  API.InventorySlots.BOTTLE1; i <=  API.InventorySlots.BOTTLE6; i++) {
-          let item: API.InventoryItem = this.getItemInSlot(i);
-          if (
-              item >= API.InventoryItem.BOTTLE_EMPTY &&
-        item <= API.InventoryItem.BOTTLE_CHATEAU_ROMANI
-          ) {
-              bottles.push(item);
-          }
-      }
-      return bottles;
-  }
+    set dekuNutsCapacity(bb: API.AmmoUpgrade) {
+        let buf: Buffer = this.emulator.rdramReadBits8(
+            this.inventory_upgrades_addr + 0x1
+        );
+        switch (bb) {
+            case API.AmmoUpgrade.NONE:
+                buf[0x2] = 0x00;
+                buf[0x3] = 0x00;
+                break;
+            case API.AmmoUpgrade.BASE:
+                buf[0x2] = 0x00;
+                buf[0x3] = 0x01;
+                break;
+            case API.AmmoUpgrade.UPGRADED:
+                buf[0x2] = 0x01;
+                buf[0x3] = 0x00;
+                break;
+            case API.AmmoUpgrade.MAX:
+                buf[0x2] = 0x01;
+                buf[0x3] = 0x01;
+                break;
+        }
+        this.emulator.rdramWriteBits8(this.inventory_upgrades_addr + 0x1, buf);
+    }
+
+    get dekuNutsCapacity(): API.AmmoUpgrade {
+        let buf: Buffer = this.emulator.rdramReadBits8(
+            this.inventory_upgrades_addr + 0x1
+        );
+        let str = buf.slice(2, 4).toString('hex');
+        switch (str) {
+            case '0000':
+                return API.AmmoUpgrade.NONE;
+            case '0001':
+                return API.AmmoUpgrade.BASE;
+            case '0100':
+                return API.AmmoUpgrade.UPGRADED;
+            case '0101':
+                return API.AmmoUpgrade.MAX;
+        }
+        return API.AmmoUpgrade.NONE;
+    }
+
+    get bulletBag(): API.AmmoUpgrade {
+        let buf: Buffer = this.emulator.rdramReadBits8(
+            this.inventory_upgrades_addr + 0x2
+        );
+        let str = buf.slice(0, 2).toString('hex');
+        switch (str) {
+            case '0000':
+                return API.AmmoUpgrade.NONE;
+            case '0001':
+                return API.AmmoUpgrade.BASE;
+            case '0100':
+                return API.AmmoUpgrade.UPGRADED;
+            case '0101':
+                return API.AmmoUpgrade.MAX;
+        }
+        return API.AmmoUpgrade.NONE;
+    }
+
+    set bulletBag(bb: API.AmmoUpgrade) {
+        let buf: Buffer = this.emulator.rdramReadBits8(
+            this.inventory_upgrades_addr + 0x2
+        );
+        switch (bb) {
+            case API.AmmoUpgrade.NONE:
+                buf[0x0] = 0x00;
+                buf[0x1] = 0x00;
+                break;
+            case API.AmmoUpgrade.BASE:
+                buf[0x0] = 0x00;
+                buf[0x1] = 0x01;
+                break;
+            case API.AmmoUpgrade.UPGRADED:
+                buf[0x0] = 0x01;
+                buf[0x1] = 0x00;
+                break;
+            case API.AmmoUpgrade.MAX:
+                buf[0x0] = 0x01;
+                buf[0x1] = 0x01;
+                break;
+        }
+        this.emulator.rdramWriteBits8(this.inventory_upgrades_addr + 0x2, buf);
+    }
+
+    get quiver(): API.AmmoUpgrade {
+        let buf: Buffer = this.emulator.rdramReadBits8(
+            this.inventory_upgrades_addr + 0x3
+        );
+        let str = buf.slice(6, 8).toString('hex');
+        switch (str) {
+            case '0000':
+                return API.AmmoUpgrade.NONE;
+            case '0001':
+                return API.AmmoUpgrade.BASE;
+            case '0100':
+                return API.AmmoUpgrade.UPGRADED;
+            case '0101':
+                return API.AmmoUpgrade.MAX;
+        }
+        return API.AmmoUpgrade.NONE;
+    }
+
+    set quiver(q: API.AmmoUpgrade) {
+        let buf: Buffer = this.emulator.rdramReadBits8(
+            this.inventory_upgrades_addr + 0x3
+        );
+        switch (q) {
+            case API.AmmoUpgrade.NONE:
+                buf[0x6] = 0x00;
+                buf[0x7] = 0x00;
+                break;
+            case API.AmmoUpgrade.BASE:
+                buf[0x6] = 0x00;
+                buf[0x7] = 0x01;
+                break;
+            case API.AmmoUpgrade.UPGRADED:
+                buf[0x6] = 0x01;
+                buf[0x7] = 0x00;
+                break;
+            case API.AmmoUpgrade.MAX:
+                buf[0x6] = 0x01;
+                buf[0x7] = 0x01;
+                break;
+        }
+        this.emulator.rdramWriteBits8(this.inventory_upgrades_addr + 0x3, buf);
+    }
+
+    get wallet(): API.Wallet {
+        let buf: Buffer = this.emulator.rdramReadBits8(
+            this.inventory_upgrades_addr + 0x2
+        );
+        let str = buf.slice(2, 4).toString('hex');
+        switch (str) {
+            case '0000':
+                return API.Wallet.CHILD;
+            case '0001':
+                return API.Wallet.ADULT;
+            case '0100':
+                return API.Wallet.GIANT;
+        }
+        return API.Wallet.CHILD;
+    }
+
+    set wallet(w: API.Wallet) {
+        let buf: Buffer = this.emulator.rdramReadBits8(
+            this.inventory_upgrades_addr + 0x2
+        );
+        switch (w) {
+            case API.Wallet.CHILD:
+                buf[0x2] = 0x00;
+                buf[0x3] = 0x00;
+                break;
+            case API.Wallet.ADULT:
+                buf[0x2] = 0x00;
+                buf[0x3] = 0x01;
+                break;
+            case API.Wallet.GIANT:
+                buf[0x2] = 0x10;
+                buf[0x3] = 0x00;
+                break;
+        }
+        this.emulator.rdramWriteBits8(this.inventory_upgrades_addr + 0x2, buf);
+    }
+
+    getMaxRupeeCount(): number {
+        let addr: number = 0x800F8CEC;
+        let capacities: Array<number> = [];
+        for (let i = 0; i < 8; i += 2) {
+            capacities.push(this.emulator.rdramRead16(addr + i));
+        }
+        return capacities[this.wallet];
+    }
+
+    get dekuSticksCount(): number {
+        return this.getAmmoForSlot(API.InventorySlots.DEKU_STICKS);
+    }
+    set dekuSticksCount(count: number) {
+        this.setAmmoInSlot(API.InventorySlots.DEKU_STICKS, count);
+    }
+
+    get bombsCount(): number {
+        return this.getAmmoForSlot(API.InventorySlots.BOMBS);
+    }
+    set bombsCount(count: number) {
+        this.setAmmoInSlot(API.InventorySlots.BOMBS, count);
+    }
+
+    get bombchuCount(): number {
+        return this.getAmmoForSlot(API.InventorySlots.BOMBCHUS);
+    }
+    set bombchuCount(count: number) {
+        this.setAmmoInSlot(API.InventorySlots.BOMBCHUS, count);
+    }
+
+    get magicBeansCount(): number {
+        return this.getAmmoForSlot(API.InventorySlots.MAGIC_BEANS);
+    }
+    set magicBeansCount(count: number) {
+        this.setAmmoInSlot(API.InventorySlots.MAGIC_BEANS, count);
+    }
+
+    get arrows(): number {
+        return this.getAmmoForSlot(API.InventorySlots.HEROES_BOW);
+    }
+    set arrows(count: number) {
+        this.setAmmoInSlot(API.InventorySlots.HEROES_BOW, count);
+    }
+
+    get dekuNutsCount(): number {
+        return this.getAmmoForSlot(API.InventorySlots.DEKU_NUTS);
+    }
+    set dekuNutsCount(count: number) {
+        this.setAmmoInSlot(API.InventorySlots.DEKU_NUTS, count);
+    }
+
+    get photoCount(): number {
+        return this.getAmmoForSlot(API.InventorySlots.PICTOGRAPH_BOX);
+    }
+    set photoCount(count: number) {
+        this.setAmmoInSlot(API.InventorySlots.PICTOGRAPH_BOX, count);
+    }
+
+    get FIELD_BOTTLE1(): API.InventoryItem {
+        return this.getItemInSlot(API.InventorySlots.BOTTLE1);
+    }
+    set FIELD_BOTTLE1(content: API.InventoryItem) {
+        if (
+            content < API.InventoryItem.BOTTLE_EMPTY ||
+            content > API.InventoryItem.BOTTLE_CHATEAU_ROMANI
+        ) {
+            return;
+        }
+        this.setItemInSlot(content, API.InventorySlots.BOTTLE1);
+    }
+    get FIELD_BOTTLE2(): API.InventoryItem {
+        return this.getItemInSlot(API.InventorySlots.BOTTLE2);
+    }
+    set FIELD_BOTTLE2(content: API.InventoryItem) {
+        if (
+            content < API.InventoryItem.BOTTLE_EMPTY ||
+            content > API.InventoryItem.BOTTLE_CHATEAU_ROMANI
+        ) {
+            return;
+        }
+        this.setItemInSlot(content, API.InventorySlots.BOTTLE2);
+    }
+    get FIELD_BOTTLE3(): API.InventoryItem {
+        return this.getItemInSlot(API.InventorySlots.BOTTLE3);
+    }
+    set FIELD_BOTTLE3(content: API.InventoryItem) {
+        if (
+            content < API.InventoryItem.BOTTLE_EMPTY ||
+            content > API.InventoryItem.BOTTLE_CHATEAU_ROMANI
+        ) {
+            return;
+        }
+        this.setItemInSlot(content, API.InventorySlots.BOTTLE3);
+    }
+    get FIELD_BOTTLE4(): API.InventoryItem {
+        return this.getItemInSlot(API.InventorySlots.BOTTLE4);
+    }
+    set FIELD_BOTTLE4(content: API.InventoryItem) {
+        if (
+            content < API.InventoryItem.BOTTLE_EMPTY ||
+            content > API.InventoryItem.BOTTLE_CHATEAU_ROMANI
+        ) {
+            return;
+        }
+        this.setItemInSlot(content, API.InventorySlots.BOTTLE4);
+    }
+
+    get FIELD_BOTTLE5(): API.InventoryItem {
+        return this.getItemInSlot(API.InventorySlots.BOTTLE5);
+    }
+    set FIELD_BOTTLE5(content: API.InventoryItem) {
+        if (
+            content < API.InventoryItem.BOTTLE_EMPTY ||
+            content > API.InventoryItem.BOTTLE_CHATEAU_ROMANI
+        ) {
+            return;
+        }
+        this.setItemInSlot(content, API.InventorySlots.BOTTLE5);
+    }
+
+    get FIELD_BOTTLE6(): API.InventoryItem {
+        return this.getItemInSlot(API.InventorySlots.BOTTLE6);
+    }
+    set FIELD_BOTTLE6(content: API.InventoryItem) {
+        if (
+            content < API.InventoryItem.BOTTLE_EMPTY ||
+            content > API.InventoryItem.BOTTLE_CHATEAU_ROMANI
+        ) {
+            return;
+        }
+        this.setItemInSlot(content, API.InventorySlots.BOTTLE6);
+    }
+
+    hasBottle(): boolean {
+        for (let i = API.InventorySlots.BOTTLE1; i <= API.InventorySlots.BOTTLE6; i++) {
+            let item: API.InventoryItem = this.getItemInSlot(i);
+            if (
+                item >= API.InventoryItem.BOTTLE_EMPTY &&
+                item <= API.InventoryItem.BOTTLE_CHATEAU_ROMANI //TODO: Check if Big or Small Poe in-game
+            ) {
+                return true;
+            }
+        }
+        return false;
+    }
+    getBottleCount(): number {
+        let bottles = 0;
+        for (let i = API.InventorySlots.BOTTLE1; i <= API.InventorySlots.BOTTLE6; i++) {
+            let item: API.InventoryItem = this.getItemInSlot(i);
+            if (
+                item >= API.InventoryItem.BOTTLE_EMPTY &&
+                item <= API.InventoryItem.BOTTLE_CHATEAU_ROMANI
+            ) {
+                bottles++;
+            }
+        }
+        return bottles;
+    }
+    getBottledItems(): API.InventoryItem[] {
+        let bottles: API.InventoryItem[] = new Array();
+        for (let i = API.InventorySlots.BOTTLE1; i <= API.InventorySlots.BOTTLE6; i++) {
+            let item: API.InventoryItem = this.getItemInSlot(i);
+            if (
+                item >= API.InventoryItem.BOTTLE_EMPTY &&
+                item <= API.InventoryItem.BOTTLE_CHATEAU_ROMANI
+            ) {
+                bottles.push(item);
+            }
+        }
+        return bottles;
+    }
 
     get FIELD_QUEST_ITEM_1(): API.InventoryItem {
-        return this.getItemInSlot( API.InventorySlots.QUEST_ITEM_1);
+        return this.getItemInSlot(API.InventorySlots.QUEST_ITEM_1);
     }
     set FIELD_QUEST_ITEM_1(item: API.InventoryItem) {
         if (item < API.InventoryItem.QSLOT1_MOONS_TEAR || item > API.InventoryItem.QSLOT1_TITLE_DEED_OCEAN) return;
-        this.setItemInSlot(item,  API.InventorySlots.QUEST_ITEM_1);
+        this.setItemInSlot(item, API.InventorySlots.QUEST_ITEM_1);
     }
 
     get FIELD_QUEST_ITEM_2(): API.InventoryItem {
-        return this.getItemInSlot( API.InventorySlots.QUEST_ITEM_2);
+        return this.getItemInSlot(API.InventorySlots.QUEST_ITEM_2);
     }
     set FIELD_QUEST_ITEM_2(item: API.InventoryItem) {
         if (item < API.InventoryItem.QSLOT2_ROOM_KEY || item > API.InventoryItem.QSLOT2_SPECIAL_DELIVERY_TO_MAMA) {
             return;
         }
-        this.setItemInSlot(item,  API.InventorySlots.QUEST_ITEM_2);
+        this.setItemInSlot(item, API.InventorySlots.QUEST_ITEM_2);
     }
 
     get FIELD_QUEST_ITEM_3(): API.InventoryItem {
-        return this.getItemInSlot( API.InventorySlots.QUEST_ITEM_3);
+        return this.getItemInSlot(API.InventorySlots.QUEST_ITEM_3);
     }
     set FIELD_QUEST_ITEM_3(item: API.InventoryItem) {
         if (item < API.InventoryItem.QSLOT3_LETTER_TO_KAFEI || item > API.InventoryItem.QSLOT3_PENDANT_OF_MEMORIES) {
             return;
         }
-        this.setItemInSlot(item,  API.InventorySlots.QUEST_ITEM_3);
+        this.setItemInSlot(item, API.InventorySlots.QUEST_ITEM_3);
     }
 
     isEvt1TradeFinished(): boolean {
@@ -900,12 +915,12 @@ set FIELD_BOTTLE5(content: API.InventoryItem) {
         // This should be done with flags also
         return true;
     }
-    
+
     getItemInSlot(slotId: number): API.InventoryItem {
         if (slotId < 0 || slotId > API.InventorySlots.MASK_FIERCE_DEITY) {
             return API.InventoryItem.NONE;
         }
-  
+
         let itemId: number = this.emulator.rdramRead8(this.inventory_addr + slotId);
         return itemId as API.InventoryItem;
     }
@@ -927,69 +942,69 @@ set FIELD_BOTTLE5(content: API.InventoryItem) {
         return slots;
     }
 
-  hasItem(item: API.InventoryItem): boolean {
-      return this.getSlotForItem(item) != -1;
-  }
-
-  getAmmoForItem(item: API.InventoryItem): number {
-      if (!this.hasAmmo(item)) return 0;
-
-      let ammo = 0;
-      let slots: number[] = this.getSlotsForItem(item);
-      for (let i = 0; i < slots.length; i++) {
-          ammo += this.getAmmoForSlot(slots[i]);
-      }
-      return ammo;
-  }
-  hasAmmo(item: API.InventoryItem): boolean {
-      switch (item) {
-      case API.InventoryItem.DEKU_STICK:
-      case API.InventoryItem.DEKU_NUT:
-      case API.InventoryItem.HEROES_BOW:
-      case API.InventoryItem.BOMB:
-      case API.InventoryItem.BOMBCHU:
-      case API.InventoryItem.MAGIC_BEANS:
-          return true;
-      }
-      return false;
-  }
-  getAmmoForSlot(slotId: number): number {
-      if (slotId < 0 || slotId > 0xf) return 0;
-      return this.emulator.rdramRead8(this.inventory_ammo_addr + slotId);
-  }
-  setAmmoInSlot(slot: number, amount: number): void {
-      if (slot < 0 || slot >= 0xf) return;
-      this.emulator.rdramWrite8(this.inventory_ammo_addr + slot, amount);
-  }
-
-  setItemInSlot(item: API.InventoryItem, slot: number): void {
-    if (slot < 0 || slot > API.InventorySlots.MASK_FIERCE_DEITY) {
-        return;
+    hasItem(item: API.InventoryItem): boolean {
+        return this.getSlotForItem(item) != -1;
     }
-    this.emulator.rdramWrite8(this.inventory_addr + slot, item.valueOf());
-}   
 
-  giveItem(item: API.InventoryItem, desiredSlot:  API.InventorySlots) {
-      if (
-          this.getItemInSlot(desiredSlot) == API.InventoryItem.NONE ||
-      this.getItemInSlot(desiredSlot) == item
-      ) {
-          this.setItemInSlot(item, desiredSlot);
-      }
-  }
-  removeItem(item: API.InventoryItem): void {
-      let slots = this.getSlotsForItem(item);
-      for (let i = 0; i < slots.length; i++) {
-          this.setItemInSlot(API.InventoryItem.NONE, i);
-      }
-  }
-  getEmptySlots(): number[] {
-      let slots: number[] = new Array();
-      for (let i = 0; i <=  API.InventorySlots.MASK_FIERCE_DEITY; i++) {
-          if (this.getItemInSlot(i) == API.InventoryItem.NONE) {
-              slots.push(i);
-          }
-      }
-      return slots;
-  }
+    getAmmoForItem(item: API.InventoryItem): number {
+        if (!this.hasAmmo(item)) return 0;
+
+        let ammo = 0;
+        let slots: number[] = this.getSlotsForItem(item);
+        for (let i = 0; i < slots.length; i++) {
+            ammo += this.getAmmoForSlot(slots[i]);
+        }
+        return ammo;
+    }
+    hasAmmo(item: API.InventoryItem): boolean {
+        switch (item) {
+            case API.InventoryItem.DEKU_STICK:
+            case API.InventoryItem.DEKU_NUT:
+            case API.InventoryItem.HEROES_BOW:
+            case API.InventoryItem.BOMB:
+            case API.InventoryItem.BOMBCHU:
+            case API.InventoryItem.MAGIC_BEANS:
+                return true;
+        }
+        return false;
+    }
+    getAmmoForSlot(slotId: number): number {
+        if (slotId < 0 || slotId > 0xf) return 0;
+        return this.emulator.rdramRead8(this.inventory_ammo_addr + slotId);
+    }
+    setAmmoInSlot(slot: number, amount: number): void {
+        if (slot < 0 || slot >= 0xf) return;
+        this.emulator.rdramWrite8(this.inventory_ammo_addr + slot, amount);
+    }
+
+    setItemInSlot(item: API.InventoryItem, slot: number): void {
+        if (slot < 0 || slot > API.InventorySlots.MASK_FIERCE_DEITY) {
+            return;
+        }
+        this.emulator.rdramWrite8(this.inventory_addr + slot, item.valueOf());
+    }
+
+    giveItem(item: API.InventoryItem, desiredSlot: API.InventorySlots) {
+        if (
+            this.getItemInSlot(desiredSlot) == API.InventoryItem.NONE ||
+            this.getItemInSlot(desiredSlot) == item
+        ) {
+            this.setItemInSlot(item, desiredSlot);
+        }
+    }
+    removeItem(item: API.InventoryItem): void {
+        let slots = this.getSlotsForItem(item);
+        for (let i = 0; i < slots.length; i++) {
+            this.setItemInSlot(API.InventoryItem.NONE, i);
+        }
+    }
+    getEmptySlots(): number[] {
+        let slots: number[] = new Array();
+        for (let i = 0; i <= API.InventorySlots.MASK_FIERCE_DEITY; i++) {
+            if (this.getItemInSlot(i) == API.InventoryItem.NONE) {
+                slots.push(i);
+            }
+        }
+        return slots;
+    }
 }
