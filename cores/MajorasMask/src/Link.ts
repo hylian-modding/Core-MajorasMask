@@ -49,6 +49,9 @@ export class Link extends JSONTemplate implements API.ILink {
       this.position = new Position(this);
   }
 
+    invalidateCachedCode(): void {
+    }
+
       
     get rawStateValue(): number {
         let offsets = new MMOffsets;
