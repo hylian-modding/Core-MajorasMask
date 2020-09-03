@@ -4,10 +4,8 @@
 addiu   $sp, $sp, -0x0038
 sw      $t8, 0x0034($sp)
 sw      $a2, 0x0040($sp)
-la      $t0, .Lreturn
-move    $t1, $ra
-addu    $ra, $t9, $t0
-move    $t9, $t1
+move    $t9, $ra
+la      $ra, .Lreturn
 
 /* forward arguments to z64_SpawnActor */
 lw      $t0, 0x0048($sp)

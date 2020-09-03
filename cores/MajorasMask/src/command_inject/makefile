@@ -4,7 +4,7 @@ OBJCOPY               = mips64-objcopy
 NM                    = mips64-nm
 ELF2GSC               = OBJCOPY='$(OBJCOPY)' NM='$(NM)' ./elf2gsc
 ALL_CPPFLAGS          = -Iinclude $(CPPFLAGS)
-ALL_ASMFLAGS          = -mabi=o64 -Os $(ASMFLAGS)
+ALL_ASMFLAGS          = -Os $(ASMFLAGS)
 ALL_LDFLAGS           = -nostdlib -Llib -T elf32ebmip-bin.x $(LDFLAGS)
 ALL_LDLIBS            = $(LDLIBS)
 VERSIONS              = mm-u
@@ -46,7 +46,7 @@ $$(GSC-$(1))          : $$(GSCDIR-$(1))/%.gsc: $$(BINDIR-$(1))/%.elf | $$(GSCDIR
 $$(ELF-$(1))          : $$(BINDIR-$(1))/%.elf: $$(OBJDIR-$(1))/%.o | $$(BINDIR-$(1))
 	$$(LD) $$(ALL_LDFLAGS) $$^ $$(ALL_LDLIBS) -Wl,--defsym,start=$$(patsubst $$(BINDIR-$(1))/%.elf,%,$$@) -o $$@
 $$(ASMOBJ-$(1))       : $$(OBJDIR-$(1))/%.o: $$(SRCDIR-$(1))/%.S | $$(OBJDIR-$(1))
-	$$(CCAS) -c -MMD -MP $$(ALL_CPPFLAGS) $$(ALL_ASMFLAGS) $$^ -o $$@
+	$$(CCAS) -c -MMD -MP $$(ALL_CPPFLAGS) $$(ALL_ASMFLAGS) $$< -o $$@
 $$(OUTDIR-$(1))       :
 	mkdir -p $$@
 
