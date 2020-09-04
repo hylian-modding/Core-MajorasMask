@@ -19,7 +19,8 @@ z64_room_ctxt                     = (z64_ctxt + 0x000186E0) ;
 z64_room_list                     = (z64_ctxt + 0x0001884C) ;
 
 actor_ctor_hook                   = 0x800B6928 ;
-actor_dtor_hook                   = 0x800B6968 ;
+actor_dtor_hook_1                 = 0x800B6948 ;
+actor_dtor_hook_2                 = 0x800B697C ;
 room_actor_hook                   = 0x800B9430 ;
 actor_main_hook                   = 0x800B9744 ;
 spawn_actor_hook                  = 0x800BAE14 ;
@@ -27,7 +28,8 @@ tnsn_actor_hook                   = 0x800BB27C ;
 command_hook                      = 0x801737A0 ;
 
 actor_ctor_func                   = 0x80801300 ;
-actor_dtor_func                   = 0x80801400 ;
+actor_dtor_func_1                 = 0x80801400 ;
+actor_dtor_func_2                 = 0x80801480 ;
 room_actor_func                   = 0x80801500 ;
 actor_main_func                   = 0x80801600 ;
 spawn_actor_func                  = 0x80801700 ;
