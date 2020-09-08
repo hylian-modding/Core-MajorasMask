@@ -41,11 +41,11 @@ export const enum LinkState2 {
 }
 
 export const enum MMForms{
-  HUMAN,
-  DEKU,
-  ZORA,
+  FD,
   GORON,
-  FD
+  ZORA,
+  DEKU,
+  HUMAN
 }
 
 export const enum Scene {
