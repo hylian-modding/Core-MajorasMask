@@ -323,10 +323,7 @@ export const enum Wallet {
 }
 
 export interface ISwords {
-  kokiriSword: boolean;
-  razorSword: boolean;
-  gilded: boolean;
-
+  swordLevel: Sword;
 }
 
 export interface IPhoto {
@@ -338,8 +335,7 @@ export interface IPhoto {
 }
 
 export interface IShields {
-  heroesShield: boolean;
-  mirrorShield: boolean;
+  shieldLevel: Shield;
 }
 
 export interface IInventoryCounts {

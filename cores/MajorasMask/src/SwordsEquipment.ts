@@ -1,12 +1,11 @@
 import IMemory from 'modloader64_api/IMemory';
 import * as API from '../API/Imports';
 import { JSONTemplate } from 'modloader64_api/JSONTemplate';
-import { IMMCore } from '../API/Imports';
+import { IMMCore, Sword } from '../API/Imports';
 import { Command } from 'modloader64_api/OOT/ICommandBuffer';
 
 export const enum SwordBitMap {
   KOKIRI = 0x7,
-  RAZOR = 0x7,
   GILDED = 0x6
 }
 
@@ -26,45 +25,56 @@ export class SwordsEquipment extends JSONTemplate implements API.ISwords {
     this.emulator = emulator;
     this.core = core;
   }
-  get kokiriSword() {
-    return this.emulator.rdramReadBit8(this.equipment_addr, SwordBitMap.KOKIRI);
-  }
-  set kokiriSword(bool: boolean) {
-    this.emulator.rdramWriteBit8(this.equipment_addr, SwordBitMap.KOKIRI, bool);
-    if (bool) {
-      this.emulator.rdramWrite8(0x1EF6BC, 0x4D);
-      this.core.commandBuffer.runCommand(Command.UPDATE_C_BUTTON_ICON, 0x0);
+
+  get swordLevel(): Sword {
+    let bits = this.emulator.rdramReadBits8(this.equipment_addr);
+    if (bits[SwordBitMap.KOKIRI] === 1 && bits[SwordBitMap.GILDED] === 0) {
+      return Sword.KOKIRI;
+    } else if (bits[SwordBitMap.KOKIRI] === 0 && bits[SwordBitMap.GILDED] === 1) {
+      return Sword.RAZOR;
+    } else if (bits[SwordBitMap.KOKIRI] === 1 && bits[SwordBitMap.GILDED] === 1) {
+      return Sword.GILDED;
+    } else {
+      return Sword.NONE;
     }
-  }
-  get razorSword() {
-    return this.emulator.rdramReadBit8(this.equipment_addr, SwordBitMap.KOKIRI);
-  }
-  set razorSword(bool: boolean) {
-    this.emulator.rdramWriteBit8(this.equipment_addr, SwordBitMap.KOKIRI, false);
-    this.emulator.rdramWriteBit8(this.equipment_addr, SwordBitMap.GILDED, bool);
-    if (bool) {
-      this.emulator.rdramWrite8(0x1EF6BC, 0x4E);
-      this.core.commandBuffer.runCommand(Command.UPDATE_C_BUTTON_ICON, 0x0);
-    }
-  }
-  get gilded() {
-    return this.emulator.rdramReadBit8(this.equipment_addr, SwordBitMap.GILDED);
   }
 
-  set gilded(bool: boolean) {
-    this.emulator.rdramWriteBit8(
-      this.equipment_addr,
-      SwordBitMap.GILDED,
-      bool
-    );
-    this.emulator.rdramWriteBit8(
-      this.equipment_addr,
-      SwordBitMap.KOKIRI,
-      true
-    );
-    if (bool) {
-      this.emulator.rdramWrite8(0x1EF6BC, 0x4F);
-      this.core.commandBuffer.runCommand(Command.UPDATE_C_BUTTON_ICON, 0x0);
+  set swordLevel(level: Sword) {
+    let bits = this.emulator.rdramReadBits8(this.equipment_addr);
+    switch (level) {
+      case Sword.NONE:
+        bits[SwordBitMap.KOKIRI] = 0;
+        bits[SwordBitMap.GILDED] = 0;
+        if (this.emulator.rdramRead8(0x1EF6BC) !== 0x50) {
+          this.emulator.rdramWrite8(0x1EF6BC, 0xFF);
+          this.core.commandBuffer.runCommand(Command.UPDATE_C_BUTTON_ICON, 0x0);
+        }
+        break;
+      case Sword.KOKIRI:
+        bits[SwordBitMap.KOKIRI] = 1;
+        bits[SwordBitMap.GILDED] = 0;
+        if (this.emulator.rdramRead8(0x1EF6BC) !== 0x50) {
+          this.emulator.rdramWrite8(0x1EF6BC, 0x4D);
+          this.core.commandBuffer.runCommand(Command.UPDATE_C_BUTTON_ICON, 0x0);
+        }
+        break;
+      case Sword.RAZOR:
+        bits[SwordBitMap.KOKIRI] = 0;
+        bits[SwordBitMap.GILDED] = 1;
+        if (this.emulator.rdramRead8(0x1EF6BC) !== 0x50) {
+          this.emulator.rdramWrite8(0x1EF6BC, 0x4E);
+          this.core.commandBuffer.runCommand(Command.UPDATE_C_BUTTON_ICON, 0x0);
+        }
+        break;
+      case Sword.GILDED:
+        bits[SwordBitMap.KOKIRI] = 1;
+        bits[SwordBitMap.GILDED] = 1;
+        if (this.emulator.rdramRead8(0x1EF6BC) !== 0x50) {
+          this.emulator.rdramWrite8(0x1EF6BC, 0x4F);
+          this.core.commandBuffer.runCommand(Command.UPDATE_C_BUTTON_ICON, 0x0);
+        }
+        break;
     }
+    this.emulator.rdramWriteBits8(this.equipment_addr, bits);
   }
 }
