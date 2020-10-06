@@ -9,6 +9,7 @@ import { QuestStatus } from "./QuestStatus";
 import { KeyManager } from "./KeyManager";
 import { IModLoaderAPI, ILogger } from "modloader64_api/IModLoaderAPI";
 import { Photo } from "./Photo";
+import { IMMCore } from "../API/Imports";
 
 export class SaveContext extends JSONTemplate implements API.ISaveContext {
     
@@ -19,10 +20,10 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
     keyManager: API.IKeyManager;
     dungeonItemManager: API.IDungeonItemManager;
 
-    constructor(emu: IMemory, log: ILogger) {
+    constructor(emu: IMemory, log: ILogger, core: IMMCore) {
         super();
         this.emulator = emu;
-        this.swords = new SwordsEquipment(emu);
+        this.swords = new SwordsEquipment(emu, core);
         this.shields = new ShieldsEquipment(emu);
         this.inventory = new Inventory(emu, log);
         this.questStatus = new QuestStatus(emu);

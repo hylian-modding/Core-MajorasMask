@@ -75,7 +75,7 @@ export class MajorasMask implements ICore, API.IMMCore {
 
         this.global = new GlobalContext(this.ModLoader);
         this.link = new Link(this.ModLoader.emulator);
-        this.save = new SaveContext(this.ModLoader.emulator, this.ModLoader.logger);
+        this.save = new SaveContext(this.ModLoader.emulator, this.ModLoader.logger, this);
         this.helper = new MMHelper(
             this.save,
             this.global,
