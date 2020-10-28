@@ -29,7 +29,7 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         this.questStatus = new QuestStatus(emu);
         this.keyManager = new KeyManager(emu);
         this.dungeonItemManager = new DungeonItemManager(emu);
-        this.photo = new Photo(emu);
+        this.photo = new Photo(emu, this);
     }
 
     photo: API.IPhoto;
@@ -422,5 +422,13 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
 
     set bomber_code(flag: Buffer) {
         this.emulator.rdramWriteBuffer(this.offsets.bomber_code, flag);
+    }
+
+    set pictoboxUsed(b: boolean){
+        this.emulator.rdramWriteBit8(this.offsets.questflg1, 6, b);
+    }
+
+    get pictoboxUsed(): boolean{
+        return this.emulator.rdramReadBit8(this.offsets.questflg1, 6);
     }
 }

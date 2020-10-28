@@ -1,6 +1,6 @@
 {
   "name": "MajorasMask",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Majora's Mask Core",
   "main": "index.js",
   "scripts": {

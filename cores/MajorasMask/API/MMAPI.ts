@@ -327,11 +327,11 @@ export interface ISwords {
 }
 
 export interface IPhoto {
-  pictograph_photoChunk1: Buffer;
-  pictograph_photoChunk2: Buffer;
+  pictograph_photoChunk: Buffer;
   pictograph_spec: number;
   pictograph_quality: number;
   pictograph_unk: number;
+  pictograph_used: boolean;
 }
 
 export interface IShields {
@@ -500,6 +500,8 @@ export interface ISaveContext {
   lottery_numbers_day3: Buffer;
   spider_house_mask_order: Buffer;
   bomber_code: Buffer;
+
+  pictoboxUsed: boolean;
 }
 
 export interface ILink extends IActor {

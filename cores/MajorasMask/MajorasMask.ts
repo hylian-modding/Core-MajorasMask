@@ -82,7 +82,7 @@ export class MajorasMask implements ICore, API.IMMCore {
             this.link,
             this.ModLoader.emulator
         );
-        this.photo = new Photo(this.ModLoader.emulator);
+        this.photo = new Photo(this.ModLoader.emulator, this.save);
         this.actorManager = new ActorManager(
             this.ModLoader.emulator,
             this.ModLoader.logger,
