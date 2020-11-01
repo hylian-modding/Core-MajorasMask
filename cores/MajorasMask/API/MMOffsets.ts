@@ -115,4 +115,6 @@ export class MMOffsets {
     lottery_numbers_day3 = 0x801F0662; //0x3
     spider_house_mask_order = 0x801F0665; //0x6
     bomber_code = 0x801F066B; //0x5
+
+    permFlags = 0x801F35D8; // 0x960
 }

@@ -431,4 +431,12 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
     get pictoboxUsed(): boolean{
         return this.emulator.rdramReadBit8(this.offsets.questflg1, 6);
     }
+
+    get permFlags(): Buffer{
+        return this.emulator.rdramReadBuffer(this.offsets.permFlags, 0x960);
+    }
+
+    set permFlags(b: Buffer){
+        this.emulator.rdramWriteBuffer(this.offsets.permFlags, b);
+    }
 }

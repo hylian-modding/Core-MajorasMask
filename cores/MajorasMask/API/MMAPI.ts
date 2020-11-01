@@ -502,6 +502,8 @@ export interface ISaveContext {
   bomber_code: Buffer;
 
   pictoboxUsed: boolean;
+
+  permFlags: Buffer;
 }
 
 export interface ILink extends IActor {
