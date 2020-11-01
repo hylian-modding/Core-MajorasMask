@@ -241,6 +241,14 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         this.emulator.rdramWrite8(this.offsets.double_defense, flag);
     }
 
+    get magic_spin(): number {
+        return this.emulator.rdramRead8(this.offsets.magic);
+    }
+
+    set magic_spin(flag: number) {
+        this.emulator.rdramWrite8(this.offsets.double_defense, flag);
+    }
+
     get scene_flags(): Buffer {
         return this.emulator.rdramReadBuffer(this.offsets.scene_flags, 0xD20);
     }
