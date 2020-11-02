@@ -1129,6 +1129,10 @@ export interface ISwords {
   swordLevel: Sword;
 }
 
+export interface ISwordHelper{
+  updateSwordonB(): void;
+}
+
 export interface IPhoto {
   pictograph_photoChunk: Buffer;
   pictograph_spec: number;
@@ -1271,6 +1275,7 @@ export interface ISaveContext {
   scene_flags: Buffer;
   inventory: IInventory;
   swords: ISwords;
+  sword_helper: ISwordHelper;
   shields: IShields;
   questStatus: IQuestStatus;
   checksum: number;
