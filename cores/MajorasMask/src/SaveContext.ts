@@ -61,6 +61,14 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         this.emulator.rdramWrite16(this.offsets.max_heart_flag, flag);
     }
 
+    get health_mod(): number {
+        return this.emulator.rdramRead8(this.offsets.health_mod);
+    }
+
+    set health_mod(flag: number) {
+        this.emulator.rdramWrite16(this.offsets.health_mod, flag);
+    }
+
     get deku_b_state() {
         return this.emulator.rdramRead32(this.offsets.deku_b_addr);
     }

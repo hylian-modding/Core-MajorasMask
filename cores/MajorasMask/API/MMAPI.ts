@@ -1283,6 +1283,7 @@ export interface ISaveContext {
   keyManager: IKeyManager;
   dungeonItemManager: IDungeonItemManager;
   heart_containers: number;
+  health_mod: number;
   magic_meter_size: Magic;
   magic_current: number;
   magic: number;
