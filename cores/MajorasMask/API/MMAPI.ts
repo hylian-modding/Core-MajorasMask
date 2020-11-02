@@ -1278,6 +1278,7 @@ export interface ISaveContext {
   keyManager: IKeyManager;
   dungeonItemManager: IDungeonItemManager;
   heart_containers: number;
+  hearts: number;
   magic_meter_size: Magic;
   magic_current: number;
   magic: number;

@@ -44,21 +44,13 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
     get form(): number {
         return this.emulator.rdramRead8(this.offsets.save_context + this.offsets.mask_offset);
     }
-
-    get max_heart(): number {
-        return this.emulator.rdramRead16(this.offsets.max_heart_flag);
-    }
-
-    set get_heart(flag: number) {
-        this.emulator.rdramWrite16(this.offsets.max_heart_flag, flag);
-    }
     
     get hearts(): number {
         return this.emulator.rdramRead16(this.offsets.hearts);
     }
     
     set hearts(flag: number) {
-        this.emulator.rdramWrite16(this.offsets.max_heart_flag, flag);
+        this.emulator.rdramWrite16(this.offsets.hearts, flag);
     }
 
     get deku_b_state(){
