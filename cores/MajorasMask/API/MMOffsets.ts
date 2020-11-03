@@ -60,7 +60,7 @@ export class MMOffsets {
 
     max_heart_flag: number = 0x801EF6A4; //0x2
     hearts: number = 0x801EF6A6; //0x2
-
+    health_mod: number = 0x801F35CA; //0x1
     magic: number = 0x801EF6A9; //0x1
 
     magic_meter_size_addr: number = 0x801EF6A8;

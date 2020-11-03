@@ -9,7 +9,7 @@ export const enum SwordBitMap {
   GILDED = 0x6
 }
 
-export class SwordsEquipment extends JSONTemplate implements API.ISwords {
+export class SwordsEquipment extends JSONTemplate implements API.ISwords, API.ISwordHelper {
   private emulator: IMemory;
   private offsets = new API.MMOffsets;
   private instance: number = this.offsets.save_context;
@@ -45,36 +45,50 @@ export class SwordsEquipment extends JSONTemplate implements API.ISwords {
       case Sword.NONE:
         bits[SwordBitMap.KOKIRI] = 0;
         bits[SwordBitMap.GILDED] = 0;
+        break;
+      case Sword.KOKIRI:
+        bits[SwordBitMap.KOKIRI] = 1;
+        bits[SwordBitMap.GILDED] = 0;
+        break;
+      case Sword.RAZOR:
+        bits[SwordBitMap.KOKIRI] = 0;
+        bits[SwordBitMap.GILDED] = 1;
+        break;
+      case Sword.GILDED:
+        bits[SwordBitMap.KOKIRI] = 1;
+        bits[SwordBitMap.GILDED] = 1;
+        break;
+    }
+    this.emulator.rdramWriteBits8(this.equipment_addr, bits);
+  }
+
+  updateSwordonB(): void {
+    let level = this.swordLevel;
+    switch (level) {
+      case Sword.NONE:
         if (this.emulator.rdramRead8(0x1EF6BC) !== 0x50) {
           this.emulator.rdramWrite8(0x1EF6BC, 0xFF);
           this.core.commandBuffer.runCommand(Command.UPDATE_C_BUTTON_ICON, 0x0);
         }
         break;
       case Sword.KOKIRI:
-        bits[SwordBitMap.KOKIRI] = 1;
-        bits[SwordBitMap.GILDED] = 0;
         if (this.emulator.rdramRead8(0x1EF6BC) !== 0x50) {
           this.emulator.rdramWrite8(0x1EF6BC, 0x4D);
           this.core.commandBuffer.runCommand(Command.UPDATE_C_BUTTON_ICON, 0x0);
         }
         break;
       case Sword.RAZOR:
-        bits[SwordBitMap.KOKIRI] = 0;
-        bits[SwordBitMap.GILDED] = 1;
         if (this.emulator.rdramRead8(0x1EF6BC) !== 0x50) {
           this.emulator.rdramWrite8(0x1EF6BC, 0x4E);
           this.core.commandBuffer.runCommand(Command.UPDATE_C_BUTTON_ICON, 0x0);
         }
         break;
       case Sword.GILDED:
-        bits[SwordBitMap.KOKIRI] = 1;
-        bits[SwordBitMap.GILDED] = 1;
         if (this.emulator.rdramRead8(0x1EF6BC) !== 0x50) {
           this.emulator.rdramWrite8(0x1EF6BC, 0x4F);
           this.core.commandBuffer.runCommand(Command.UPDATE_C_BUTTON_ICON, 0x0);
         }
         break;
     }
-    this.emulator.rdramWriteBits8(this.equipment_addr, bits);
   }
 }
