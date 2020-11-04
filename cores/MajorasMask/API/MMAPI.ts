@@ -1301,6 +1301,8 @@ export interface ISaveContext {
   time_speed: number;
   current_day: number;
 
+  current_transformation: number;
+
   intro_flag: number;
   have_tatl: number;
 
