@@ -1129,6 +1129,10 @@ export interface ISwords {
   swordLevel: Sword;
 }
 
+export interface ISwordHelper{
+  updateSwordonB(): void;
+}
+
 export interface IPhoto {
   pictograph_photoChunk: Buffer;
   pictograph_spec: number;
@@ -1271,6 +1275,7 @@ export interface ISaveContext {
   scene_flags: Buffer;
   inventory: IInventory;
   swords: ISwords;
+  sword_helper: ISwordHelper;
   shields: IShields;
   questStatus: IQuestStatus;
   checksum: number;
@@ -1279,6 +1284,7 @@ export interface ISaveContext {
   dungeonItemManager: IDungeonItemManager;
   heart_containers: number;
   hearts: number;
+  health_mod: number;
   magic_meter_size: Magic;
   magic_current: number;
   magic: number;

@@ -7,23 +7,28 @@ import { SwordsEquipment } from './SwordsEquipment';
 import { DungeonItemManager } from "./DungeonItemManager";
 import { QuestStatus } from "./QuestStatus";
 import { KeyManager } from "./KeyManager";
-import { IModLoaderAPI, ILogger } from "modloader64_api/IModLoaderAPI";
+import { ILogger } from "modloader64_api/IModLoaderAPI";
 import { Photo } from "./Photo";
-import { IMMCore } from "../API/Imports";
+import { IMMCore, ISwordHelper } from "../API/Imports";
 
 export class SaveContext extends JSONTemplate implements API.ISaveContext {
-    
+
     private emulator: IMemory;
     offsets: API.MMOffsets = new API.MMOffsets();
     inventory: Inventory;
     questStatus: API.IQuestStatus;
     keyManager: API.IKeyManager;
     dungeonItemManager: API.IDungeonItemManager;
+    photo: API.IPhoto;
+    swords: SwordsEquipment;
+    sword_helper: ISwordHelper;
+    shields: ShieldsEquipment;
 
     constructor(emu: IMemory, log: ILogger, core: IMMCore) {
         super();
         this.emulator = emu;
         this.swords = new SwordsEquipment(emu, core);
+        this.sword_helper = this.swords;
         this.shields = new ShieldsEquipment(emu);
         this.inventory = new Inventory(emu, log);
         this.questStatus = new QuestStatus(emu);
@@ -32,11 +37,6 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         this.photo = new Photo(emu, this);
     }
 
-    photo: API.IPhoto;
-
-    swords: SwordsEquipment;
-    shields: ShieldsEquipment;
-    
     get checksum(): number {
         return this.emulator.rdramReadBuffer(this.offsets.checksum, 0x6).readUIntBE(0x0, 0x6);
     }
@@ -44,16 +44,24 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
     get form(): number {
         return this.emulator.rdramRead8(this.offsets.save_context + this.offsets.mask_offset);
     }
-    
+
     get hearts(): number {
         return this.emulator.rdramRead16(this.offsets.hearts);
     }
-    
+
     set hearts(flag: number) {
         this.emulator.rdramWrite16(this.offsets.hearts, flag);
     }
 
-    get deku_b_state(){
+    get health_mod(): number {
+        return this.emulator.rdramRead8(this.offsets.health_mod);
+    }
+
+    set health_mod(flag: number) {
+        this.emulator.rdramWrite16(this.offsets.health_mod, flag);
+    }
+
+    get deku_b_state() {
         return this.emulator.rdramRead32(this.offsets.deku_b_addr);
     }
 
@@ -77,38 +85,38 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
     set magic_meter_size(size: API.Magic) {
         this.emulator.rdramWrite8(this.offsets.magic_meter_size_addr, size);
         switch (size) {
-        case API.Magic.NONE: {
-            this.emulator.rdramWrite8(this.offsets.magic_flag_1_addr, 0);
-            this.emulator.rdramWrite8(this.offsets.magic_flag_2_addr, 0);
-            this.emulator.rdramWrite16(this.offsets.magic_limit_addr, API.MagicQuantities.NONE);
-            this.magic_current = API.MagicQuantities.NONE;
-            break;
-        }
-        case API.Magic.NORMAL: {
-            this.emulator.rdramWrite8(this.offsets.magic_flag_1_addr, 1);
-            this.emulator.rdramWrite8(this.offsets.magic_flag_2_addr, 0);
-            this.emulator.rdramWrite16(
-                this.offsets.magic_limit_addr,
-                API.MagicQuantities.NORMAL
-            );
-            break;
-        }
-        case API.Magic.EXTENDED: {
-            this.emulator.rdramWrite8(this.offsets.magic_flag_1_addr, 1);
-            this.emulator.rdramWrite8(this.offsets.magic_flag_2_addr, 1);
-            this.emulator.rdramWrite16(
-                this.offsets.magic_limit_addr,
-                API.MagicQuantities.EXTENDED
-            );
-            break;
-        }
+            case API.Magic.NONE: {
+                this.emulator.rdramWrite8(this.offsets.magic_flag_1_addr, 0);
+                this.emulator.rdramWrite8(this.offsets.magic_flag_2_addr, 0);
+                this.emulator.rdramWrite16(this.offsets.magic_limit_addr, API.MagicQuantities.NONE);
+                this.magic_current = API.MagicQuantities.NONE;
+                break;
+            }
+            case API.Magic.NORMAL: {
+                this.emulator.rdramWrite8(this.offsets.magic_flag_1_addr, 1);
+                this.emulator.rdramWrite8(this.offsets.magic_flag_2_addr, 0);
+                this.emulator.rdramWrite16(
+                    this.offsets.magic_limit_addr,
+                    API.MagicQuantities.NORMAL
+                );
+                break;
+            }
+            case API.Magic.EXTENDED: {
+                this.emulator.rdramWrite8(this.offsets.magic_flag_1_addr, 1);
+                this.emulator.rdramWrite8(this.offsets.magic_flag_2_addr, 1);
+                this.emulator.rdramWrite16(
+                    this.offsets.magic_limit_addr,
+                    API.MagicQuantities.EXTENDED
+                );
+                break;
+            }
         }
     }
-    
+
     get magic_current(): number {
         return this.emulator.rdramRead8(this.offsets.magic_current_addr);
     }
-  
+
     set magic_current(amount: number) {
         this.emulator.rdramWrite8(this.offsets.magic_current_addr, amount);
     }
@@ -180,7 +188,7 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
     get updrades(): number {
         return this.emulator.rdramRead32(this.offsets.upgrades);
     }
-    
+
     set updrades(flag: number) {
         this.emulator.rdramWrite32(this.offsets.upgrades, flag);
     }
@@ -211,20 +219,20 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
 
     get questflg4(): number {
         return this.emulator.rdramRead8(this.offsets.questflg4);
-    } 
+    }
 
     set questflg4_flag(flag: number) {
         this.emulator.rdramWrite8(this.offsets.questflg4, flag);
     }
 
     get dungeon_flg(): Buffer {
-       return this.emulator.rdramReadBuffer(this.offsets.dungeon_flg, 0xA);
+        return this.emulator.rdramReadBuffer(this.offsets.dungeon_flg, 0xA);
     }
 
     set dungeon_flg(flag: Buffer) {
         this.emulator.rdramWriteBuffer(this.offsets.dungeon_flg, flag);
     }
-    
+
     get double_defense(): number {
         return this.emulator.rdramRead8(this.offsets.double_defense);
     }
@@ -241,7 +249,7 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         this.emulator.rdramWriteBuffer(this.offsets.scene_flags, flag);
     }
 
-    get event_flags(): Buffer { 
+    get event_flags(): Buffer {
         return this.emulator.rdramReadBuffer(this.offsets.event_inf, 0x8);
     }
 
@@ -320,7 +328,7 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
     set heart_containers(flag: number) {
         this.emulator.rdramWrite16(this.offsets.max_heart_flag, flag);
     }
-    
+
     get bank(): number {
         return this.emulator.rdramRead16(this.offsets.bank_rupees);
     }
@@ -424,19 +432,19 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         this.emulator.rdramWriteBuffer(this.offsets.bomber_code, flag);
     }
 
-    set pictoboxUsed(b: boolean){
+    set pictoboxUsed(b: boolean) {
         this.emulator.rdramWriteBit8(this.offsets.questflg1, 6, b);
     }
 
-    get pictoboxUsed(): boolean{
+    get pictoboxUsed(): boolean {
         return this.emulator.rdramReadBit8(this.offsets.questflg1, 6);
     }
 
-    get permFlags(): Buffer{
+    get permFlags(): Buffer {
         return this.emulator.rdramReadBuffer(this.offsets.permFlags, 0x960);
     }
 
-    set permFlags(b: Buffer){
+    set permFlags(b: Buffer) {
         this.emulator.rdramWriteBuffer(this.offsets.permFlags, b);
     }
 }
