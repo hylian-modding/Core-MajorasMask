@@ -9,7 +9,7 @@ import { QuestStatus } from "./QuestStatus";
 import { KeyManager } from "./KeyManager";
 import { ILogger } from "modloader64_api/IModLoaderAPI";
 import { Photo } from "./Photo";
-import { IMMCore, ISwordHelper } from "../API/Imports";
+import { IMMCore, ISwordHelper, MMForms } from "../API/Imports";
 
 export class SaveContext extends JSONTemplate implements API.ISaveContext {
 
@@ -297,11 +297,11 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         this.emulator.rdramWrite32(this.offsets.current_day, flag);
     }
 
-    get current_transformation(): number {
+    get current_transformation(): MMForms {
         return this.emulator.rdramRead8(this.offsets.current_transformation);
     }
 
-    set current_transformation(flag: number) {
+    set current_transformation(flag: MMForms) {
         this.emulator.rdramWrite8(this.offsets.current_transformation, flag);
     }
 
