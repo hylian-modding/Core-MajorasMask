@@ -74,7 +74,7 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
     }
 
     set magic(flag: number) {
-        this.emulator.rdramWrite16(this.offsets.magic, flag);
+        this.emulator.rdramWrite8(this.offsets.magic, flag);
     }
 
     get magic_meter_size(): API.Magic {
