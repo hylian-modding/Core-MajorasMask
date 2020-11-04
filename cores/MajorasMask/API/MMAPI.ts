@@ -1293,6 +1293,7 @@ export interface ISaveContext {
   owl_statues: number;
   map_visited: number;
   map_visible: number;
+  rupees: number;
   bank: number;
   photo: IPhoto;
 
