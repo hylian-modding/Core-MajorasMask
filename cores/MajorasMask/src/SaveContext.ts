@@ -266,28 +266,36 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
     }
 
     get day_night(): number {
-        return this.emulator.rdramRead16(this.offsets.day_night);
+        return this.emulator.rdramRead32(this.offsets.day_night);
     }
 
     set day_night(flag: number) {
-        this.emulator.rdramWrite16(this.offsets.day_night, flag);
+        this.emulator.rdramWrite32(this.offsets.day_night, flag);
     }
 
     get time_speed(): number {
-        return this.emulator.rdramRead16(this.offsets.day_night);
+        return this.emulator.rdramRead32(this.offsets.time_speed);
     }
 
     set time_speed(flag: number) {
-        this.emulator.rdramWrite16(this.offsets.time_speed, flag);
+        this.emulator.rdramWrite32(this.offsets.time_speed, flag);
     }
 
     get current_day(): number {
-        return this.emulator.rdramRead16(this.offsets.current_day);
+        return this.emulator.rdramRead32(this.offsets.current_day);
     }
 
     set current_day(flag: number) {
-        this.emulator.rdramWrite16(this.offsets.current_day, flag);
-    }   
+        this.emulator.rdramWrite32(this.offsets.current_day, flag);
+    }
+
+    get current_transformation(): number {
+        return this.emulator.rdramRead8(this.offsets.current_transformation);
+    }
+
+    set current_transformation(flag: number) {
+        this.emulator.rdramWrite8(this.offsets.current_transformation, flag);
+    }
 
     get intro_flag(): number {
         return this.emulator.rdramRead8(this.offsets.intro_flag);
