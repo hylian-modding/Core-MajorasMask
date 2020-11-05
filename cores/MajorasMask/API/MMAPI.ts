@@ -1271,6 +1271,20 @@ export interface IQuestStatus {
   heartPieces4: boolean;
 }
 
+export interface IOwlStatues {
+  greatBayCoast: boolean; //bit 0
+  zoraCape: boolean; //bit 1
+  snowhead: boolean; //bit 2
+  mountainVillage: boolean; //bit 3
+  clockTown: boolean; // bit 4
+  milkRoad: boolean; //bit 5
+  woodfall: boolean; //bit 6
+  southernSwamp: boolean; //bit 7
+  ikanaCanyon: boolean; //bit 8
+  stoneTower: boolean; //bit 9
+  hiddenOwlStatue: boolean; //bit 15
+}
+
 export interface ISaveContext {
   scene_flags: Buffer;
   inventory: IInventory;
@@ -1278,6 +1292,7 @@ export interface ISaveContext {
   sword_helper: ISwordHelper;
   shields: IShields;
   questStatus: IQuestStatus;
+  owlStatues: IOwlStatues;
   checksum: number;
   form: MMForms;
   keyManager: IKeyManager;

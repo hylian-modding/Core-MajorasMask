@@ -10,6 +10,7 @@ import { KeyManager } from "./KeyManager";
 import { ILogger } from "modloader64_api/IModLoaderAPI";
 import { Photo } from "./Photo";
 import { IMMCore, ISwordHelper, MMForms } from "../API/Imports";
+import { OwlStatues } from "./OwlStatues";
 
 export class SaveContext extends JSONTemplate implements API.ISaveContext {
 
@@ -17,6 +18,7 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
     offsets: API.MMOffsets = new API.MMOffsets();
     inventory: Inventory;
     questStatus: API.IQuestStatus;
+    owlStatues: API.IOwlStatues;
     keyManager: API.IKeyManager;
     dungeonItemManager: API.IDungeonItemManager;
     photo: API.IPhoto;
@@ -32,6 +34,7 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         this.shields = new ShieldsEquipment(emu);
         this.inventory = new Inventory(emu, log);
         this.questStatus = new QuestStatus(emu);
+        this.owlStatues = new OwlStatues(emu);
         this.keyManager = new KeyManager(emu);
         this.dungeonItemManager = new DungeonItemManager(emu);
         this.photo = new Photo(emu, this);
