@@ -69,6 +69,14 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         this.emulator.rdramWrite32(this.offsets.deku_b_addr, flag);
     }
 
+    get razor_hits(): number {
+        return this.emulator.rdramRead16(this.offsets.razor_hits);
+    }
+
+    set razor_hits(flag: number) {
+        this.emulator.rdramWrite16(this.offsets.razor_hits, flag);
+    }
+
     get magic(): number {
         return this.emulator.rdramRead8(this.offsets.magic);
     }

@@ -1289,6 +1289,7 @@ export interface ISaveContext {
   magic_current: number;
   magic: number;
   deku_b_state: number;
+  razor_hits: number;
   double_defense: number;
   owl_statues: number;
   map_visited: number;
