@@ -1017,6 +1017,7 @@ export interface IInventoryCounts {
   dekuNutsCount: number;
   bombsCount: number;
   bombchuCount: number;
+  powderKegCount: number;
   magicBeansCount: number;
   arrows: number;
   photoCount: number;
