@@ -1017,6 +1017,7 @@ export interface IInventoryCounts {
   dekuNutsCount: number;
   bombsCount: number;
   bombchuCount: number;
+  powderKegCount: number;
   magicBeansCount: number;
   arrows: number;
   photoCount: number;
@@ -1271,6 +1272,20 @@ export interface IQuestStatus {
   heartPieces4: boolean;
 }
 
+export interface IOwlStatues {
+  greatBayCoast: boolean; //bit 0
+  zoraCape: boolean; //bit 1
+  snowhead: boolean; //bit 2
+  mountainVillage: boolean; //bit 3
+  clockTown: boolean; // bit 4
+  milkRoad: boolean; //bit 5
+  woodfall: boolean; //bit 6
+  southernSwamp: boolean; //bit 7
+  ikanaCanyon: boolean; //bit 8
+  stoneTower: boolean; //bit 9
+  hiddenOwlStatue: boolean; //bit 15
+}
+
 export interface ISaveContext {
   scene_flags: Buffer;
   inventory: IInventory;
@@ -1278,20 +1293,24 @@ export interface ISaveContext {
   sword_helper: ISwordHelper;
   shields: IShields;
   questStatus: IQuestStatus;
+  owlStatues: IOwlStatues;
   checksum: number;
   form: MMForms;
   keyManager: IKeyManager;
   dungeonItemManager: IDungeonItemManager;
   heart_containers: number;
+  hearts: number;
   health_mod: number;
   magic_meter_size: Magic;
   magic_current: number;
   magic: number;
   deku_b_state: number;
+  razor_hits: number;
   double_defense: number;
   owl_statues: number;
   map_visited: number;
   map_visible: number;
+  rupees: number;
   bank: number;
   photo: IPhoto;
 
@@ -1299,6 +1318,8 @@ export interface ISaveContext {
   day_night: number;
   time_speed: number;
   current_day: number;
+
+  current_transformation: MMForms;
 
   intro_flag: number;
   have_tatl: number;

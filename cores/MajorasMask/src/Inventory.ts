@@ -733,6 +733,13 @@ export class Inventory extends JSONTemplate implements API.IInventory {
         this.setAmmoInSlot(API.InventorySlots.BOMBCHUS, count);
     }
 
+    get powderKegCount(): number {
+        return this.getAmmoForSlot(API.InventorySlots.POWDER_KEG);
+    }
+    set powderKegCount(count: number) {
+        this.setAmmoInSlot(API.InventorySlots.POWDER_KEG, count);
+    }
+
     get magicBeansCount(): number {
         return this.getAmmoForSlot(API.InventorySlots.MAGIC_BEANS);
     }

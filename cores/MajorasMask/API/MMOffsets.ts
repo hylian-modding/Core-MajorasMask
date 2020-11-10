@@ -50,6 +50,8 @@ export class MMOffsets {
     time_speed: number = 0x801EF684; //0x4 // normally 1 when inverted song of time and 3 at normal speed; rando can change this
     current_day: number = 0x801EF688; //0x4 //0 to 4. modulo 5?
 
+    current_transformation: number = 0x801EF690; //0x1 //from 0: fierce deity, goron, zora, deku, human
+
     pictograph_photo_addr: number = 0x801F0750; //0x2BC0
     pictograph_spec: number = 0x801F04EA; //0x1
     pictograph_quality: number = 0x801F04EB; //0x1
@@ -62,6 +64,7 @@ export class MMOffsets {
     hearts: number = 0x801EF6A6; //0x2
     health_mod: number = 0x801F35CA; //0x1
     magic: number = 0x801EF6A9; //0x1
+    rupees: number = 0x801EF6AA; //0x2
 
     magic_meter_size_addr: number = 0x801EF6A8;
     magic_current_addr: number = 0x801F35A0;

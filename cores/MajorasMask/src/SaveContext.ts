@@ -9,7 +9,8 @@ import { QuestStatus } from "./QuestStatus";
 import { KeyManager } from "./KeyManager";
 import { ILogger } from "modloader64_api/IModLoaderAPI";
 import { Photo } from "./Photo";
-import { IMMCore, ISwordHelper } from "../API/Imports";
+import { IMMCore, ISwordHelper, MMForms } from "../API/Imports";
+import { OwlStatues } from "./OwlStatues";
 
 export class SaveContext extends JSONTemplate implements API.ISaveContext {
 
@@ -17,6 +18,7 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
     offsets: API.MMOffsets = new API.MMOffsets();
     inventory: Inventory;
     questStatus: API.IQuestStatus;
+    owlStatues: API.IOwlStatues;
     keyManager: API.IKeyManager;
     dungeonItemManager: API.IDungeonItemManager;
     photo: API.IPhoto;
@@ -32,6 +34,7 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         this.shields = new ShieldsEquipment(emu);
         this.inventory = new Inventory(emu, log);
         this.questStatus = new QuestStatus(emu);
+        this.owlStatues = new OwlStatues(emu);
         this.keyManager = new KeyManager(emu);
         this.dungeonItemManager = new DungeonItemManager(emu);
         this.photo = new Photo(emu, this);
@@ -45,20 +48,12 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         return this.emulator.rdramRead8(this.offsets.save_context + this.offsets.mask_offset);
     }
 
-    get max_heart(): number {
-        return this.emulator.rdramRead16(this.offsets.max_heart_flag);
-    }
-
-    set get_heart(flag: number) {
-        this.emulator.rdramWrite16(this.offsets.max_heart_flag, flag);
-    }
-
     get hearts(): number {
         return this.emulator.rdramRead16(this.offsets.hearts);
     }
 
     set hearts(flag: number) {
-        this.emulator.rdramWrite16(this.offsets.max_heart_flag, flag);
+        this.emulator.rdramWrite16(this.offsets.hearts, flag);
     }
 
     get health_mod(): number {
@@ -77,12 +72,20 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         this.emulator.rdramWrite32(this.offsets.deku_b_addr, flag);
     }
 
+    get razor_hits(): number {
+        return this.emulator.rdramRead16(this.offsets.razor_hits);
+    }
+
+    set razor_hits(flag: number) {
+        this.emulator.rdramWrite16(this.offsets.razor_hits, flag);
+    }
+
     get magic(): number {
         return this.emulator.rdramRead8(this.offsets.magic);
     }
 
     set magic(flag: number) {
-        this.emulator.rdramWrite16(this.offsets.magic, flag);
+        this.emulator.rdramWrite8(this.offsets.magic, flag);
     }
 
     get magic_meter_size(): API.Magic {
@@ -282,27 +285,35 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
     }
 
     get day_night(): number {
-        return this.emulator.rdramRead16(this.offsets.day_night);
+        return this.emulator.rdramRead32(this.offsets.day_night);
     }
 
     set day_night(flag: number) {
-        this.emulator.rdramWrite16(this.offsets.day_night, flag);
+        this.emulator.rdramWrite32(this.offsets.day_night, flag);
     }
 
     get time_speed(): number {
-        return this.emulator.rdramRead16(this.offsets.day_night);
+        return this.emulator.rdramRead32(this.offsets.time_speed);
     }
 
     set time_speed(flag: number) {
-        this.emulator.rdramWrite16(this.offsets.time_speed, flag);
+        this.emulator.rdramWrite32(this.offsets.time_speed, flag);
     }
 
     get current_day(): number {
-        return this.emulator.rdramRead16(this.offsets.current_day);
+        return this.emulator.rdramRead32(this.offsets.current_day);
     }
 
     set current_day(flag: number) {
-        this.emulator.rdramWrite16(this.offsets.current_day, flag);
+        this.emulator.rdramWrite32(this.offsets.current_day, flag);
+    }
+
+    get current_transformation(): MMForms {
+        return this.emulator.rdramRead8(this.offsets.current_transformation);
+    }
+
+    set current_transformation(flag: MMForms) {
+        this.emulator.rdramWrite8(this.offsets.current_transformation, flag);
     }
 
     get intro_flag(): number {
@@ -327,6 +338,14 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
 
     set heart_containers(flag: number) {
         this.emulator.rdramWrite16(this.offsets.max_heart_flag, flag);
+    }
+
+    get rupees(): number {
+        return this.emulator.rdramRead16(this.offsets.rupees);
+    }
+
+    set rupees(flag: number) {
+        this.emulator.rdramWrite16(this.offsets.rupees, flag);
     }
 
     get bank(): number {
