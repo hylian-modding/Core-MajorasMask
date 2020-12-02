@@ -460,7 +460,7 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
     }
 
     get permFlags(): Buffer {
-        return this.emulator.rdramReadBuffer(this.offsets.permFlags, 0x710);
+        return this.emulator.rdramReadBuffer(this.offsets.permFlags, 0x960);
     }
 
     set permFlags(b: Buffer) {
