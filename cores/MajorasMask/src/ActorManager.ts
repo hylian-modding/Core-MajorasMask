@@ -4,6 +4,8 @@ import { bus } from 'modloader64_api/EventHandler';
 import * as API from '../API/Imports';
 import * as CORE from '../src/Imports';
 import IUtils from 'modloader64_api/IUtils';
+import { IActor } from '../API/Imports';
+import { ActorCategory } from '../src/Imports';
 
 export class ActorManager implements API.IActorManager {
     emulator: IMemory;
@@ -39,6 +41,10 @@ export class ActorManager implements API.IActorManager {
         for (let i = 0; i < 12; i++) {
             this.actors_this_frame.set(i, new Array<CORE.ActorBase>());
         }
+    }
+
+    getActors(category: ActorCategory): IActor[] {
+        return this.actors_this_frame.get(category)!;
     }
 
     createIActorFromPointer(pointer: number): API.IActor {

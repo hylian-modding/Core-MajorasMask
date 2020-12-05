@@ -5,6 +5,7 @@ import { Command, ICommandBuffer } from 'modloader64_api/OOT/ICommandBuffer';
 import Vector3 from 'modloader64_api/math/Vector3';
 import { IPacketHeader } from 'modloader64_api/NetworkHandler';
 import { IPosition } from './IPosition';
+import { ActorCategory } from '../src/Imports';
 
 export const enum LinkState {
   UNKNOWN,
@@ -1424,6 +1425,7 @@ export enum MMEvents {
 export interface IActorManager {
   // Returns IActor if the actor exists or undefined if the pointer doesn't lead to an actor
   createIActorFromPointer(pointer: number): IActor;
+  getActors(category: ActorCategory): IActor[];
 }
 
 export const NO_KEYS = 0xFF;
