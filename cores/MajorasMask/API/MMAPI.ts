@@ -1142,6 +1142,18 @@ export interface IPhoto {
   pictograph_used: boolean;
 }
 
+export interface IStray {
+  strayWoodfall: number;
+  straySnowhead: number;
+  strayBay: number;
+  strayStone: number;
+}
+
+export interface ISkull {
+  swampSkulltula: number;
+  baySkulltula: number;
+}
+
 export interface IShields {
   shieldLevel: Shield;
 }
@@ -1313,6 +1325,8 @@ export interface ISaveContext {
   rupees: number;
   bank: number;
   photo: IPhoto;
+  stray: IStray;
+  skull: ISkull;
 
   day_time: number;
   day_night: number;

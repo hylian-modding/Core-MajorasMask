@@ -1,9 +1,8 @@
 import IMemory from 'modloader64_api/IMemory';
 import { ILogger } from 'modloader64_api/IModLoaderAPI';
-import { ActorCategory } from './ActorCategory';
-import { ActorBase } from './Actor';
 import { bus } from 'modloader64_api/EventHandler';
 import * as API from '../API/Imports';
+import * as CORE from '../src/Imports';
 import IUtils from 'modloader64_api/IUtils';
 
 export class ActorManager implements API.IActorManager {
@@ -20,9 +19,9 @@ export class ActorManager implements API.IActorManager {
     private readonly ringbuffer_max: number = 0x100;
     private readonly actor_next_offset: number = 0x124;
     private actors_pointers_this_frame: number[] = new Array<number>();
-    private actors_this_frame: Map<ActorCategory, ActorBase[]> = new Map<
-        ActorCategory,
-        ActorBase[]
+    private actors_this_frame: Map<CORE.ActorCategory, CORE.ActorBase[]> = new Map<
+    CORE.ActorCategory,
+    CORE.ActorBase[]
     >();
 
     constructor(
@@ -38,12 +37,12 @@ export class ActorManager implements API.IActorManager {
         this.global = global;
         this.utils = utils;
         for (let i = 0; i < 12; i++) {
-            this.actors_this_frame.set(i, new Array<ActorBase>());
+            this.actors_this_frame.set(i, new Array<CORE.ActorBase>());
         }
     }
 
     createIActorFromPointer(pointer: number): API.IActor {
-        return new ActorBase(this.emulator, pointer);
+        return new CORE.ActorBase(this.emulator, pointer);
     }
 
     onTick() {
@@ -93,7 +92,7 @@ export class ActorManager implements API.IActorManager {
 
             if (addr > 0) {
                 if (this.actors_pointers_this_frame.indexOf(addr) > -1) {
-                    let actor = new ActorBase(this.emulator, addr);
+                    let actor = new CORE.ActorBase(this.emulator, addr);
                     let uuid =
                         actor.actorID.toString(16) +
                         '-' +
@@ -114,11 +113,11 @@ export class ActorManager implements API.IActorManager {
             this.emulator.rdramWrite32(this.ringbuffer_start_addr + i + 8, 0);
             this.emulator.rdramWrite32(this.ringbuffer_start_addr + i + 12, 0);
         }
-        this.actors_this_frame.forEach((value: ActorBase[], key: ActorCategory) => {
+        this.actors_this_frame.forEach((value: CORE.ActorBase[], key: CORE.ActorCategory) => {
             for (let i = 0; i < value.length; i++) {
                 if (this.actors_pointers_this_frame.indexOf(value[i].instance) === -1) {
                     value[i].exists = false;
-                    let removed: ActorBase = value.splice(i, 1)[0];
+                    let removed: CORE.ActorBase = value.splice(i, 1)[0];
                     bus.emit(API.MMEvents.ON_ACTOR_DESPAWN, removed);
                 }
             }

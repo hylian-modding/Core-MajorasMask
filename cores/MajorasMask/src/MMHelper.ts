@@ -1,7 +1,4 @@
 import { IModLoaderAPI } from "modloader64_api/IModLoaderAPI";
-import { Link } from "./Link";
-import { GlobalContext } from "./GlobalContext";
-import { SaveContext } from "./SaveContext";
 import * as API from '../API/Imports';
 import { JSONTemplate } from "modloader64_api/JSONTemplate";
 import IMemory from "modloader64_api/IMemory";

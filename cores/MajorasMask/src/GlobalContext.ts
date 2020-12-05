@@ -1,6 +1,6 @@
 import { IModLoaderAPI } from "modloader64_api/IModLoaderAPI";
 import * as API from '../API/Imports';
-import { viewStruct } from './viewStruct';
+import * as CORE from '../src/Imports';
 
 export class GlobalContext {
 
@@ -9,7 +9,7 @@ export class GlobalContext {
     
     constructor(ModLoader: IModLoaderAPI) {
         this.ModLoader = ModLoader;
-        this.viewStruct = new viewStruct(ModLoader);
+        this.viewStruct = new CORE.viewStruct(ModLoader);
     }
 
     get current_scene(): number {

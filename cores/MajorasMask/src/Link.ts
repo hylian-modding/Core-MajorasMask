@@ -1,9 +1,7 @@
 import IMemory from 'modloader64_api/IMemory';
 import * as API from '../API/Imports'
 import { JSONTemplate } from 'modloader64_api/JSONTemplate';
-import { ActorCategory } from './ActorCategory';
-import { Position, Rotation, ActorBase } from './Actor';
-import { MMOffsets } from '../API/Imports';
+import * as CORE from '../src/Imports';
 import { IModLoaderAPI } from 'modloader64_api/IModLoaderAPI';
 
 export class Link extends JSONTemplate implements API.ILink {
@@ -45,8 +43,8 @@ export class Link extends JSONTemplate implements API.ILink {
   constructor(emu: IMemory) {
       super();
       this.emulator = emu;
-      this.rotation = new Rotation(this);
-      this.position = new Position(this);
+      this.rotation = new CORE.Rotation(this);
+      this.position = new CORE.Position(this);
   }
   
     bitCount8(value: number): number {
@@ -69,17 +67,17 @@ export class Link extends JSONTemplate implements API.ILink {
     }
       
     get rawStateValue(): number {
-        let offsets = new MMOffsets;
+        let offsets = new API.MMOffsets;
         return this.emulator.rdramRead32(offsets.link_instance + offsets.link_state);
     }
 
     get anim_data(): Buffer{
-        let offsets = new MMOffsets;
+        let offsets = new API.MMOffsets;
         return this.emulator.rdramReadBuffer(offsets.anim, 0x86);
     }
 
     get rawPos(): Buffer{
-        let offsets = new MMOffsets;
+        let offsets = new API.MMOffsets;
         return this.emulator.rdramReadBuffer(offsets.link_instance + 0x24, 0xC);
     }
     
@@ -87,7 +85,7 @@ export class Link extends JSONTemplate implements API.ILink {
       return this.rdramRead16(0x0);
   }
 
-  get actorType(): ActorCategory {
+  get actorType(): CORE.ActorCategory {
       return this.rdramRead8(0x2);
   }
 

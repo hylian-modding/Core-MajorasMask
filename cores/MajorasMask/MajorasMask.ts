@@ -11,9 +11,9 @@ import path from 'path';
 import * as API from './API/Imports';
 import * as CORE from './src/Imports';
 import { CommandBuffer } from "./src/CommandBuffer";
-import { ActorManager, GlobalContext, Link, SaveContext, MMHelper } from "./src/Imports";
+import { ActorManager, GlobalContext, Link, SaveContext, MMHelper, Skull, Stray } from "./src/Imports";
 import { OverlayPayload } from "./src/ovl/ovlinjector";
-import { MMEvents, IPhoto } from "./API/Imports";
+import { MMEvents, IPhoto, ISkull, IStray } from "./API/Imports";
 import { Photo } from "./src/Photo";
 
 export class MajorasMask implements ICore, API.IMMCore {
@@ -27,6 +27,8 @@ export class MajorasMask implements ICore, API.IMMCore {
     helper!: API.IMMHelper;
     commandBuffer!: CommandBuffer;
     photo!: IPhoto;
+    skull!: ISkull;
+    stray!: IStray;
     // Client side variables
     isSaveLoaded = false;
     last_known_scene = -1;
@@ -83,6 +85,8 @@ export class MajorasMask implements ICore, API.IMMCore {
             this.ModLoader.emulator
         );
         this.photo = new Photo(this.ModLoader.emulator, this.save);
+        this.stray = new Stray(this.ModLoader.emulator, this.save);
+        this.skull = new Skull(this.ModLoader.emulator, this.save);
         this.actorManager = new ActorManager(
             this.ModLoader.emulator,
             this.ModLoader.logger,

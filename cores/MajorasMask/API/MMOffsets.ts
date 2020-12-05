@@ -109,6 +109,10 @@ export class MMOffsets {
     snowhead_fairies = 0x801EF745; //0x1
     bay_fairies = 0x801EF746; //0x1
     stone_fairies = 0x801EF747; //0x1
+
+    swamp_skulltula = 0x801F0530; //0x2
+    bay_skulltula = 0x801F0532; //0x2
+    
     //misc
     mask_object_vram = 0x80402B50;
     mask_props = 0x801F58B0;

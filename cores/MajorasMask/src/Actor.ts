@@ -1,15 +1,9 @@
 import IMemory from 'modloader64_api/IMemory';
 import { JSONTemplate } from 'modloader64_api/JSONTemplate';
-import { ActorCategory } from './ActorCategory';
 import * as API from '../API/Imports';
 import fs from 'fs';
 import path from 'path';
-import {
-    POSITION_OFFSET,
-    POSITION_SIZE,
-    ROTATION_OFFSET,
-    ROTATION_SIZE,
-} from './ActorOffsets';
+import * as CORE from '../src/Imports';
 import Vector3 from 'modloader64_api/math/Vector3';
 
 export class Position extends JSONTemplate implements API.IPosition {
@@ -22,32 +16,32 @@ export class Position extends JSONTemplate implements API.IPosition {
     }
 
     get x(): number {
-        return this.parent.rdramReadF32(POSITION_OFFSET + 0);
+        return this.parent.rdramReadF32(CORE.POSITION_OFFSET + 0);
     }
     set x(x: number) {
-        this.parent.rdramWriteF32(POSITION_OFFSET + 0, x);
+        this.parent.rdramWriteF32(CORE.POSITION_OFFSET + 0, x);
     }
 
     get y(): number {
-        return this.parent.rdramReadF32(POSITION_OFFSET + 4);
+        return this.parent.rdramReadF32(CORE.POSITION_OFFSET + 4);
     }
     set y(y: number) {
-        this.parent.rdramWriteF32(POSITION_OFFSET + 4, y);
+        this.parent.rdramWriteF32(CORE.POSITION_OFFSET + 4, y);
     }
 
     get z(): number {
-        return this.parent.rdramReadF32(POSITION_OFFSET + 8);
+        return this.parent.rdramReadF32(CORE.POSITION_OFFSET + 8);
     }
     set z(z: number) {
-        this.parent.rdramWriteF32(POSITION_OFFSET + 8, z);
+        this.parent.rdramWriteF32(CORE.POSITION_OFFSET + 8, z);
     }
 
     getRawPos(): Buffer {
-        return this.parent.rdramReadBuffer(POSITION_OFFSET, POSITION_SIZE);
+        return this.parent.rdramReadBuffer(CORE.POSITION_OFFSET, CORE.POSITION_SIZE);
     }
 
     setRawPos(pos: Buffer){
-        this.parent.rdramWriteBuffer(POSITION_OFFSET, pos);
+        this.parent.rdramWriteBuffer(CORE.POSITION_OFFSET, pos);
     }
 }
 
@@ -61,32 +55,32 @@ export class Rotation extends JSONTemplate implements API.IRotation {
     }
 
     get x(): number {
-        return this.parent.rdramReadS16(ROTATION_OFFSET + 0);
+        return this.parent.rdramReadS16(CORE.ROTATION_OFFSET + 0);
     }
     set x(x: number) {
-        this.parent.rdramWrite16(ROTATION_OFFSET + 0, x);
+        this.parent.rdramWrite16(CORE.ROTATION_OFFSET + 0, x);
     }
 
     get y(): number {
-        return this.parent.rdramReadS16(ROTATION_OFFSET + 2);
+        return this.parent.rdramReadS16(CORE.ROTATION_OFFSET + 2);
     }
     set y(y: number) {
-        this.parent.rdramWrite16(ROTATION_OFFSET + 2, y);
+        this.parent.rdramWrite16(CORE.ROTATION_OFFSET + 2, y);
     }
 
     get z(): number {
-        return this.parent.rdramReadS16(ROTATION_OFFSET + 4);
+        return this.parent.rdramReadS16(CORE.ROTATION_OFFSET + 4);
     }
     set z(z: number) {
-        this.parent.rdramWrite16(ROTATION_OFFSET + 4, z);
+        this.parent.rdramWrite16(CORE.ROTATION_OFFSET + 4, z);
     }
 
     getRawRot(): Buffer {
-        return this.parent.rdramReadBuffer(ROTATION_OFFSET, ROTATION_SIZE);
+        return this.parent.rdramReadBuffer(CORE.ROTATION_OFFSET, CORE.ROTATION_SIZE);
     }
 
     setRawRot(rot: Buffer){
-        this.parent.rdramWriteBuffer(ROTATION_OFFSET, rot);
+        this.parent.rdramWriteBuffer(CORE.ROTATION_OFFSET, rot);
     }
 }
 
@@ -197,7 +191,7 @@ export class ActorBase extends JSONTemplate implements API.IActor {
         return this.rdramRead16(0x0);
     }
 
-    get actorType(): ActorCategory {
+    get actorType(): CORE.ActorCategory {
         return this.rdramRead8(0x2);
     }
 

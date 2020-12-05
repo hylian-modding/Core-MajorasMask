@@ -1,43 +1,39 @@
 import { JSONTemplate } from "modloader64_api/JSONTemplate";
 import * as API from '../API/Imports';
-import { Inventory } from './Inventory';
 import IMemory from "modloader64_api/IMemory";
-import { ShieldsEquipment } from './ShieldsEquipment';
-import { SwordsEquipment } from './SwordsEquipment';
-import { DungeonItemManager } from "./DungeonItemManager";
-import { QuestStatus } from "./QuestStatus";
-import { KeyManager } from "./KeyManager";
 import { ILogger } from "modloader64_api/IModLoaderAPI";
-import { Photo } from "./Photo";
-import { IMMCore, ISwordHelper, MMForms } from "../API/Imports";
-import { OwlStatues } from "./OwlStatues";
+import * as CORE from "./Imports"
 
 export class SaveContext extends JSONTemplate implements API.ISaveContext {
 
     private emulator: IMemory;
     offsets: API.MMOffsets = new API.MMOffsets();
-    inventory: Inventory;
+    inventory: CORE.Inventory;
     questStatus: API.IQuestStatus;
     owlStatues: API.IOwlStatues;
     keyManager: API.IKeyManager;
     dungeonItemManager: API.IDungeonItemManager;
     photo: API.IPhoto;
-    swords: SwordsEquipment;
-    sword_helper: ISwordHelper;
-    shields: ShieldsEquipment;
+    stray: API.IStray;
+    skull: API.ISkull;
+    swords: CORE.SwordsEquipment;
+    sword_helper: API.ISwordHelper;
+    shields: CORE.ShieldsEquipment;
 
-    constructor(emu: IMemory, log: ILogger, core: IMMCore) {
+    constructor(emu: IMemory, log: ILogger, core: API.IMMCore) {
         super();
         this.emulator = emu;
-        this.swords = new SwordsEquipment(emu, core);
+        this.swords = new CORE.SwordsEquipment(emu, core);
         this.sword_helper = this.swords;
-        this.shields = new ShieldsEquipment(emu);
-        this.inventory = new Inventory(emu, log);
-        this.questStatus = new QuestStatus(emu);
-        this.owlStatues = new OwlStatues(emu);
-        this.keyManager = new KeyManager(emu);
-        this.dungeonItemManager = new DungeonItemManager(emu);
-        this.photo = new Photo(emu, this);
+        this.shields = new CORE.ShieldsEquipment(emu);
+        this.inventory = new CORE.Inventory(emu, log);
+        this.questStatus = new CORE.QuestStatus(emu);
+        this.owlStatues = new CORE.OwlStatues(emu);
+        this.keyManager = new CORE.KeyManager(emu);
+        this.dungeonItemManager = new CORE.DungeonItemManager(emu);
+        this.photo = new CORE.Photo(emu, this);
+        this.stray = new CORE.Stray(emu, this);
+        this.skull = new CORE.Skull(emu, this);
     }
 
     get checksum(): number {
@@ -308,11 +304,11 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         this.emulator.rdramWrite32(this.offsets.current_day, flag);
     }
 
-    get current_transformation(): MMForms {
+    get current_transformation(): API.MMForms {
         return this.emulator.rdramRead8(this.offsets.current_transformation);
     }
 
-    set current_transformation(flag: MMForms) {
+    set current_transformation(flag: API.MMForms) {
         this.emulator.rdramWrite8(this.offsets.current_transformation, flag);
     }
 
