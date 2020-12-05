@@ -16,7 +16,7 @@ export class Skull implements API.ISkull {
     }
 
     set swampSkulltula(flag: number) {
-        this.emulator.rdramWrite8(this.offsets.swamp_skulltula, flag);
+        this.emulator.rdramWrite16(this.offsets.swamp_skulltula, flag);
     }
 
     get baySkulltula(): number {
@@ -24,6 +24,6 @@ export class Skull implements API.ISkull {
     }
 
     set baySkulltula(flag: number) {
-        this.emulator.rdramWrite8(this.offsets.bay_skulltula, flag);
+        this.emulator.rdramWrite16(this.offsets.bay_skulltula, flag);
     }
 }
