@@ -103,6 +103,8 @@ export class MajorasMask implements ICore, API.IMMCore {
     @onTick()
     onTick() {
 
+        this.commandBuffer.onTick();
+
         if (this.helper.isTitleScreen() || !this.helper.isSceneNumberValid()) return;
         
         // Loading zone check
@@ -127,7 +129,5 @@ export class MajorasMask implements ICore, API.IMMCore {
         this.eventTicks.forEach((value: Function, key: string) => {
             value();
         });
-
-        this.commandBuffer.onTick();
     }
 }
