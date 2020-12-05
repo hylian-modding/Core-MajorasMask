@@ -91,7 +91,11 @@ export class MMOffsets {
     questflg3: number = 0x801EF72E; //0x1 bits 0-7: songs
     questflg4: number = 0x801EF72F; //0x1 bits 0-3: Remains; bits 6-7: songs
 
-    dungeon_flg: number = 0x801EF730; //0xA
+    woodfall_item: number = 0x801EF730; //0x1 bitfield
+    snowhead_item: number = 0x801EF731; //0x1 bitfield
+    bay_item: number = 0x801EF732; //0x1 bitfield
+    stone_item: number = 0x801EF733; //0x1 bitfield
+
     double_defense: number = 0x801EF743; //0x1
     scene_flags = 0x801EF768; //0xD20 dig chest flags out of here
     bank_rupees = 0x801F054E; //0x2

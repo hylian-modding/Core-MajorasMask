@@ -231,15 +231,7 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
     set questflg4_flag(flag: number) {
         this.emulator.rdramWrite8(this.offsets.questflg4, flag);
     }
-
-    get dungeon_flg(): Buffer {
-        return this.emulator.rdramReadBuffer(this.offsets.dungeon_flg, 0xA);
-    }
-
-    set dungeon_flg(flag: Buffer) {
-        this.emulator.rdramWriteBuffer(this.offsets.dungeon_flg, flag);
-    }
-
+    
     get double_defense(): number {
         return this.emulator.rdramRead8(this.offsets.double_defense);
     }

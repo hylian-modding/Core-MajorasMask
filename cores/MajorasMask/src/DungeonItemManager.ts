@@ -30,8 +30,7 @@ export class DungeonItemManager implements API.IDungeonItemManager {
 }
 
 export class DungeonItemContainer implements  API.IDungeonItemContainer {
-  private offsets = new API.MMOffsets;
-  private addr: number = this.offsets.save_context + 0xa8;
+  private addr: number = 0x801EF730;
   private emulator: IMemory;
   private index: number;
 
