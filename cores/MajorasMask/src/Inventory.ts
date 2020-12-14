@@ -970,6 +970,7 @@ export class Inventory extends JSONTemplate implements API.IInventory {
             case API.InventoryItem.HEROES_BOW:
             case API.InventoryItem.BOMB:
             case API.InventoryItem.BOMBCHU:
+            case API.InventoryItem.POWDER_KEG:
             case API.InventoryItem.MAGIC_BEANS:
                 return true;
         }

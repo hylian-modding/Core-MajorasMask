@@ -9,6 +9,8 @@ export class QuestStatus extends JSONTemplate implements API.IQuestStatus {
     private instance: number = this.offsets.save_context;
     private questFlags: FlagManager;
     private questFlagsAddr: number = this.instance + 0xBC;
+    private minimapFlags: FlagManager;
+    private minimapAddr: number = this.offsets.minimap_flags;
     jsonFields: string[] = [
         'odolwaRemains',
         'gohtRemains',
@@ -31,6 +33,7 @@ export class QuestStatus extends JSONTemplate implements API.IQuestStatus {
         super();
         this.emulator = emu;
         this.questFlags = new FlagManager(emu, this.questFlagsAddr);
+        this.minimapFlags = new FlagManager(emu, this.minimapAddr);
     }
 
     /*

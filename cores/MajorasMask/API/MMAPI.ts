@@ -1148,6 +1148,7 @@ export interface IStray {
   straySnowhead: number;
   strayBay: number;
   strayStone: number;
+  strayClockTown: boolean;
 }
 
 export interface ISkull {
@@ -1323,6 +1324,7 @@ export interface ISaveContext {
   owl_statues: number;
   map_visited: number;
   map_visible: number;
+  minimap_flags: Buffer;
   rupees: number;
   bank: number;
   photo: IPhoto;

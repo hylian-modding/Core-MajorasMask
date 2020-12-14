@@ -256,6 +256,13 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
         this.emulator.rdramWriteBuffer(this.offsets.event_inf, flag);
     }
 
+    get minimap_flags(): Buffer {
+        return this.emulator.rdramReadBuffer(this.offsets.minimap_flags, 0x1C);
+    }
+    set minimap_flags(flag: Buffer) {
+        this.emulator.rdramWriteBuffer(this.offsets.minimap_flags, flag);
+    }
+    
     /*get item_Flags(): Buffer {
         return this.emulator.rdramReadBuffer(this.offsets.inventory, 0x18);
     }

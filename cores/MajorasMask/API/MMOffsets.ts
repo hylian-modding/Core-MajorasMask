@@ -59,6 +59,7 @@ export class MMOffsets {
 
     map_visited: number = 0x801F05CC; //0x4
     map_visible: number = 0x801F05D0; //0x4
+    minimap_flags: number = 0x801F0514; //0xE
 
     max_heart_flag: number = 0x801EF6A4; //0x2
     hearts: number = 0x801EF6A6; //0x2
