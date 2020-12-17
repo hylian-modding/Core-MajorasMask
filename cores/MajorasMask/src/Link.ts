@@ -20,7 +20,7 @@ export class Link extends JSONTemplate implements API.ILink {
 
   private col_tunic: number = 0x1E691BFF;
 
-  private sound_addr: number = 0x600000 + 0x88;
+  private sound_addr: number = 0x800000 + 0x88;
   private anim_data_addr = 0x600000;
   private anim_raw_data_addr = this.instance + this.offsets.anim;
 

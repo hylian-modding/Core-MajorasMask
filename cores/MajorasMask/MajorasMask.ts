@@ -1,4 +1,4 @@
-import { onTick, Preinit, Init, Postinit } from "modloader64_api/PluginLifecycle";
+import { onTick, Preinit, Init, Postinit, onPostTick } from "modloader64_api/PluginLifecycle";
 import { IRomHeader } from 'modloader64_api/IRomHeader';
 import { ModLoaderAPIInject } from "modloader64_api/ModLoaderAPIInjector";
 import { IModLoaderAPI, ILogger, ICore, ModLoaderEvents } from "modloader64_api/IModLoaderAPI";
@@ -130,4 +130,10 @@ export class MajorasMask implements ICore, API.IMMCore {
             value();
         });
     }
+    
+    @onPostTick()
+    onPostTick() {
+        this.link.current_sound_id = 0;
+    }
+    
 }
