@@ -704,7 +704,7 @@ export class Inventory extends JSONTemplate implements API.IInventory {
     }
 
     getMaxRupeeCount(): number {
-        let addr: number = 0x800F8CEC;
+        let addr: number = 0x801C1E2C;
         let capacities: Array<number> = [];
         for (let i = 0; i < 8; i += 2) {
             capacities.push(this.emulator.rdramRead16(addr + i));
