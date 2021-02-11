@@ -59,7 +59,7 @@ export class Link extends JSONTemplate implements API.ILink {
     bitCountBuffer(buf: Buffer, off: number, len: number): number {
         return this.emulator.bitCountBuffer(buf, off, len);
     }
-    getRdramBuffer(): Buffer {
+    getRdramBuffer(): ArrayBuffer {
         return this.emulator.getRdramBuffer();
     }
 
