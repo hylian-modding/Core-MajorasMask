@@ -793,7 +793,7 @@ export enum EventFlags {
   TIME_Spoke_to_Madame_Aroma_as_Deku_Once,
   TIME_UNK_206,
   TIME_Finished_Gorman_Bros_Race,
-  PERM_Started_Gorman_Bros_Race_Once,
+  TIME_Started_Gorman_Bros_Race_Once,
   TIME_UNK_207,
   TIME_UNK_208,
   TIME_UNK_209,
@@ -1284,6 +1284,7 @@ export interface IQuestStatus {
   heartPieces2: boolean;
   heartPieces3: boolean;
   heartPieces4: boolean;
+  great_spin: boolean;
 }
 
 export interface IOwlStatues {
@@ -1421,7 +1422,8 @@ export enum MMEvents {
   ON_ACTOR_DESPAWN = 'onActorDespawn',
   ON_ROOM_CHANGE = 'onRoomChange',
   ON_ROOM_CHANGE_PRE = 'onPreRoomChange',
-  ON_AGE_CHANGE = 'onAgeChange'
+  ON_AGE_CHANGE = 'onAgeChange',
+  ON_UNPAUSE = 'onUnPause'
 }
 
 export interface IActorManager {

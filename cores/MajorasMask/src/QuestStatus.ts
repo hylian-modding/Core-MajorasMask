@@ -299,4 +299,12 @@ export class QuestStatus extends JSONTemplate implements API.IQuestStatus {
     set goronLullaby(bool: boolean) {
         this.questFlags.setFlag(this.goronLullabyFlag, bool);
     }
+
+    get great_spin(): boolean {
+        return this.emulator.rdramReadBit8(0x801F057F, 0x7);
+    }
+    set great_spin(flag: boolean) {
+        this.emulator.rdramWriteBit8(0x801F057F, 0x7, flag);
+    }
+    
 }

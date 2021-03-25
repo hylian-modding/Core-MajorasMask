@@ -31,6 +31,7 @@ export class MajorasMask implements ICore, API.IMMCore {
     stray!: IStray;
     // Client side variables
     isSaveLoaded = false;
+    isPaused = false;
     last_known_scene = -1;
     last_known_room = -1;
     doorcheck = false;
@@ -126,6 +127,15 @@ export class MajorasMask implements ICore, API.IMMCore {
             bus.emit(API.MMEvents.ON_AGE_CHANGE, this.last_known_age);
         }
 
+        // UnPause Check
+        if(this.helper.isPaused()){
+            this.isPaused = true;
+        }
+        else if(!this.helper.isPaused() && this.isPaused){
+            this.isPaused = false;
+            bus.emit(API.MMEvents.ON_UNPAUSE);
+        }
+        
         this.eventTicks.forEach((value: Function, key: string) => {
             value();
         });
