@@ -3,6 +3,7 @@ import * as API from '../API/Imports';
 import IMemory from "modloader64_api/IMemory";
 import { ILogger } from "modloader64_api/IModLoaderAPI";
 import * as CORE from "./Imports"
+import { MagicQuantities } from "../API/Imports";
 
 export class SaveContext extends JSONTemplate implements API.ISaveContext {
 
@@ -95,26 +96,22 @@ export class SaveContext extends JSONTemplate implements API.ISaveContext {
             case API.Magic.NONE: {
                 this.emulator.rdramWrite8(this.offsets.magic_flag_1_addr, 0);
                 this.emulator.rdramWrite8(this.offsets.magic_flag_2_addr, 0);
-                this.emulator.rdramWrite16(this.offsets.magic_limit_addr, API.MagicQuantities.NONE);
-                this.magic_current = API.MagicQuantities.NONE;
+                this.emulator.rdramWrite8(0x801EF6A9, MagicQuantities.NONE);
+                this.emulator.rdramWrite8(this.offsets.magic_meter_size_addr, 0);
                 break;
             }
             case API.Magic.NORMAL: {
                 this.emulator.rdramWrite8(this.offsets.magic_flag_1_addr, 1);
                 this.emulator.rdramWrite8(this.offsets.magic_flag_2_addr, 0);
-                this.emulator.rdramWrite16(
-                    this.offsets.magic_limit_addr,
-                    API.MagicQuantities.NORMAL
-                );
+                this.emulator.rdramWrite8(0x801EF6A9, MagicQuantities.NORMAL);
+                this.emulator.rdramWrite8(this.offsets.magic_meter_size_addr, 0);
                 break;
             }
             case API.Magic.EXTENDED: {
                 this.emulator.rdramWrite8(this.offsets.magic_flag_1_addr, 1);
                 this.emulator.rdramWrite8(this.offsets.magic_flag_2_addr, 1);
-                this.emulator.rdramWrite16(
-                    this.offsets.magic_limit_addr,
-                    API.MagicQuantities.EXTENDED
-                );
+                this.emulator.rdramWrite8(0x801EF6A9, MagicQuantities.EXTENDED);
+                this.emulator.rdramWrite8(this.offsets.magic_meter_size_addr, 0);
                 break;
             }
         }

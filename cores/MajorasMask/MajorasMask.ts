@@ -46,6 +46,10 @@ export class MajorasMask implements ICore, API.IMMCore {
 
     constructor() {
     }
+    rom_header?: IRomHeader | undefined;
+
+    heap_start: number = 0;
+    heap_size: number = 0;
 
     @Preinit()
     preinit() {
